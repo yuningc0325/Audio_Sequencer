@@ -1,0 +1,38 @@
+/*navbar logo*/
+#nav-logo{
+	font-size: 1.5em;
+	color: white;
+}
+
+.font-under-input{
+	width: 80%;
+	margin: 10px auto;
+	text-align: center;
+}
+
+/*name of tuning knobs*/
+.font-console-name{
+	position: relative;
+    bottom: 25px;
+    font-size: 0.8em;
+    left: 1px;
+}
+
+/*icons on setting, save, export button */
+.icon-on-mainPage{
+	font-size: 1.2em;
+	padding-right: 10px;
+	color: #E3E1E1;
+}
+
+/*instrument name*/
+.instrumentName{
+	font-size: 1.5em;
+	padding-left: 20px;
+}
+
+
+/*.edit-icon*/
+.edit-icon{
+	cursor:pointer;
+}

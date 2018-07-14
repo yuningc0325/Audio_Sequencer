@@ -1,0 +1,30 @@
+<% include partials/head %>
+	<title>Account Setting</title>
+	<style>
+	/*put inline css here*/
+    h3{
+    	width: 80%;
+    	margin:25px auto;
+    }
+
+    i{
+    	padding-left: 5px;
+    }
+
+	</style>
+	
+</head>	
+	
+<body>
+<% include partials/navbar %>
+    <div class="setting-form">
+		<h3> <%=userDetails.username%><i class="fas fa-pen"></i></h3> 
+		<form action="/user_<%=userID%>/setting" method="POST">
+			<input type="Password" class="form-input" name="oldPassword" placeholder="Old Password" required>
+			<input type="Password" class="form-input" name="newPassword" placeholder="New Password" required>
+			<input type="Password" class="form-input" name="newPasswordAgain" placeholder="New Password (again)" required>
+			<button class="button-submit" type="submit" id="setting">Save</button>
+		</form>
+	</div>
+</body>
+</html>

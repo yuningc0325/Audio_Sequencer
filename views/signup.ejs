@@ -1,0 +1,60 @@
+<% include partials/head %>
+	<title>Sign Up</title>
+	<style>
+	/*put inline css here*/
+	body{
+		background-color:#eee;
+	}
+	h2{
+		text-align: center;
+		padding-bottom: 10px;
+	}
+	h6{
+		text-align: center;
+		padding-bottom: 5px;
+		color:red;
+	}
+	}
+	.hidden{
+		display:hidden;
+	}
+	</style>
+	
+</head>
+	
+<body>
+	<div class="container signup-form">
+		<h2>Music Production</h2>
+		<h6 class="hidden">two accounts should be the same</h6>
+		<form action="/user/sign_up" method="POST">
+			<input type="email" class="form-input" name="account" id="account" 
+			placeholder="Account (email)" required>
+			<input type="email" class="form-input" name="account2" id="account2" 
+			placeholder="input account again" required>
+			
+
+			<input type="password" class="form-input" name="password" id="password" placeholder="Password" required>
+			<input type="text" class="form-input" name="userName" id="userName" placeholder="userName" required>
+			<button type="submit" class="button-submit" id="join">Join</button>
+			<script>
+				$('#join').on('click',function(){
+					if($('#account').val()!=$('#account2').val()){
+					$('h6').removeClass('hidden');
+					// alert("account input second time should be the same as first time");
+					}else{
+					$('h6').addClass('hidden');	
+					}
+				})
+			
+			
+			</script>
+			
+			
+		</form>
+		<div class="font-under-input">
+			<span>Back to</span>
+			<a href="/user/log_in">Log In</a>
+		</div>
+	</div>
+</body>
+</html>

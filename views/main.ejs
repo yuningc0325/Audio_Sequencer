@@ -1,0 +1,150 @@
+<% include partials/head %>
+
+	<title>Produce your music</title>
+	<style>
+	/*put inline css here*/
+	h3{
+		font-size: 1.3em;
+	}
+	h3 span{
+		font-size: 1.1em;
+		color: #78a0a0;
+		font-weight: bold;
+		padding-left: 12px;
+	}
+	
+	h3 i{
+		padding-left: 20px;
+	}
+
+	</style>
+	
+</head>	
+	
+<body>
+<% include partials/navbar %>
+
+	<!-- Track name and information -->
+	<div class="container" style="margin-bottom: 10px;">
+		<div class="col-lg-8"><h3>Track Name<i class="fas fa-pen"></i></h3></div>
+		<div class="col-lg-2"><h3>Tempo <span>75</span></h3></div>
+		<div class="col-lg-2"><h3>Tonality <span>C</span></h3></div>
+	</div>
+
+	
+	 <!-- edition board  -->
+	 <div class="container">
+	 <% var note=[{number:"1", notes:"c"},
+              {number:"2", notes:"d"},
+              {number:"3", notes:"e"},
+              {number:"4", notes:"f"},
+              {number:"5", notes:"g"},
+              {number:"6", notes:"a"},
+              {number:"7", notes:"b"}];
+    	var notesReverse= note.reverse();%>
+    	
+	 <% for(var i=1;i<=16;i++){ %>
+		<div class="columes">
+			 <% for(var j=1;j<=3;j++){ %>
+				<% notesReverse.forEach(function(el){ %>
+					<div class="notesContext" id="<%=i%>_<%=j%>_<%=el.notes%>"><%= el.number %></div>
+				<% }); %>
+	 		 <% } %>
+	 	</div>
+	 <% } %>
+	 </div>
+	 
+	<!-- button below -->
+	<div class="container ">
+		<div class="layout-music-console">
+			<div class="row">
+				<!-- playback button and instrument change-->
+				<div class="col-lg-3">
+					<button class="instrument-button">
+						<object type="image/svg+xml" data="/img/piano.svg"></object>
+					</button>
+					<span class="instrumentName">Piano
+					</span>
+					<script src="/js/instrumentChange.js"></script>
+					
+				</div> <!-- end col-lg-1 -->
+				<!--playback button-->
+				<div class="col-lg-2">
+					<button class="button-main-playback">
+						<i class="fas fa-play playback-font"></i>
+					</button>
+					
+				</div>
+				<!-- toggle switch -->
+				<div class="col-lg-2">
+						<div class="onoffswitch" style="margin:25px 0px;">
+						    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+						    <label class="onoffswitch-label" for="myonoffswitch">
+						        <span class="onoffswitch-inner"></span>
+						        <span class="onoffswitch-switch"></span>
+						    </label>
+						</div>
+
+				</div> <!-- end col-lg-4 -->
+				<!-- other buttons: save, export -->
+				<div class="col-lg-5" >
+					
+					<button class="button-on-edition-console">
+					<i class="fas fa-cloud icon-on-mainPage"></i>
+					Save</button>
+
+					<button class="button-on-edition-console">
+					<i class="fas fa-file-export icon-on-mainPage"></i>
+					Export</button>
+				</div> <!-- end col-lg-7 -->
+			</div>
+		</div>	
+	</div>
+
+	
+	
+	<!--Web Audio API test-->
+	<script>
+		
+		// make sure web audio API can be used in different browser
+		var contextClass = (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext);
+		if(contextClass){
+			var context=new contextClass();
+		}else{
+			console.log("something went wrong");
+		}
+		
+		var pianoBuffer=null;
+		
+		// get the audio from external audio file
+		var request= new XMLHttpRequest();
+		request.open('GET', "<%= notesArray[notesArray.length-1]%>", true);
+		request.responseType = 'arraybuffer';
+		
+		request.onload = function() { 
+		context.decodeAudioData(request.response, function(theBuffer) { 
+		    pianoBuffer=theBuffer;
+		}, function(){console.log("something wrong")}); 
+		}
+		request.send();
+		
+		function playSound(buffer) {
+		// create a source node
+		var source = context.createBufferSource(); 
+		source.buffer = buffer; 
+		source.connect(context.destination);
+		source.start(0);
+		}
+		$('.button-main-playback').on('click',function(){
+			playSound(pianoBuffer);
+		})	
+		
+		$('#1_1_b').on('click',function(){
+			playSound(pianoBuffer);
+		})
+
+	
+	</script>
+	
+</body>
+</html>

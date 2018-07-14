@@ -1,0 +1,513 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Produce your music</title>
+	
+	<!-- bootstrap3.3.7 minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	
+	<!-- Jquery 3.3.1 min.js -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>	
+		
+	<!--bootstrap3.3.7  JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	
+	<!-- fontawesome 5.1 -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+	
+	<!-- local stylesheet -->
+	<link rel="stylesheet" href="../client/css/master.css">
+	<link rel="stylesheet" href="../client/css/font.css">
+	<link rel="stylesheet" href="../client/css/form.css">
+	<link rel="stylesheet" href="../client/css/layout.css">
+	<link rel="stylesheet" href="../client/css/navbar.css">
+	<link rel="stylesheet" href="../client/css/button.css">
+	<link rel="stylesheet" href="../client/css/manipulation.css">
+	<link rel="stylesheet" href="../client/css/notes.css">
+	<style>
+	/*put inline css here*/
+	h3{
+		font-size: 1.3em;
+	}
+	h3 span{
+		font-size: 1.1em;
+		color: #78a0a0;
+		font-weight: bold;
+		padding-left: 12px;
+	}
+	
+	h3 i{
+		padding-left: 20px;
+	}
+
+	</style>
+	
+</head>	
+	
+<body>
+	<!-- nav bar -->
+	<nav class="navbar navbar-default" style="background:#7eacac;">
+	  	<div class="container-fluid">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" id="nav-logo" href="login.html">Music Production</a>
+		    </div>
+
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav navbar-right">
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: white">yuningc0325 <span class="caret" style="color: white"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="#">Account Setting</a></li>
+		            <li><a href="#">My Projects</a></li>
+		          </ul>
+		        </li>
+		        <li><a href="#" style="color: white">Log Out</a></li>
+		      </ul>
+		    </div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+
+	<!-- Track name and information -->
+	<div class="container" style="margin-bottom: 10px;">
+		<div class="col-lg-8"><h3>Track Name<i class="fas fa-pen"></i></h3></div>
+		<div class="col-lg-2"><h3>Tempo <span>75</span></h3></div>
+		<div class="col-lg-2"><h3>Tonality <span>C</span></h3></div>
+	</div>
+
+	
+	 <!-- edition board version1: canvas  -->
+	<!-- <div class="container" style="overflow: scroll; margin-top: 20px;">
+		<canvas id="board_canvas" width="1140" height="550"
+		style="border: 1px solid gray"></canvas>
+		<script src="../client/js/canvas.js"></script>
+	</div> -->
+
+	 <!-- edition board version2: div  -->
+	<div class="container" style="overflow:scroll;">
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+		<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	 	<div class="columes">
+	 		<div class="notesContext" id="1_h_b">7</div>
+	 		<div class="notesContext" id="1_h_a">6</div>
+	 		<div class="notesContext" id="1_h_g">5</div>
+	 		<div class="notesContext" id="1_h_f">4</div>
+	 		<div class="notesContext" id="1_h_e">3</div>
+	 		<div class="notesContext" id="1_h_d">2</div>
+	 		<div class="notesContext" id="1_h_c">1</div>
+	 		<div class="notesContext" id="1_m_b">7</div>
+	 		<div class="notesContext" id="1_m_a">6</div>
+	 		<div class="notesContext" id="1_m_g">5</div>
+	 		<div class="notesContext" id="1_m_f">4</div>
+	 		<div class="notesContext" id="1_m_e">3</div>
+	 		<div class="notesContext" id="1_m_d">2</div>
+	 		<div class="notesContext" id="1_m_c">1</div>
+	 		<div class="notesContext" id="1_l_b">7</div>
+	 		<div class="notesContext" id="1_l_a">6</div>
+	 		<div class="notesContext" id="1_l_g">5</div>
+	 		<div class="notesContext" id="1_l_f">4</div>
+	 		<div class="notesContext" id="1_l_e">3</div>
+	 		<div class="notesContext" id="1_l_d">2</div>
+	 		<div class="notesContext" id="1_l_c">1</div>
+	 	</div>
+	</div>
+
+	<!-- button below -->
+	<div class="container ">
+		<div class="layout-music-console">
+			<div class="row">
+				<!-- playback button and instrument change-->
+				<div class="col-lg-3">
+					<button class="instrument-button">
+						<object type="image/svg+xml" data="../client/img/piano.svg"></object>
+					</button>
+					<span class="instrumentName">Guitar
+	
+					</span>
+					
+				</div> <!-- end col-lg-1 -->
+				<div class="col-lg-2">
+					<button class="button-playback">
+						<i class="fas fa-play playback-font"></i>
+					</button>
+					
+				</div>
+				<!-- toggle switch -->
+				<div class="col-lg-2">
+						<div class="onoffswitch" style="margin:25px 0px;">
+						    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+						    <label class="onoffswitch-label" for="myonoffswitch">
+						        <span class="onoffswitch-inner"></span>
+						        <span class="onoffswitch-switch"></span>
+						    </label>
+						</div>
+
+				</div> <!-- end col-lg-4 -->
+				<!-- other buttons: save, export -->
+				<div class="col-lg-5" >
+					
+					<button class="button-on-edition-console">
+					<i class="fas fa-cloud icon-on-mainPage"></i>
+					Save</button>
+
+					<button class="button-on-edition-console">
+					<i class="fas fa-file-export icon-on-mainPage"></i>
+					Export</button>
+				</div> <!-- end col-lg-7 -->
+			</div>
+		</div>	
+	</div>
+	
+</body>
+</html>

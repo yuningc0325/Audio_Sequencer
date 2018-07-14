@@ -1,0 +1,26 @@
+/*all body*/
+body{
+	/*default font colour*/
+	color: #525252;
+}
+
+/*all link*/
+a{
+	text-decoration:none!important;
+}
+
+button{
+	border-radius: 5px;
+	outline: none !important;
+}
+
+i{
+	color: #525252;
+}
+
+.disable{
+	display:none;
+}
+.hidden{
+    visibility:hidden;
+}

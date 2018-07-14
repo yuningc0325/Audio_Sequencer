@@ -1,0 +1,139 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>My Tracks</title>
+	
+	<!-- bootstrap3.3.7 minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	
+	<!-- Jquery 3.3.1 min.js -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>	
+		
+	<!--bootstrap3.3.7  JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	
+	<!-- fontawesome 5.1 -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+	
+	<!-- local stylesheet -->
+	<link rel="stylesheet" href="../client/css/master.css">
+	<link rel="stylesheet" href="../client/css/font.css">
+	<link rel="stylesheet" href="../client/css/form.css">
+	<link rel="stylesheet" href="../client/css/layout.css">
+	<link rel="stylesheet" href="../client/css/navbar.css">
+	<link rel="stylesheet" href="../client/css/button.css">
+	<link rel="stylesheet" href="../client/css/knob.css">
+	
+
+
+	<style>
+	/*put inline css here*/
+	h3{
+		color: gray;
+		padding-left: 5px;
+	}
+	p{
+		position: relative;
+	    bottom: 25px;
+	    left: 2px;
+	    font-weight: bold;
+	}
+	</style>
+	
+</head>	
+	
+<body>
+	<!-- nav bar -->
+	<nav class="navbar navbar-default" style="background:#7eacac;">
+	  	<div class="container-fluid">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" id="nav-logo" href="login.html">Music Production</a>
+		    </div>
+
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav navbar-right">
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: white">yuningc0325 <span class="caret" style="color: white"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="#">Account Setting</a></li>
+		            <li><a href="#">My Projects</a></li>
+		          </ul>
+		        </li>
+		        <li><a href="#" style="color: white">Log Out</a></li>
+		      </ul>
+		    </div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+	
+	<!-- tracks -->
+	<div class="container">
+
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			<h2>Project Name </h2>
+			<button class="button-playback">
+			<i class="fas fa-play playback-font"></i>
+			</button>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			<button class="button-create-tracks">New Track</button>
+			<button class="button-create-tracks">Mix and export</button>
+		</div><!--end col-lg-6 -->
+	</div>
+	
+	<!-- Track division -->
+	<div class="container">	
+		<div class="layout-track">
+			<!-- title -->
+			<h3>Main melody</h3>
+			
+			<div class="col-lg-2""></div>
+
+			<!-- console: adjust volume reverb and compression -->
+
+			<div class="col-lg-6"">	
+				<div class="col-lg-4 ">
+				    <input type="range" min="0" max="100"
+				    data-degree-range="270" data-degree-offset="45" step="1" value="50" class="blue"/>
+				    <p class="font-console-name">Volume</p>
+				</div>
+				<div class="col-lg-4">
+				    <input type="range" min="0" max="100"
+				    data-degree-range="270" data-degree-offset="45" step="1" value="50" class="blue"/>
+				    <p class="font-console-name">Reverb</p>
+			    </div>
+			    <div class="col-lg-4">
+				    <input type="range" min="0" max="100"
+				    data-degree-range="270" data-degree-offset="45" step="1" value="50" class="blue"/>
+				    <p class="font-console-name">Compression</p>
+			    </div>
+			</div>
+			<script src="../client/js/knob.js"></script>
+			
+			<!-- button for edition, deletion and export -->
+			<div class="col-lg-4" style="padding:15px 30px 0px;">
+				<button class="button-delete">delete</button>
+				<button class="button-export" >edit</button>
+				<button  class="button-export">export</button>
+			</div>
+		</div><!--  end track outline -->
+
+
+
+
+	</div> <!-- end container -->
+
+
+
+	
+
+</body>
+</html>

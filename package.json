@@ -1,0 +1,17 @@
+{
+  "name": "music production",
+  "version": "0.0.0",
+  "description": "A online service of music production.",
+  "main": "server.js",
+  "repository": "",
+  "author": "Yu-Ning Chang <yxc784@student.bham.ac.uk>",
+  "dependencies": {
+    "async": "~0.2.8",
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "~3.2.4",
+    "mongoose": "^5.1.7",
+    "pg": "^7.4.3",
+    "socket.io": "~0.9.14"
+  }
+}

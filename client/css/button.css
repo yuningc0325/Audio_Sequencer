@@ -1,0 +1,158 @@
+/*button about login,signup,passwordforget */
+.button-submit{
+	background-color: #7eacac;
+    color: #ffffff;
+    border-radius: 8px;
+    outline:none;
+    width: 80%;
+    padding: 10px;
+    display: block;
+	margin:15px auto;
+}
+
+.button-submit:focus{
+	border: none;
+	box-shadow: none;
+}
+
+.button-submit:hover{
+	box-shadow: rgba(0, 0, 0, 0.4) 0 3px 3px;
+}
+
+/*button about project creation*/
+.button-create-project,.button-create-tracks{
+	border: 1px solid #7eacac;
+	color: #7eacac;
+    border-radius: 5px;
+    outline:none;
+    padding: 10px;
+	margin:15px auto;
+	float: right;
+}
+
+.button-create-tracks{
+	margin:15px 8px;
+}
+
+
+.button-create-project:hover,
+.button-create-tracks:hover{
+	background-color: #7eacac;
+	color: #ffffff;
+}
+
+.button-export,.button-edit-track{
+	background-color: #7eacac;
+    color: #ffffff;
+    border-radius: 5px;
+    outline:none;
+    padding: 7px 20px;
+	margin:15px auto;
+}
+.button-export:hover,.button-edit-track:hover{
+	background-color: #78a0a0;
+}
+
+.button-delete,.button-delete-tracks{
+	background-color: #f0ad4e;
+    color: #ffffff;
+    border-radius: 5px;
+    outline:none;
+    padding: 7px 20px;
+	margin:15px auto;
+}
+.button-delete:hover{
+	background-color: #e8a545;
+}
+
+/*playback button*/
+.button-track-playback{
+	background-color: rgb(243,243,243);
+    color: #ffffff;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 1px 1px #E3E1E1;
+    outline:none;
+    padding: 7px 10px;
+	/*margin:10px;*/
+    margin:10px 0px 10px 200px;
+
+}
+
+.button-main-playback{
+    background-color: rgb(243,243,243);
+    color: #ffffff;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 1px 1px #E3E1E1;
+    outline:none;
+    padding: 7px 20px;
+    margin:10px;
+    float: right;
+}
+
+.button-track-playback:hover,.button-main-playback:hover{
+	background-color: #E3E1E1;
+}
+
+
+
+.playback-font{
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+/*button for changing instrument*/
+.instrument-button{
+	background-color:#b0d8d8;
+    color: white;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 1px 1px #E3E1E1;
+    outline:none;
+    padding: 7px 20px;
+	margin:10px;
+}
+
+.instrument-button:hover{
+	background-color: #7eacac;
+}
+
+/*buttons on console under the edition board*/
+.button-on-edition-console{
+	border: 2px solid #7eacac;
+	font-weight: bold;
+	color: #7eacac;
+    border-radius: 5px;
+    outline:none;
+    padding: 10px 30px;
+	margin:15px 30px;
+}
+.button-on-edition-console:hover{
+	background-color: #78a0a0;
+	color: white;
+}
+
+.button-audition{
+    border-color: rgb(200,200,200);
+    color:rgb(200,200,200);
+    margin-left: 20px;
+    /*background-color: */
+}
+
+
+.button-audition-click{
+    border-color: #7eacac;
+    color:#7eacac;
+}
+
+
+.button-edit-project{
+    border:0px solid;
+}

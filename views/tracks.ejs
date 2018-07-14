@@ -1,0 +1,156 @@
+<% include partials/head %>
+	<title>My Tracks</title>
+	<style>
+	/*put inline css here*/
+	h3{
+		color: gray;
+		padding-left: 5px;
+	}
+	p{
+		position: relative;
+	    bottom: 25px;
+	    left: 2px;
+	    font-weight: bold;
+	}
+	</style>
+	
+</head>	
+	
+<body>
+<% include partials/navbar %>
+	
+	<!-- tracks -->
+	<div class="container">
+
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			<h2>Project Name </h2>
+			
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+			<button class="button-track-playback">
+			<i class="fas fa-play playback-font"></i>
+			</button>
+
+			<button  type="button" class="button-create-tracks" data-toggle="modal" data-target="#newTrackModal" data-whatever="@mdo">New Track</button>
+
+			<div class="modal fade" id="newTrackModal" tabindex="-1" 
+				role="dialog" aria-labelledby="newTrackModalLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <!-- modal title -->
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title" id="newTrackModalLabel">Create a New Track</h4>
+			      </div>
+				  <!-- modal form -->
+			      <div class="modal-body">
+			        <form method="post" action="/user_<%=userID%>/projects_<%=projectID%>/tracks">
+			          <div class="form-group">
+			            <label for="recipient-name" class="control-label">track name:</label>
+			            <input type="text" class="form-control" id="track-name" name="trackName" required>
+			          </div>
+			          <div class="modal-footer">
+				        <button type="submit" class="btn btn-primary id="create-track">Create</button>
+			    	  </div>
+			        </form>
+			      </div>
+			     
+			    </div>
+			  </div>
+			</div>
+	
+			<button  type="button" class="button-create-tracks" data-toggle="modal" data-target="#exportModal" data-whatever="@mdo">Mix and Export</button>
+
+			<div class="modal fade" id="exportModal" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <!-- modal title -->
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title" id="exampleModalLabel">Export</h4>
+			      </div>
+				  <!-- modal form -->
+			      <div class="modal-body">
+			        <form>
+			          
+			          <div class="form-group">
+			            <label for="message-text" class="control-label" >File: </label>
+			            <select name="tonality" id="dropdown_key" class="form-control">
+			            	<option value="wav">WAV</option>
+			            	<option value="midi">MIDI</option>
+			            </select>
+			          </div>
+			          <div class="form-group">
+			            <label for="message-text" class="control-label" >Loop: </label>
+			            <select name="tonality" id="dropdown_key" class="form-control">
+			            	<option value="1time">1</option>
+			            	<option value="2times">2</option>
+			            	<option value="3times">3</option>
+			            	<option value="4times">4</option>
+			            </select>
+			          </div>
+			        </form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="submit" class="btn btn-primary">Mix</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+		</div><!--end col-lg-6 -->
+	</div> 	<!--container-->
+
+	
+	<!-- Track division -->
+	<div class="container">	
+		<% tracksInfo.forEach(function(el){ %> 
+		    <div class="layout-track">
+				<!-- title -->
+				<h3><%=el.track_name %></h3>
+				<div class="col-lg-2""></div>
+				<!-- console: adjust volume,reverb and compression -->
+				<div class="col-lg-6"">	
+					<div class="col-lg-4 ">
+					    <input type="range" min="0" max="100"
+					    data-degree-range="270" data-degree-offset="45" step="1" value="50" class="blue"/>
+					    <p class="font-console-name">Volume</p>
+					</div>
+					<div class="col-lg-4">
+					    <input type="range" min="0" max="100"
+					    data-degree-range="270" data-degree-offset="45" step="1" value="50" class="blue"/>
+					    <p class="font-console-name">Reverb</p>
+				    </div>
+				    <div class="col-lg-4">
+					    <input type="range" min="0" max="100"
+					    data-degree-range="270" data-degree-offset="45" step="1" value="50" class="blue"/>
+					    <p class="font-console-name">Compression</p>
+				    </div>
+				</div>
+				<!-- button for edition, deletion and export -->
+				<div class="col-lg-4" style="padding:15px 30px 0px;">
+					<button class="button-delete-tracks" 
+							data-id=<%= el.track_id %> 
+							data-user=<%=userID%>
+							data-project=<%=projectID%>>delete</button>
+					<a href="/user_<%=userID%>/projects_<%=projectID%>/tracks_<%=el.track_id%>"><button class="button-edit-track" >
+						edit</button></a>
+					<button  class="button-export">export</button>
+				</div>
+		</div><!--  end track outline -->
+		
+		<% })%>
+
+	</div> <!-- end container -->
+
+
+
+	
+
+</body>
+	<script src="/js/knob.js"></script>
+	<script src="/js/deletion.js"></script>
+	<script src="/js/updateData.js"></script>
+</html>
