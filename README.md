@@ -44,4 +44,16 @@ Music Production
     store data under workspace
     
     1.1 run mongo: $ ./mongod
-    1.2 
+    
+
+6. Web Audio API
+
+  When using Web Audio API, there are three steps
+    6.1 Make sure the browser can run the API, if it works then the context will be created.
+    6.2 Produce sound buffer from outside audio source(mp3, wav,...) then convert it into sound buffer
+    6.3 Make a function for playing sound with created buffer. 
+       6.3.1 create source buffer
+       6.3.2 create filters, gains,... (optional)
+       6.3.3 create destination object
+       6.3.4 connect all together in order.
+    

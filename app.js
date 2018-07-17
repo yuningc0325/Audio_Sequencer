@@ -1,7 +1,8 @@
+
+
 var express     = require("express"),
     bodyPaser   =require("body-parser"),
     mongoose    =require("mongoose");
-
 const { Pool } = require('pg');
 
 var app=express();
@@ -29,7 +30,7 @@ mongoose.connect("mongodb://localhost/instrument");
 // mongoose schema and model
 var instrumentSchema =new mongoose.Schema({
         name:String,
-        notes:[String]
+        notes:[]
     });
 var pianoSchema=instrumentSchema,woodwindSchema=instrumentSchema,stringsSchemainstrumentSchema,synthSchema=instrumentSchema;
 
@@ -236,10 +237,12 @@ app.get("/user:_user/projects_:project/tracks_:track",function(req, res) {
     let userID      =req.params.user,
         projectID   =req.params.project,
         trackID     =req.params.track,
+        trackName   =null,
         instrument  =null, // get from tracks table
         tonality    =null, // get from projects table
-        tempo       =null,//  get from projects table
-        notesArray  =null;//  get from mongoDB
+        tempo       =null;//  get from projects table
+    var notesSoundArr  = new Array(4);// array with instruments notes array get sound from mongoDB
+        
      
     // query the tempo and tonality 
     pool.query('SELECT * FROM projects WHERE project_id=$1',[projectID], (err, result) => {
@@ -251,18 +254,42 @@ app.get("/user:_user/projects_:project/tracks_:track",function(req, res) {
     
         piano.find({name:tonalityString},function(err,result){
         if(err){console.log(err)}
-        notesArray=result[0].notes;
-        console.log(notesArray);
+        notesSoundArr[0]=result[0].notes;
+        });
+        
+        strings.find({name:tonalityString},function(err,result){
+        if(err){console.log(err)}
+        notesSoundArr[1]=result[0].notes;
+        });
+        
+        woodwind.find({name:tonalityString},function(err,result){
+        if(err){console.log(err)}
+        notesSoundArr[2]=result[0].notes;
+        });
+        
+        synth.find({name:tonalityString},function(err,result){
+        if(err){console.log(err)}
+        notesSoundArr[3]=result[0].notes;
         });
     });
-    // query the instrument
+    
+    // query the instrument and track name 
     pool.query('SELECT * FROM tracks WHERE track_id=$1',[trackID], (err, result) => {
     if(err){console.log(err);}
     instrument=result.rows[0].instrument;
+    trackName=result.rows[0].track_name;
     }); 
     
+    
+    
     setTimeout(function(){
-         res.render("main",{notesArray:notesArray,userID:userID,projectID:projectID,trackID:trackID,tonality:tonality,tempo:tempo});
+         res.render("main",{notesSoundArr:notesSoundArr,
+                            userID:userID,
+                            projectID:projectID,
+                            trackID:trackID,
+                            trackName:trackName,
+                            tonality:tonality,
+                            tempo:tempo});
     },1500);
    
 });

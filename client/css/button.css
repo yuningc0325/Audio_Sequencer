@@ -118,11 +118,14 @@
     outline:none;
     padding: 7px 20px;
 	margin:10px;
+	
 }
 
 .instrument-button:hover{
 	background-color: #7eacac;
 }
+
+
 
 /*buttons on console under the edition board*/
 .button-on-edition-console{

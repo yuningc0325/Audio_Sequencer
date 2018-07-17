@@ -21,3 +21,8 @@
 	color: #c9e4e4;
 	cursor:pointer;
 }
+
+.notesContextClick{
+	background: #69abcd;
+    color: #ffffff;
+}
