@@ -27,10 +27,10 @@
  	for(var i=0;i<16;i++){
  		indexOfSbf[i]=[];
  	}
-	
- 	
- 	
+ 	// audio context
  	var context;
+ 	// a
+ 	var BeatOffset =60/tempo;
  	
  	
  	// make sure web audio API can be used in different browser
@@ -135,7 +135,7 @@ function playSounds(bufferArr,setOffTime) {
 // play song ** It is suggested to set time interval in playsound funciton rather than JavaScript timers
 $('.button-main-playback').on('click',function(){
 	for(let i=0;i<selectedBufferList.length;i++){
-		playSounds(selectedBufferList[i],i)
+		playSounds(selectedBufferList[i],BeatOffset*i)
 	}
 })
 
