@@ -3,6 +3,7 @@
  * notesSoundArr[0]: piano, notesSoundArr[1]: strings, notesSoundArr[2]: windwood, notesSoundArr[3]: synth
  * @params Number: currentInstrument is the instrument user has chosen 
  * 0: piano,1: strings, 2 windwood, 3 synth
+ * @params tempo: b.p.m (beats per minute) of the song
  * 
  * When using Web Audio API, there are three steps
  * 1. Make sure the browser can run the API, if it works then the context will be created.
@@ -21,6 +22,13 @@
  	for(var i=0;i<16;i++){
  		selectedBufferList[i]=[];
  	}
+ 	//  store the index of selectedBufferList array
+ 	var indexOfSbf =new Array(16);
+ 	for(var i=0;i<16;i++){
+ 		indexOfSbf[i]=[];
+ 	}
+	
+ 	
  	
  	var context;
  	
@@ -75,15 +83,23 @@
 		            var indexOfI=i-1;
 		            $('#'+i+'_'+j+'_'+el.notes).on('click',function(){
 		            	  var sound= bufferList[k+21-7*indexOfJ];
-		            	  // play sound 
-		                  playSound(sound);
+		            	  var indexOfSound =k+21-7*indexOfJ;
 		                  // store notes in an array ** should be changed to queue for efficiency reason.
 		                  // if division is not selected then adding the note to array, otherwise remove it 
 		                  if($(this).attr('class')=="notesContext notesContextClick"){
 		                  	 selectedBufferList[indexOfI].pop(sound);
+		                  	 indexOfSbf[indexOfI].pop(indexOfSound);
+		                  	 console.log(sound+" on to off");
 		                  }else{
 		                  	selectedBufferList[indexOfI].push(sound);
+		                  	indexOfSbf[indexOfI].push(indexOfSound);
+		                  	// play sound 
+		                    playSound(sound);
+		                    console.log(sound);
+		                    console.log(sound+" off to on");
 		                  }
+		                  
+		                  $(this).toggleClass('notesContextClick');
 		                 
 		            })
 		        })
@@ -91,89 +107,37 @@
 		}
 	}
 	
-	
-	
-	
-	
-	// Every units on board can be avtived with given style
-	function boardActived(){
-		for(var i=1;i<=16;i++){
-		    for(var j=3;j>0;j--){
-		        notesArray.forEach(function(el,k){
-		            var indexOfJ=j;
-		            $('#'+i+'_'+j+'_'+el.notes).on('click',function(){
-		                  $(this).toggleClass('notesContextClick');
-		                  // store clicked notes in a queue
-		                  
-		            })
-		        })
-		    }
+	// re-assign selectedBufferList
+	function reassignSelectedBuffer(){
+		for(var i=0;i<16;i++){
+			for(var j=0;j<selectedBufferList[i].length;j++){
+				(selectedBufferList[i])[j]=bufferList[(indexOfSbf[i])[j]];
+			}
 		}
+	    console.log(selectedBufferList[0]);
 	}
 	
-	
-	
 							
-	// function playSeveralBuffer(){
-	// 	for(var i=0;i<10;i++)
-	// 	playSound(bufferList[i]);
-		
-	// }		
 	
-// play sounds together	
-
-// var bufferLoader;
-
-// function init() {
-// bufferLoader = new BufferLoader( context,
-//         [
-//           '/sound/piano/c2.mp3',
-// 		  '/sound/piano/e2.mp3',
-//         ],
-//         finishedLoading
-// 		);
-//     bufferLoader.load();
-// }
 
 // this function is used for playing notes in the same time, for example, chord.
-function playSounds(bufferArr) {
+function playSounds(bufferArr,setOffTime) {
 	let numOfSource=bufferArr.length;
 	// Create two sources and play them both together. 
-	for(var i=0;i<numOfSource;i++){
+	for(let i=0;i<numOfSource;i++){
 		 this['source'+i]=context.createBufferSource();
 		 this['source'+i].buffer=bufferArr[i];
 		 this['source'+i].connect(context.destination);
-		 this['source'+i].start(0);
+		 this['source'+i].start(context.currentTime+setOffTime);
 	}
 }
 	
-	
-	
- $('.button-main-playback').on('click',function(){
- 							  // Play one bar ** should play all bars in tempo
- 							  // play note or chord in an order (bar1 to bar 16) ** it is supposed to play in a given tempo
- 							  // The situation now is playing almost in the same time!!! lame
- 								 setTimeout(function(){playSounds(selectedBufferList[0]);},500);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[1]);},1000);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[2]);},1500);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[3]);},2000);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[4]);},2500);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[5]);},3000);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[6]);},3500);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[7]);},4500);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[8]);},5000);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[9]);},5500);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[10]);},6000);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[11]);},6500);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[12]);},7000);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[13]);},7500);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[14]);},8000);
- 							  	 setTimeout(function(){playSounds(selectedBufferList[15]);},8500);
-							})
-
-
-
-
+// play song ** It is suggested to set time interval in playsound funciton rather than JavaScript timers
+$('.button-main-playback').on('click',function(){
+	for(let i=0;i<selectedBufferList.length;i++){
+		playSounds(selectedBufferList[i],i)
+	}
+})
 
 
 

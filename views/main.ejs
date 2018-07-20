@@ -32,8 +32,14 @@
 	</div>
 
 	
+	
 	 <!-- edition board  -->
-	 <div class="container">
+	 <div class="container" >
+	 <div id="loadingLayer">	
+		<div class="board-layer"></div>	
+		<h2 class="loading-text">Loading Instrument Library</h2>
+		<div class="loader"></div>
+	 </div>
 	 <% var note=[{number:"1", notes:"c"},
               {number:"2", notes:"d"},
               {number:"3", notes:"e"},
@@ -56,7 +62,7 @@
 	 
 	<!-- button below -->
 	<div class="container ">
-		<div class="layout-music-console">
+		<div class="layout-music-console disable" id="music-console">
 			<div class="row">
 				<!-- playback button and instrument change-->
 				<div class="col-lg-3">
@@ -94,11 +100,11 @@
 				<!-- other buttons: save, export -->
 				<div class="col-lg-5" >
 					
-					<button class="button-on-edition-console">
+					<button class="button-on-edition-console" id="save-btn">
 					<i class="fas fa-cloud icon-on-mainPage"></i>
 					Save</button>
 
-					<button class="button-on-edition-console">
+					<button class="button-on-edition-console" id="export-btn">
 					<i class="fas fa-file-export icon-on-mainPage"></i>
 					Export</button>
 				</div> <!-- end col-lg-5 -->
@@ -111,7 +117,9 @@
 	<script> 
 		var notesSoundArr=<%- JSON.stringify(notesSoundArr) %>;
 		var notesArray=<%- JSON.stringify(notesReverse)%>;
+		var tempo=<%=tempo%>
 	</script>
+	
 	
 	
 	<script src="/js/audio.js" ></script>
