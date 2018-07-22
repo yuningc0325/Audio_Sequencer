@@ -22,8 +22,14 @@
 .icon-on-mainPage{
 	font-size: 1.2em;
 	padding-right: 10px;
-	color: #E3E1E1;
+	color: #a8d0d0;
 }
+
+.icon-mainPage-hover{
+	color:white;
+	
+}
+
 
 /*instrument name*/
 .instrumentName{

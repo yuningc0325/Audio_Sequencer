@@ -114,7 +114,6 @@
 				(selectedBufferList[i])[j]=bufferList[(indexOfSbf[i])[j]];
 			}
 		}
-	    console.log(selectedBufferList[0]);
 	}
 	
 							
@@ -135,12 +134,46 @@ function playSounds(bufferArr,setOffTime) {
 // play song ** It is suggested to set time interval in playsound funciton rather than JavaScript timers
 $('.button-main-playback').on('click',function(){
 	for(let i=0;i<selectedBufferList.length;i++){
-		playSounds(selectedBufferList[i],BeatOffset*i)
+		playSounds(selectedBufferList[i],BeatOffset*i);
 	}
+	
+	//function to make canvas show or hide (pointer animation)
+	pointerAnimation()
 })
 
 
 
+// Remove all noes from selectedBufferList
+function removeAllNotes(){
+	for(var i=0;i<16;i++){
+		selectedBufferList[i]=[];
+	}
+	
+	$('.columes').contents().removeClass('notesContextClick');
+}
 
 
 
+//function to make canvas show or hide (pointer animation)
+function pointerAnimation(){
+	// BeatOffset
+	// setTimeout(function(){
+	// 	$('#'+'canvas_'+indexOfPointer).removeClass('disable');
+	// 	$('#'+'canvas_'+indexOfPointer-1).addClass('disable');
+	// 	console.log('print '+indexOfPointer);
+	// 	console.log('print '+BeatOffset);
+	// 	console.log(BeatOffset)
+	// },offBeatOffsetSet);
+	
+	
+	for(let i=0;i<16;i++){
+		loopFor(i);
+	}
+	
+	function loopFor(i){
+		setTimeout(function(){
+		$('#'+'canvas_'+(i+1)).toggleClass('disable');
+		$('#'+'canvas_'+(i)).toggleClass('disable');
+		},BeatOffset*i*1000);
+	}
+}

@@ -48,7 +48,7 @@
               {number:"6", notes:"a"},
               {number:"7", notes:"b"}];
     	var notesReverse= note.reverse();%>
-    	
+    <!--notes division-->
 	 <% for(var i=1;i<=16;i++){ %>
 		<div class="columes">
 			 <% for(var j=3;j>0;j--){ %>
@@ -56,9 +56,13 @@
 					<div class="notesContext" id="<%=i%>_<%=j%>_<%=el.notes%>"><%= el.number %></div>
 				<% }); %>
 	 		 <% } %>
+	 	<canvas id="canvas_<%=i%>" width="71.25px" height="20" class="pointer-canvas disable" >
+		</canvas>	 
 	 	</div>
 	 <% } %>
 	 </div>
+	 
+
 	 
 	<!-- button below -->
 	<div class="container ">
@@ -107,6 +111,10 @@
 					<button class="button-on-edition-console" id="export-btn">
 					<i class="fas fa-file-export icon-on-mainPage"></i>
 					Export</button>
+					
+					<button class="button-on-edition-console" id="clean-btn">
+					<i class="fas fa-redo icon-on-mainPage"></i>
+					Clean</button>
 				</div> <!-- end col-lg-5 -->
 			</div>
 		</div>	
@@ -124,6 +132,8 @@
 	
 	<script src="/js/audio.js" ></script>
 	<script src="/js/instrumentChange.js"></script>
+	<script src="/js/consoleButton.js"></script>
+	<script src="/js/pointer.js"></script>
 	
 </body>
 </html>
