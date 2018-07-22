@@ -81,7 +81,7 @@
 
 }
 
-.button-main-playback{
+.button-main-playback,.button-main-stop{
     background-color: rgb(243,243,243);
     color: #ffffff;
     height: 60px;
@@ -95,7 +95,7 @@
     float: right;
 }
 
-.button-track-playback:hover,.button-main-playback:hover{
+.button-track-playback:hover,.button-main-playback:hover,.button-main-stop:hover{
 	background-color: #E3E1E1;
 }
 

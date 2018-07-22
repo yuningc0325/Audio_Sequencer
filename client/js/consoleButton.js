@@ -14,7 +14,7 @@ $('#clean-btn').on('click',function(){
     removeAllNotes();
 })
 
-$('#export-btn').on('click',function(){
-    // 
-    
-})
+// $('#export-btn').on('click',function(){
+    // clearTimeout(stopTheLoop);
+    // console.log('stop the loop')
+// })

@@ -32,6 +32,10 @@
  	// a
  	var BeatOffset =60/tempo;
  	
+ 	//switch
+ 	var playSwitch=true;
+ 	
+ 	var removeArray=[];
  	
  	// make sure web audio API can be used in different browser
  	function checkUsable(){
@@ -120,27 +124,71 @@
 	
 
 // this function is used for playing notes in the same time, for example, chord.
-function playSounds(bufferArr,setOffTime) {
+function playSounds(bufferArr,indexOfArr,setOffTime) {
 	let numOfSource=bufferArr.length;
 	// Create two sources and play them both together. 
-	for(let i=0;i<numOfSource;i++){
-		 this['source'+i]=context.createBufferSource();
-		 this['source'+i].buffer=bufferArr[i];
-		 this['source'+i].connect(context.destination);
-		 this['source'+i].start(context.currentTime+setOffTime);
+	
+	if(playSwitch){
+		for(var i=0;i<numOfSource;i++){
+		 this['source_'+i+'_'+indexOfArr]=context.createBufferSource();
+		 this['source_'+i+'_'+indexOfArr].buffer=bufferArr[i];
+		 this['source_'+i+'_'+indexOfArr].connect(context.destination);
+		 this['source_'+i+'_'+indexOfArr].start(context.currentTime+setOffTime);
+		 removeArray.push(this['source_'+i+'_'+indexOfArr]);
+		}
+	}else{
+		removeArray.forEach(function(el){
+			el.stop(0);
+		})
+		//re-assign the array
+		removeArray=[];
 	}
+	
 }
 	
 // play song ** It is suggested to set time interval in playsound funciton rather than JavaScript timers
-$('.button-main-playback').on('click',function(){
-	for(let i=0;i<selectedBufferList.length;i++){
-		playSounds(selectedBufferList[i],BeatOffset*i);
-	}
-	
-	//function to make canvas show or hide (pointer animation)
-	pointerAnimation()
-})
+function playToggle(){
+	let lengthOfSelectedBuffer=selectedBufferList.length;
+	$('.button-main-playback').on('click',function(){
+		for(let i=0;i<lengthOfSelectedBuffer;i++){
+			playSounds(selectedBufferList[i],i,BeatOffset*i);
+		}
+		//function to make canvas show or hide (pointer animation)
+		pointerAnimation();
+		
+		// turn play button into stop button
+		$(this).children().removeClass('fa-play');
+		$(this).removeClass('button-main-playback');
+		$(this).children().addClass('fa-stop');
+		$(this).addClass('button-main-stop');
+		$(this).unbind('click');
+		playSwitch=false;
+		
+		$('.button-main-stop').on('click',function(){
+			// stop pointer animation
+			clearAllTimeOut();
+    		stopAnimation();
+    		
+    		// stop sound 
+			// for(let i=0;i<lengthOfSelectedBuffer;i++){
+			playSounds(selectedBufferList[0],0,0);
+			// }
+			
+			
+			
+			
+			$(this).children().removeClass('fa-stop');
+			$(this).removeClass('button-main-stop');
+			$(this).children().addClass('fa-play');
+			$(this).addClass('button-main-playback');
+			$(this).unbind('click');
+			playSwitch=true;
+			playToggle();
+		})
+	})
+}
 
+playToggle();
 
 
 // Remove all noes from selectedBufferList
@@ -153,27 +201,46 @@ function removeAllNotes(){
 }
 
 
-
 //function to make canvas show or hide (pointer animation)
 function pointerAnimation(){
-	// BeatOffset
-	// setTimeout(function(){
-	// 	$('#'+'canvas_'+indexOfPointer).removeClass('disable');
-	// 	$('#'+'canvas_'+indexOfPointer-1).addClass('disable');
-	// 	console.log('print '+indexOfPointer);
-	// 	console.log('print '+BeatOffset);
-	// 	console.log(BeatOffset)
-	// },offBeatOffsetSet);
 	
-	
-	for(let i=0;i<16;i++){
+	for(let i=0;i<=16;i++){
 		loopFor(i);
 	}
-	
 	function loopFor(i){
 		setTimeout(function(){
 		$('#'+'canvas_'+(i+1)).toggleClass('disable');
 		$('#'+'canvas_'+(i)).toggleClass('disable');
 		},BeatOffset*i*1000);
 	}
+	
+	// setTimeout(function(){
+	// $('#'+'canvas_'+(16)).toggleClass('disable');
+	// },BeatOffset*16*1000);
+	
 }
+
+function pause(){
+	// pause the song
+	
+	console.log(source1);
+	
+	// clear canvas
+	
+//stop playing sound
+}
+
+// This function is used to claer all timeout (waiting queue)
+function clearAllTimeOut(){
+    var id = window.setTimeout(null,0);
+    while (id--) {
+       window.clearTimeout(id);
+    }
+}
+
+// This function is used to make all pointer unvisible
+function stopAnimation(){
+	for(var i=0;i<16;i++){
+		$('#'+'canvas_'+(i)).addClass('disable');
+	}
+}	
