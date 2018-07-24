@@ -32,13 +32,15 @@ var instrumentSchema =new mongoose.Schema({
         name:String,
         notes:[]
     });
-var pianoSchema=instrumentSchema,woodwindSchema=instrumentSchema,stringsSchemainstrumentSchema,synthSchema=instrumentSchema;
+var pianoSchema=instrumentSchema,
+    woodwindSchema=instrumentSchema,
+    stringsSchema=instrumentSchema,
+    synthSchema=instrumentSchema;
 
 var piano = mongoose.model("Piano",pianoSchema),
-    strings = mongoose.model("Strings",pianoSchema),
-    woodwind = mongoose.model("Woodwind",pianoSchema),
-    synth = mongoose.model("Synth",pianoSchema);
-
+    strings = mongoose.model("Strings",stringsSchema),
+    woodwind = mongoose.model("Woodwind",woodwindSchema),
+    synth = mongoose.model("Synth",synthSchema);
 
 
 

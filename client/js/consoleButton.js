@@ -3,6 +3,10 @@
  * 
  * 
  */ 
+ 
+ /* global $ */
+ 
+ 
 $('.button-on-edition-console').on('mouseenter mouseleave',
 						function(){
 							$(this).children().toggleClass('icon-mainPage-hover');

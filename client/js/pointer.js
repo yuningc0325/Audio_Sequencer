@@ -14,6 +14,44 @@ for(var i=1;i<=16;i++){
     this['content'+i]=this['canvas'+i].getContext('2d');
     setPointer(this['content'+i]);
 }    
-
-
 })
+/* global $ */
+
+//Create pointer animation
+function pointerAnimation(){
+	for(let i=0;i<=16;i++){
+		loopFor(i);
+	}
+	function loopFor(i){
+		setTimeout(function(){
+		$('#'+'canvas_'+(i+1)).toggleClass('disable');
+		$('#'+'canvas_'+(i)).toggleClass('disable');
+		},BeatOffset*i*1000);
+	}
+	
+	//Change status from 'play' to 'stop' when play end
+	setTimeout(function(){
+    	$('.button-main-stop').children().removeClass('fa-stop');
+    	$('.button-main-stop').children().addClass('fa-play');
+    	$('.button-main-stop').addClass('button-main-playback');
+    	$('.button-main-stop').unbind('click');
+		$('.button-main-stop').removeClass('button-main-stop');
+		playToggle();
+	},BeatOffset*16*1000);
+}
+
+// This function is used to make all pointer unvisible
+function stopAnimation(){
+	for(var i=0;i<16;i++){
+		$('#'+'canvas_'+(i)).addClass('disable');
+	}
+}
+
+// This function is used to claer all timeout (waiting queue)
+// Function reference: http://activelab.io/code-snippets/clearing-all-javascript-timeouts
+function clearAllTimeOut(){
+    var id = window.setTimeout(null,0);
+    while (id--) {
+       window.clearTimeout(id);
+    }
+}
