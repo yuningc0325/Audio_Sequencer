@@ -31,6 +31,8 @@ function pointerAnimation(){
 	
 	//Change status from 'play' to 'stop' when play end
 	setTimeout(function(){
+		//recover the console
+        $('.button-on-edition-console').prop('disabled',false);
     	$('.button-main-stop').children().removeClass('fa-stop');
     	$('.button-main-stop').children().addClass('fa-play');
     	$('.button-main-stop').addClass('button-main-playback');

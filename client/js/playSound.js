@@ -2,6 +2,7 @@
 *@param  selectedBufferList[], Store selected notes in an array
 *@param  BeatOffset, interval (second) of each beats. bpm table :https://goo.gl/xqwV6z
 *@param  removeArray
+*@param  loop
 * 
 * @funciton pointerAnimation()
 * 
@@ -44,11 +45,15 @@ function triggerSound(){
 function playToggle(){
 	let lengthOfSelectedBuffer=selectedBufferList.length;
 	$('.button-main-playback').on('click',function(){
+		
 		for(let i=0;i<lengthOfSelectedBuffer;i++){
 			startPlaying(selectedBufferList[i],i,BeatOffset*i);
 		}
 		//Start pointer animation
 		pointerAnimation();
+		
+		//make buttons on console disable when playing the sound
+        $('.button-on-edition-console').prop('disabled',true);
 		
 		// Turn play button into stop button
 		$(this).children().removeClass('fa-play');
@@ -64,6 +69,9 @@ function playToggle(){
     		
     		// Stop playing the song 
 			stopPlaying();
+			
+			//recover the console
+            $('.button-on-edition-console').prop('disabled',false);
 			
 			//Turn 'stop' button into 'play' button
 			$(this).children().removeClass('fa-stop');
@@ -92,6 +100,9 @@ function startPlaying(bufferArr,indexOfArr,setOffTime) {
 	}
 }
 
+
+
+
 function stopPlaying(){
 	removeArray.forEach(function(el){
 		el.stop(0);
@@ -102,4 +113,3 @@ function stopPlaying(){
 
 playToggle();
 
-// $('.button-on-edition-console').prop('disable',true);

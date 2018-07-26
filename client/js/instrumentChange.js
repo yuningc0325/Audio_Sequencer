@@ -64,6 +64,7 @@ $(document).ready(function(){
         setTimeout(function(){
             reassignSelectedBuffer();
             loadingControl();
+            
         },4500);
         
     	// Point to the next instrument
