@@ -4,3 +4,4 @@
 4. hover: #78a0a0
 5. dark gray: rgb(73,73,73)
 6. manipulation blue #69abcd
+7. loading:#f1a548

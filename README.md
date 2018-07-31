@@ -56,4 +56,11 @@ Music Production
        6.3.2 create filters, gains,... (optional)
        6.3.3 create destination object
        6.3.4 connect all together in order.
+       
+7. Web API 
     
+    7.1 Access MIDI
+        7.1.1 requestMIDIAccess
+        7.1.2 onMIDISuccess and onMIDIFailure
+    7.2 FileReader Object - convert blob into arrayBuffer which can be read in audio API
+        

@@ -32,18 +32,28 @@
  	// store selected notes in an array
  	selectedBufferList =new Array(16),
  	// store the index of selectedBufferList array
- 	indexOfSbf =new Array(16);
+ 	indexOfSbf =new Array(16),
+ 	dest,
+ 	mediaRecorder,
+ 	gainNode;
 
  for(var i=0;i<16;i++){
  	selectedBufferList[i]=[];
  	indexOfSbf[i]=[];
  }
  
+
+ 
 // Make sure that web audio API can be used in different browsers
 function checkUsable(){
  	var contextClass = (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext);
 	if(contextClass){
 		context=new contextClass();
+		// create media stream destination
+		dest=context.createMediaStreamDestination();
+		mediaRecorder = new MediaRecorder(dest.stream);
+		gainNode=context.createGain();
+		gainNode.gain.value=0.5;
 		console.log("Web Audio API can work in this browser")
 	}else{
 		console.log("something went wrong");
@@ -65,18 +75,24 @@ function soundBuffer(instrument){
 		request.send();
 	});
 }
-	
+
+
+
+
 	
 // This function can play a note with a given audio buffer
 function playSound(buffer) {
 	// create a source 
 	var source = context.createBufferSource(); 
 	source.buffer = buffer; 
-	// connect source to the destination
-	source.connect(context.destination);
+	// connect source to the gainNode
+	source.connect(gainNode);
+	// connect gainNode to destination
+	gainNode.connect(context.destination);
 	// play the source 
 	source.start(0);
 }
+	
 	
 // Reassign the selectedBufferList
 function reassignSelectedBuffer(){

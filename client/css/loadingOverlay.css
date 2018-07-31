@@ -2,7 +2,7 @@
 .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 16px solid #7dacac;
+  border-top: 16px solid #f1a548;
   width: 120px;
   height: 120px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
@@ -32,3 +32,24 @@
     opacity:0.6;
     position:absolute;
 }
+
+
+/*reference : https://www.w3schools.com/howto/howto_js_progressbar.asp*/
+#myBar{
+    width: 10%;
+    height: 30px;
+    background-color: #f1a548;
+    text-align: right; 
+    line-height: 30px; 
+    color: white; 
+    position: relative;
+}
+
+#myProgress{
+  width: 1000px;
+  background-color: #ddd;
+  position: absolute;
+  top: 40%;
+  left: 15%;
+}
+

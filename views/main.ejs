@@ -24,6 +24,7 @@
 <body>
 <% include partials/navbar %>
 	<!-- Track name and information -->
+	
 	<div class="container" style="margin-bottom: 10px;">
 		<div class="col-lg-8"><h3><%=trackName%></h3></div>
 		<div class="col-lg-2"><h3>Tempo <span><%=tempo %></span></h3></div>
@@ -33,9 +34,16 @@
 	 <!-- edition board  -->
 	<div class="container" >
 	 <div id="loadingLayer">	
+		<!--transparent canvas-->
 		<div class="board-layer"></div>	
 		<h2 class="loading-text">Loading Instrument Library</h2>
+		<!--loading cycle-->
 		<div class="loader"></div>
+		
+		<div id="myProgress" class="disable">
+			<div id="myBar">10%</div>
+		</div>
+		
 	 </div>
 	 <% var note=[{number:"1", notes:"c"},
               {number:"2", notes:"d"},
@@ -98,21 +106,29 @@
 				
 				<!-- other buttons: save, export -->
 				<div class="col-lg-5" >
-					
-					<button class="button-on-edition-console" id="save-btn">
-					<i class="fas fa-cloud icon-on-mainPage"></i>
-					Save</button>
-
-					<button class="button-on-edition-console" id="export-btn">
-					<i class="fas fa-file-export icon-on-mainPage"></i>
-					Export</button>
-					
 					<button class="button-on-edition-console" id="clean-btn">
 					<i class="fas fa-redo icon-on-mainPage"></i>
 					Clean</button>
+					
+					<!--this button store route information-->
+					<button class="button-on-edition-console" id="save-btn"
+					
+					data-project=<%= projectID%> 
+					data-user=<%= userID%>
+					data-track=<%= trackID%> >
+					<i class="fas fa-cloud icon-on-mainPage"></i>
+					Save</button>
+					
+					<a download href="#" id="export-btn-dwn">	
+					<button class="button-on-edition-console" id="export-btn">
+					<i class="fas fa-file-export icon-on-mainPage"></i>
+					Leave</button></a>
 				</div> <!-- end col-lg-5 -->
 			</div>
 		</div>	
+		<!--<audio controls="controls">-->
+		<!--Your browser does not support the audio element.-->
+		<!--</audio>-->
 	</div>
 	
 	<div id="dialog" title="MIDI"> </div>	
@@ -128,7 +144,7 @@
 	</script>
 	
 	
-	
+	<script src="/js/layer.js" ></script>
 	<script src="/js/audio.js" ></script>
 	<script src="/js/playSound.js"></script>
 	<script src="/js/instrumentChange.js"></script>

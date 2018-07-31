@@ -63,6 +63,7 @@ function playToggle(){
 		$(this).unbind('click');
 		
 		$('.button-main-stop').on('click',function(){
+			
 			// Stop pointer animation
 			clearAllTimeOut();
     		stopAnimation();
@@ -93,14 +94,30 @@ function startPlaying(bufferArr,indexOfArr,setOffTime) {
 	for(var i=0;i<numOfSource;i++){
 		 this['source_'+i+'_'+indexOfArr]=context.createBufferSource();
 		 this['source_'+i+'_'+indexOfArr].buffer=bufferArr[i];
-		 this['source_'+i+'_'+indexOfArr].connect(context.destination);
+		 this['source_'+i+'_'+indexOfArr].connect(gainNode);
+		 gainNode.connect(context.destination);
+		 //this['source_'+i+'_'+indexOfArr].connect(context.destination);
 		 this['source_'+i+'_'+indexOfArr].start(context.currentTime+setOffTime);
+
 		 // Stores all sources in this array for making these sources can be accessible.
 		 removeArray.push(this['source_'+i+'_'+indexOfArr]);
 	}
 }
 
 
+function startRecording(bufferArr,indexOfArr,setOffTime) {
+	// If the program is in 'stop' status, play the sound. Otherwise, stop the sound immediately.
+	let numOfSource=bufferArr.length;
+	for(var i=0;i<numOfSource;i++){
+		 this['source_'+i+'_'+indexOfArr]=context.createBufferSource();
+		 this['source_'+i+'_'+indexOfArr].buffer=bufferArr[i];
+		 this['source_'+i+'_'+indexOfArr].connect(dest);
+		 this['source_'+i+'_'+indexOfArr].start(context.currentTime+setOffTime);
+
+		 // Stores all sources in this array for making these sources can be accessible.
+		 removeArray.push(this['source_'+i+'_'+indexOfArr]);
+	}
+}
 
 
 function stopPlaying(){
@@ -112,4 +129,6 @@ function stopPlaying(){
 }
 
 playToggle();
+
+
 

@@ -223,7 +223,7 @@ app.post("/user_:user/projects_:project/tracks",function(req,res){
     });
 
 // delete tracks **wait for refactoring
-app.delete("/user:_user/projects_:project/tracks_:track",function(req,res){
+app.delete("/user_:user/projects_:project/tracks_:track",function(req,res){
     pool.query('DELETE FROM tracks WHERE track_id=$1',
         [req.params.track],(err,result)=>{
             if(err){
@@ -235,7 +235,7 @@ app.delete("/user:_user/projects_:project/tracks_:track",function(req,res){
     
 
 
-app.get("/user:_user/projects_:project/tracks_:track",function(req, res) {
+app.get("/user_:user/projects_:project/tracks_:track",function(req, res) {
     let userID      =req.params.user,
         projectID   =req.params.project,
         trackID     =req.params.track,
@@ -296,7 +296,13 @@ app.get("/user:_user/projects_:project/tracks_:track",function(req, res) {
    
 });
 
-
+app.put("/user_:user/projects_:project/tracks_:track",function(req,res){
+    var blobUrl=req.body;
+    pool.query('UPDATE tracks SET file_url=$1 WHERE track_id=$2',[blobUrl.str,req.params.track],(err,result)=>{
+        if(err){console.log(err);}
+        res.send(200);
+    })
+});
 
 
 
