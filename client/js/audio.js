@@ -5,7 +5,6 @@
  * @params Number: currentInstrument is the instrument user has chosen 
  * 0: piano,1: strings, 2 windwood, 3 synth
  * @params tempo: b.p.m (beats per minute) of the song
- * 
  * When using Web Audio API, there are three steps
  * 1. Make sure the browser can run the API, if it works then the context will be created.
  * 2. Produce sound buffer from outside audio source(mp3, wav,...) then convert it into sound buffer
@@ -18,8 +17,7 @@
  * 
  */
  
- /* global $ tempo notesArray source1 notesSoundArr */
-
+ /* global $ tempo notesArray source1 notesSoundArr MediaRecorder */
 	 
  	// notes from mongoDB
  var bufferList= new Array(21),
@@ -33,8 +31,11 @@
  	selectedBufferList =new Array(16),
  	// store the index of selectedBufferList array
  	indexOfSbf =new Array(16),
- 	dest,
+ 	//record buffer
+ 	//https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/MediaRecorder
  	mediaRecorder,
+ 	// new desitination that can store recorded sound 
+ 	dest,
  	gainNode;
 
  for(var i=0;i<16;i++){
@@ -42,9 +43,7 @@
  	indexOfSbf[i]=[];
  }
  
-
- 
-// Make sure that web audio API can be used in different browsers
+/**Make sure Web Audio API can be used in different browsers*/
 function checkUsable(){
  	var contextClass = (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext);
 	if(contextClass){
@@ -60,7 +59,10 @@ function checkUsable(){
 	}
  }
 
-// Get the audio from external audio file (through url stored in MongoDB)
+/**
+ *	Get the audio from external audio file (through url stored in MongoDB)
+ *	@params instrument. number from 0-3
+ */
 function soundBuffer(instrument){
 	notesSoundArr[instrument].forEach(function(el,i){ 
 	    var request= new XMLHttpRequest();
@@ -76,11 +78,10 @@ function soundBuffer(instrument){
 	});
 }
 
-
-
-
-	
-// This function can play a note with a given audio buffer
+/**
+ * This function can play a note with a given audio buffer
+ * @params buffer. audiobuffer  
+ */
 function playSound(buffer) {
 	// create a source 
 	var source = context.createBufferSource(); 
@@ -93,8 +94,7 @@ function playSound(buffer) {
 	source.start(0);
 }
 	
-	
-// Reassign the selectedBufferList
+/**Reassign the selectedBufferList when user change their instrument*/
 function reassignSelectedBuffer(){
 	for(let i=0;i<16;i++){
 		for(let j=0;j<selectedBufferList[i].length;j++){
@@ -103,8 +103,7 @@ function reassignSelectedBuffer(){
 	}
 }
 							
-
-// Remove all noes from selectedBufferList
+/**Remove all notes from selectedBufferList when click 'clear' button*/
 function removeAllNotes(){
 	for(var i=0;i<16;i++){
 		selectedBufferList[i]=[];

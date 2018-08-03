@@ -1,5 +1,3 @@
-
-
 var express     = require("express"),
     bodyPaser   =require("body-parser"),
     mongoose    =require("mongoose"),
