@@ -1,7 +1,121 @@
-<h3>connect well!</h3>
+<% include partials/head %>
 
-<h3> <%= result[0].project_name %></h3>
-<h3> <%= result[0].tonality %></h3>
-<h3> <%= result[0].tempo %></h3>
+	<title>Produce your music</title>
+	<style>
+	/*put inline css here*/
+	h3{
+		font-size: 1.3em;
+	}
+	h3 span{
+		font-size: 1.1em;
+		color: #78a0a0;
+		font-weight: bold;
+		padding-left: 12px;
+	}
+	
+	h3 i{
+		padding-left: 20px;
+	}
 
+	</style>
+	
+</head>	
+	
+<body>
+    <button id='audioButton'>click me </button>
+	
+	
+	
+	<!--variables used in audio.js-->
+	<script> 
+	
+		var audioCon=<%-audio%>
+		var audioUrl='<%= audioUrl%>';
+		console.log(audioCon);
+		console.log(audioUrl);
+	</script>
+	
 
+	
+	
+	<script>
+	var arrBuffer;
+	
+	function checkUsable(){
+ 	var contextClass = (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext);
+	if(contextClass){
+		context=new contextClass();
+		// create media stream destination
+		console.log("Web Audio API can work in this browser")
+	}else{
+		console.log("something went wrong");
+	}
+    }
+	
+	
+	function playSound(buffer) {
+	// create a source 
+	var source = context.createBufferSource(); 
+	source.buffer = buffer; 
+	source.connect(context.destination);
+	// play the source 
+	source.start(0);
+	console.log('play!')
+    }
+	
+	
+	function soundBuffer(){
+	    var request= new XMLHttpRequest();
+		request.open('GET', audioUrl, true);
+		request.responseType = 'arraybuffer';
+		request.onload = function() { 
+			context.decodeAudioData(request.response, function(theBuffer) { 
+		       // reverse the order of buffer data so that the highest note can be put on the top of edtion board
+		       playSound(theBuffer);
+		       console.log('get the sound source');
+			   }, function(err){console.log(err)}); 
+		}
+		request.send();
+	}
+	
+	soundBuffer();
+	
+	$('#audioButton').on('click',function(){
+        // var createdBuffer;
+        // var arrayBuffer;
+        
+        // arrayBuffer=toArrayBuffer(audioCon)
+        // console.log(arrayBuffer);
+        // var fileReader = new FileReader();
+        // fileReader.onload = function(event) {
+        //     arrayBuffer = event.target.result;
+        // };
+        
+        // fileReader.readAsArrayBuffer(audioCon);
+
+        // // createdBuffer=audioCon;
+        
+		// context.decodeAudioData(ArrayBuffer,function(audiotext){
+		//     createdBuffer=audiotext;
+		// })
+		playSound(arrBuffer);
+		
+		
+	})
+	
+	checkUsable();
+	
+	// function toArrayBuffer(buf) {
+ //   var ab = new ArrayBuffer(buf.length);
+ //   var view = new Uint8Array(ab);
+ //   for (var i = 0; i < buf.length; ++i) {
+ //       view[i] = buf[i];
+ //   }
+ //   return ab;
+	// }
+	
+	
+	
+	</script>
+</body>
+</html>

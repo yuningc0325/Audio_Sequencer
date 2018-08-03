@@ -2,7 +2,8 @@
 
 var express     = require("express"),
     bodyPaser   =require("body-parser"),
-    mongoose    =require("mongoose");
+    mongoose    =require("mongoose"),
+    multer      =require("multer");
 const { Pool } = require('pg');
 
 var app=express();
@@ -16,11 +17,27 @@ const pool = new Pool({
 });
 
 
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'client/upload/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '.wav') //Appending .jpg
+  }
+})
+
+var upload = multer({ storage: storage });
+
+
+var uploadType = upload.single('audioData');
+
+
 // read the files through route setting 
 app.use(express.static("client"));
 // read the ejs without doctype
 app.set("view engine","ejs");
 // use body parser to get elements from ejs
+app.use(bodyPaser.json());
 app.use(bodyPaser.urlencoded({extended:true}));
 
 // mongoDB connection
@@ -296,9 +313,24 @@ app.get("/user_:user/projects_:project/tracks_:track",function(req, res) {
    
 });
 
-app.put("/user_:user/projects_:project/tracks_:track",function(req,res){
-    var blobUrl=req.body;
-    pool.query('UPDATE tracks SET file_url=$1 WHERE track_id=$2',[blobUrl.str,req.params.track],(err,result)=>{
+
+//upload blob
+app.post("/user_:user/projects_:project/tracks_:track",uploadType,function(req,res,next){
+    var audio=req.file;
+    var audio1=req.file.path;
+    var trimAudioUrl=audio1.replace('client',"");
+    // console.log(req.file);
+    console.log(audio);
+    console.log(audio1);
+    console.log(req)
+    pool.query('UPDATE tracks SET testaudio=$1 WHERE track_id=$2',[trimAudioUrl,req.params.track],(err,result)=>{
+        if(err){console.log(err);}
+    })
+    // pool.query('UPDATE tracks SET chunks=$1 WHERE track_id=$2',[audio,req.params.track],(err,result)=>{
+    //     if(err){console.log(err);}
+    //     res.send(200);
+    // })
+    pool.query('UPDATE tracks SET audio=$1 WHERE track_id=$2',[audio,req.params.track],(err,result)=>{
         if(err){console.log(err);}
         res.send(200);
     })
@@ -307,7 +339,20 @@ app.put("/user_:user/projects_:project/tracks_:track",function(req,res){
 
 
 
-
+// test port
+app.get('/:id/test',function(req,res){
+    var trackID=req.params.id;
+    pool.query('SELECT * FROM tracks WHERE track_id=$1',[trackID], (err, result) => {
+    if(err){console.log(err);}
+    
+    
+    // audio=result.rows[0].audio;
+    res.render('dbtest',{audio:result.rows[0].audio,audioUrl:result.rows[0].testaudio})
+    }); 
+    
+    
+    
+})
 
 
 // // get- login page

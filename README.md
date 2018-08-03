@@ -63,4 +63,15 @@ Music Production
         7.1.1 requestMIDIAccess
         7.1.2 onMIDISuccess and onMIDIFailure
     7.2 FileReader Object - convert blob into arrayBuffer which can be read in audio API
+    7.3 Blob object - produce blob with 
+    7.4 mediaRecorder - 
+    7.5 formData- pass binary data
+
+8. npm
+    
+    8.1 express
+    8.2 bodyPaser
+    8.3 mongoose
+    8.4 pg
+    8.5 multer
         
