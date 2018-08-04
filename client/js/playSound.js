@@ -1,16 +1,22 @@
 /**
 *@param  selectedBufferList[], Store selected notes in an array
-*@param  BeatOffset, interval (second) of each beats. bpm table :https://goo.gl/xqwV6z
+*@paran  bufferList, Notes from mongoDB
+*@param  notesArray, Contains 21 notes from c2 to b4
+*@param  indexOfSbf, Store the index of selectedBufferList array
+*@param  BeatOffset, Interval (second) of each beats. bpm table :https://goo.gl/xqwV6z
 *@param  removeArray
-*@param  loop
-* 
+*@param  dest
+*@param  gainNode
+*@param  removeArray
 * @funciton pointerAnimation()
+* @function playSound()
 * 
 */
 
-/* global $ selectedBufferList BeatOffset pointerAnimation clearAllTimeOut stopAnimation removeArray*/
+/* global $ selectedBufferList BeatOffset pointerAnimation clearAllTimeOut stopAnimation removeArray
+notesArray bufferList indexOfSbf playSound gainNode dest*/
 
-// When note division on sequencer is clicked, stores the clicked note in selectedBufferList, vice versa.
+/**When note division on sequencer is clicked, stores the clicked note in selectedBufferList, vice versa.*/
 function triggerSound(){
 	for(var i=1;i<=16;i++){
 	    for(var j=3;j>0;j--){
@@ -41,20 +47,21 @@ function triggerSound(){
 }
 
 
-// Switch and control the status of sequencer
+/**Switch and control the status of sequencer*/
 function playToggle(){
+	
 	let lengthOfSelectedBuffer=selectedBufferList.length;
+	
 	$('.button-main-playback').on('click',function(){
-		
+		// Play notes in sequence 
 		for(let i=0;i<lengthOfSelectedBuffer;i++){
 			startPlaying(selectedBufferList[i],i,BeatOffset*i);
 		}
 		//Start pointer animation
 		pointerAnimation();
 		
-		//make buttons on console disable when playing the sound
+		//Make buttons on console disable when playing the sound
         $('.button-on-edition-console').prop('disabled',true);
-		
 		// Turn play button into stop button
 		$(this).children().removeClass('fa-play');
 		$(this).removeClass('button-main-playback');
@@ -63,14 +70,11 @@ function playToggle(){
 		$(this).unbind('click');
 		
 		$('.button-main-stop').on('click',function(){
-			
 			// Stop pointer animation
+			stopAnimation();
 			clearAllTimeOut();
-    		stopAnimation();
-    		
     		// Stop playing the song 
 			stopPlaying();
-			
 			//recover the console
             $('.button-on-edition-console').prop('disabled',false);
 			
@@ -87,7 +91,13 @@ function playToggle(){
 	})
 }
 
-// Play notes (chord) with a given array
+/**
+ * Play notes (chord) with a given array
+ * @params bufferArr, selectedBufferList
+ * @params indexOfArr, index number
+ * @params setOffTime, number (second) 
+ */
+
 function startPlaying(bufferArr,indexOfArr,setOffTime) {
 	// If the program is in 'stop' status, play the sound. Otherwise, stop the sound immediately.
 	let numOfSource=bufferArr.length;
@@ -104,7 +114,12 @@ function startPlaying(bufferArr,indexOfArr,setOffTime) {
 	}
 }
 
-
+/**
+ * Record notes with a given array
+ * @params bufferArr, selectedBufferList
+ * @params indexOfArr, index number
+ * @params setOffTime, number (second) 
+ */
 function startRecording(bufferArr,indexOfArr,setOffTime) {
 	// If the program is in 'stop' status, play the sound. Otherwise, stop the sound immediately.
 	let numOfSource=bufferArr.length;
@@ -113,13 +128,12 @@ function startRecording(bufferArr,indexOfArr,setOffTime) {
 		 this['source_'+i+'_'+indexOfArr].buffer=bufferArr[i];
 		 this['source_'+i+'_'+indexOfArr].connect(dest);
 		 this['source_'+i+'_'+indexOfArr].start(context.currentTime+setOffTime);
-
 		 // Stores all sources in this array for making these sources can be accessible.
 		 removeArray.push(this['source_'+i+'_'+indexOfArr]);
 	}
 }
 
-
+/** Stop playing all notes */
 function stopPlaying(){
 	removeArray.forEach(function(el){
 		el.stop(0);
@@ -128,6 +142,11 @@ function stopPlaying(){
 	removeArray=[];
 }
 
+// Make sure web audio API can be used in different browser
+checkUsable();
+// Create buffer with index number, 0: piano,1: strings, 2 windwood, 3 synth
+soundBuffer(0);
+triggerSound();
 playToggle();
 
 

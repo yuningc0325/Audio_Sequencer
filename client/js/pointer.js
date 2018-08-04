@@ -20,9 +20,10 @@ for(var i=1;i<=16;i++){
 //Create pointer animation
 function pointerAnimation(){
 	for(let i=0;i<=16;i++){
-		loopFor(i);
+		setAnimation(i);
 	}
-	function loopFor(i){
+	
+	function setAnimation(i){
 		setTimeout(function(){
 		$('#'+'canvas_'+(i+1)).toggleClass('disable');
 		$('#'+'canvas_'+(i)).toggleClass('disable');
@@ -44,7 +45,7 @@ function pointerAnimation(){
 
 // This function is used to make all pointer unvisible
 function stopAnimation(){
-	for(var i=0;i<16;i++){
+	for(let i=1;i<=16;i++){
 		$('#'+'canvas_'+(i)).addClass('disable');
 	}
 }
