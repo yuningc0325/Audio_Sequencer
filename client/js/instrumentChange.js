@@ -9,12 +9,12 @@
  * @funcyion (from pointer.js)
  * clearAllTimeOut()
  * stopAnimation()
- * 
+ * @global loadingControl
  */
 
 /*external variables and functions*/
 /* global $ checkUsable soundBuffer triggerSound reassignSelectedBuffer clearAllTimeOut stopAnimation
-playToggle stopPlaying*/
+playToggle stopPlaying loadingControl*/
 
 var instruments=['piano','strings','wind','synth'],
     // Initial index is one
@@ -71,10 +71,9 @@ $(".instrument-button").on("click",function(){
 }); 
 
    
-
 /**Add or remove loading layer*/
-function loadingControl(){
-     $('#loadingLayer').toggleClass('disable');
-     $('#music-console').toggleClass('disable');
-}
+// function loadingContol(){
+//      $('#loadingLayer').toggleClass('disable');
+//      $('#music-console').toggleClass('disable');
+// }
 

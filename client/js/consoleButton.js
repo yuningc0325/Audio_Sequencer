@@ -1,30 +1,34 @@
 /**
- * @function removeAllNotes is used to clean all notes on edition board
- * 
- * 
+ * Reference: MDN Web Doc
+ * https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/ondataavailable
  */ 
  
- /* global $ removeAllNotes*/
- 
+ /* global $
+    parameters- mediaRecorder selectedBufferList BeatOffset Blob
+    functions-  removeAllNotes progressBarOn startRecording progressBarOff*/
+
+// Chunks array can store blob data
 var chunks=[];
 
-// icon hover effect 
+// Icon hover effect 
 $('.button-on-edition-console').on('mouseenter mouseleave',
 						function(){
 							$(this).children().toggleClass('icon-mainPage-hover');
 						})
 					
-// clear all clicked notes and remove them from bufferList
+// Clear all clicked notes and remove them from bufferList
 $('#clean-btn').on('click',function(){
     removeAllNotes();
 })
 
-
-$('#export-btn').on('click',function(){
-});
-
+// Audio Process including recording sound from sequencer and audio data conversion  
 $('#save-btn').on('click',function(){
-    // loading layer
+   saveAudio();
+})
+
+
+function saveAudio(){
+     // loading progress bar
     progressBarOn();
     let lengthOfSelectedBuffer=selectedBufferList.length;
     // start recording
@@ -39,67 +43,46 @@ $('#save-btn').on('click',function(){
 	    mediaRecorder.stop();
 	    progressBarOff();
 	    console.log(mediaRecorder.state+' stop recording');
-	},BeatOffset*lengthOfSelectedBuffer*1000);
+	},BeatOffset*(lengthOfSelectedBuffer+1)*1000);
     
-})
+}
 
-// When media recorder start, it pushs recorded data into chuncks array
-mediaRecorder.ondataavailable = function(evt) {
+// When media recorder start, it pushs blob data into chuncks array
+mediaRecorder.ondataavailable = function(event) {
        // push each chunk (blobs) in an array
-       chunks.push(evt.data);
+       chunks.push(event.data);
 };	
 
 
 // When media recorder stop, it reads data from chuncks array and provide user a downlaod address.
 mediaRecorder.onstop = function(evt) {
-   // Make blob out of our blobs, and open it.
-  var audioBlob = new Blob(chunks, { 'type' : 'audio/wav; codecs=opus' });
-  var audioURL= URL.createObjectURL(audioBlob);
-   // Through AJAX to pass data to a given route and store blob in postgresql
+   // Create blob data in audio(wav) type.
+   var audioBlob = new Blob(chunks, { 'type' : 'audio/wav; codecs=opus' });
+   
+   // Using AJAX to pass data to a given route
    var user=$('#save-btn').data('user');
    var project=$('#save-btn').data('project');
    var track=$('#save-btn').data('track');
    var url= '/user_'+user+'/projects_'+project+'/tracks_'+track;
    
    var audioData = new FormData();
-   audioData.append('audioData',audioBlob,'123.ogg');
-   audioData.append('filename','test.ogg')
-   console.log(audioData);
+   audioData.append('audioData',audioBlob);
    $.ajax({
-      method:'POST',
+      method:'PUT',
       url:url,
       data:audioData,
       processData: false,
-      contentType: false
-   }).done(function(data) {
-       console.log(data);
-       console.log(audioBlob);
-});
+      contentType: false,
+      
+      success: function(){
+          console.log('Ajax pass wav file');
+      },
+      error: function(err){
+          console.log(err);
+      }
+   })
    
-//reassign chunnk array
+//reassign chunnks array
   chunks=[];
-//   $('#export-btn').on('click',function(){
-//       var createdBuffer;
-// //       var request1= new XMLHttpRequest();
-// // 		request1.open('GET', audioURL, true);
-// // 		request1.responseType = 'arraybuffer';
-// // 		request1.onload = function() { 
-// // 			context.decodeAudioData(request1.response, function(blob) { 
-// // 		       // reverse the order of buffer data so that the highest note can be put on the top of edtion board
-		       
-// 		       var arrayBuffer;
-//                 var fileReader = new FileReader();
-//                 fileReader.onload = function(event) {
-//                     arrayBuffer = event.target.result;
-//                 };
-//                 fileReader.readAsArrayBuffer(blob);
-		       
-// 		       createdBuffer=blob;
-// 		       console.log(createdBuffer);
-// // 			   }, function(err){console.log(err)}); 
-// // 		}
-// // 		request1.send();
-//       playSound(createdBuffer);
-//   }) ;
  };
 

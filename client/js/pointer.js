@@ -1,5 +1,16 @@
+/**
+* @global BeatOffset
+* @function playToggle
+*/
+
+
+/* global $ BeatOffset playToggle*/
+
 $(document).ready(function(){
-    
+/**
+ * Create Canvas and paint triangles pointer that can indicate which bar is being played. 
+ * @params content. Canvas
+ */	
 function setPointer(content) {
     content.fillStyle="#f0ad4e";
     content.beginPath();
@@ -9,27 +20,25 @@ function setPointer(content) {
     content.fill();
 }
 
-for(var i=1;i<=16;i++){
+for(let i=1;i<=16;i++){
     this['canvas'+i]=document.getElementById('canvas_'+i);
     this['content'+i]=this['canvas'+i].getContext('2d');
     setPointer(this['content'+i]);
 }    
 })
-/* global $ */
 
-//Create pointer animation
+
+/**Create pointer animation*/
 function pointerAnimation(){
 	for(let i=0;i<=16;i++){
 		setAnimation(i);
 	}
-	
 	function setAnimation(i){
 		setTimeout(function(){
 		$('#'+'canvas_'+(i+1)).toggleClass('disable');
 		$('#'+'canvas_'+(i)).toggleClass('disable');
 		},BeatOffset*i*1000);
 	}
-	
 	//Change status from 'play' to 'stop' when play end
 	setTimeout(function(){
 		//recover the console

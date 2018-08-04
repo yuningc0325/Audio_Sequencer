@@ -1,10 +1,10 @@
 /**
- * @params notesSoundArr contains 4 instrument arrays
+ * @global notesSoundArr contains 4 instrument arrays
  * notesSoundArr[0]: piano, notesSoundArr[1]: strings, notesSoundArr[2]: windwood, notesSoundArr[3]: synth
- * @params notesArray contains 21 notes from c2 to b4
- * @params Number: currentInstrument is the instrument user has chosen 
+ * @global notesArray contains 21 notes from c2 to b4
+ * @global Number: currentInstrument is the instrument user has chosen 
  * 0: piano,1: strings, 2 windwood, 3 synth
- * @params tempo: b.p.m (beats per minute) of the song
+ * @global tempo: b.p.m (beats per minute) of the song
  * When using Web Audio API, there are three steps
  * 1. Make sure the browser can run the API, if it works then the context will be created.
  * 2. Produce sound buffer from outside audio source(mp3, wav,...) then convert it into sound buffer

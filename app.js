@@ -11,16 +11,16 @@ const pool = new Pool({
   host: 'localhost',
   database: 'finalProject',
   password: 'Yuyuyu123',
-//port: 3211,
 });
 
 
+//https://www.npmjs.com/package/multer
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'client/upload/')
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '.wav') //Appending .jpg
+    cb(null, Date.now() + '.wav')
   }
 })
 
@@ -259,7 +259,6 @@ app.get("/user_:user/projects_:project/tracks_:track",function(req, res) {
         tonality    =null, // get from projects table
         tempo       =null;//  get from projects table
     var notesSoundArr  = new Array(4);// array with instruments notes array get sound from mongoDB
-        
      
     // query the tempo and tonality 
     pool.query('SELECT * FROM projects WHERE project_id=$1',[projectID], (err, result) => {
@@ -297,8 +296,6 @@ app.get("/user_:user/projects_:project/tracks_:track",function(req, res) {
     trackName=result.rows[0].track_name;
     }); 
     
-    
-    
     setTimeout(function(){
          res.render("main",{notesSoundArr:notesSoundArr,
                             userID:userID,
@@ -313,28 +310,14 @@ app.get("/user_:user/projects_:project/tracks_:track",function(req, res) {
 
 
 //upload blob
-app.post("/user_:user/projects_:project/tracks_:track",uploadType,function(req,res,next){
-    var audio=req.file;
-    var audio1=req.file.path;
-    var trimAudioUrl=audio1.replace('client',"");
-    // console.log(req.file);
-    console.log(audio);
-    console.log(audio1);
-    console.log(req)
-    pool.query('UPDATE tracks SET testaudio=$1 WHERE track_id=$2',[trimAudioUrl,req.params.track],(err,result)=>{
+app.put("/user_:user/projects_:project/tracks_:track",uploadType,function(req,res,next){
+    var trimAudioUrl=req.file.path.replace('client',"");
+    pool.query('UPDATE tracks SET audio=$1 WHERE track_id=$2',[trimAudioUrl,req.params.track],(err,result)=>{
         if(err){console.log(err);}
-    })
-    // pool.query('UPDATE tracks SET chunks=$1 WHERE track_id=$2',[audio,req.params.track],(err,result)=>{
-    //     if(err){console.log(err);}
-    //     res.send(200);
-    // })
-    pool.query('UPDATE tracks SET audio=$1 WHERE track_id=$2',[audio,req.params.track],(err,result)=>{
-        if(err){console.log(err);}
+        console.log(trimAudioUrl);
         res.send(200);
     })
 });
-
-
 
 
 // test port
@@ -345,10 +328,8 @@ app.get('/:id/test',function(req,res){
     
     
     // audio=result.rows[0].audio;
-    res.render('dbtest',{audio:result.rows[0].audio,audioUrl:result.rows[0].testaudio})
+    res.render('dbtest',{audioUrl:result.rows[0].audio})
     }); 
-    
-    
     
 })
 
