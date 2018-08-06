@@ -20,7 +20,7 @@
 }
 
 /*button about project creation*/
-.button-create-project,.button-create-tracks{
+.button-create-project,.button-create-tracks,.button-export-tracks{
 	border: 1px solid #7eacac;
 	color: #7eacac;
     border-radius: 5px;
@@ -30,27 +30,26 @@
 	float: right;
 }
 
-.button-create-tracks{
+.button-create-tracks,.button-export-tracks{
 	margin:15px 8px;
 }
 
 
 .button-create-project:hover,
-.button-create-tracks:hover{
+.button-create-tracks:hover,.button-export-tracks:hover{
 	background-color: #7eacac;
 	color: #ffffff;
 }
 
-.button-export,.button-edit-track{
-	background-color: #7eacac;
+.button-play{
+	background-color: #69abcd;
     color: #ffffff;
     border-radius: 5px;
     outline:none;
-    padding: 7px 20px;
-	margin:15px auto;
+    padding: 5px 15px;
 }
-.button-export:hover,.button-edit-track:hover{
-	background-color: #78a0a0;
+.button-play:hover{
+	background-color: #5098bd;
 }
 
 .button-delete,.button-delete-tracks{
@@ -61,7 +60,12 @@
     padding: 7px 20px;
 	margin:15px auto;
 }
-.button-delete:hover{
+
+.button-delete-tracks{
+    margin:0px;
+    padding:5px 15px;
+}
+.button-delete:hover,.button-delete-tracks:hover{
 	background-color: #e8a545;
 }
 
@@ -75,9 +79,7 @@
     border: none;
     box-shadow: 1px 1px #E3E1E1;
     outline:none;
-    padding: 7px 10px;
-	/*margin:10px;*/
-    margin:10px 0px 10px 200px;
+	margin:10px;
 
 }
 

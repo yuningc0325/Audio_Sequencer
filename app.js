@@ -213,14 +213,31 @@ app.post("/user_:user/projects_:project",function(req,res){
 
 // query tracks information from "tracks table" 
 app.get("/user_:user/projects_:project/tracks",function(req, res) {
-  var userID= req.params.user;
-  var projectID=req.params.project;
-  pool.query('SELECT * FROM tracks WHERE project_id=$1',[req.params.project], (err, result) => {
-    if(err){
-        console.log("Failed "+ err);
+  var userID= req.params.user,
+      projectID=req.params.project,
+      projectName=null,
+      trackArray=[];
+  
+    pool.query('SELECT * FROM projects WHERE project_id=$1',[req.params.project], (err, result) => {
+    if(err){console.log("Failed "+ err);}
+    projectName= result.rows[0].project_name;
+    })
+  
+    pool.query('SELECT * FROM tracks WHERE project_id=$1',[req.params.project], (err, result) => {
+    if(err){console.log("Failed "+ err);
     }
-    res.render("tracks",{tracksInfo:result.rows,userID:userID,projectID:projectID});
-    // pool.end();
+    
+    result.rows.forEach(function(el){trackArray.push(el.audio)});
+    console.log(trackArray);
+    
+    setTimeout(function(){
+         res.render("tracks",{tracksInfo:result.rows,
+                              userID:userID,projectID:projectID,
+                              projectName:projectName,
+                              trackArray:trackArray
+         });
+    },0)
+   
     })
 });
 
@@ -228,7 +245,7 @@ app.get("/user_:user/projects_:project/tracks",function(req, res) {
 app.post("/user_:user/projects_:project/tracks",function(req,res){
     var userID=req.params.user;
     var projectID= req.params.project;
-        pool.query("INSERT INTO tracks (project_id,create_date,track_name,file_url,length,instrument) VALUES($1,CURRENT_DATE,$2,'www',0,'piano')",
+        pool.query("INSERT INTO tracks (project_id,create_date,track_name) VALUES($1,CURRENT_DATE,$2)",
         [projectID,req.body.trackName],(err,result)=>{
             if(err){
                 console.log(err);

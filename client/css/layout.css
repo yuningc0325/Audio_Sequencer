@@ -1,5 +1,5 @@
 /*border style for project page*/
-.layout-project,.layout-track{
+.layout-project,.layout-track-console{
 	border: 2px solid #7eacac;
 	box-shadow: rgba(0, 0, 0, 0.4) 0 1.5px 1.5px;
     padding: 18px 20px;
@@ -7,12 +7,21 @@
     width: 100%;
     margin: 20px auto;
 }
-
-.layout-track{
-    min-height: 200px;
+.layout-tracks{
+    border: 1px solid #e8e8e8;
+    box-shadow: rgba(10, 10, 10, 1) 0 0.2px 0.5px;
+    border-radius: 5px;
+    width: 100%;
+    margin: 20px auto;
+    min-height: 100px;
     height: auto;
 }
 
+
+.layout-track-console{
+    min-height: 135px;
+    height: auto;
+}
 
 		
 /*console under the music production board*/
