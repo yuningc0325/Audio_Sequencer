@@ -48,6 +48,9 @@ $(".instrument-button").on("click",function(){
 	clearAllTimeOut();
 	stopAnimation();
 	
+	// prevent stopping volume interval
+	volumeInterval();
+	
 	// Reset play toggle and stop all sounds
 	$('.button-main-stop').children().removeClass('fa-stop');
 	$('.button-main-stop').children().addClass('fa-play');
@@ -57,6 +60,7 @@ $(".instrument-button").on("click",function(){
 	$('.button-main-stop').removeClass('button-main-stop');
 	playToggle();
 	stopPlaying();
+	
 	
     
     // It needs to wait for soundBuffer finished, after that, the sequencer will be available

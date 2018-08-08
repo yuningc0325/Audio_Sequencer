@@ -157,6 +157,8 @@ function playToggle(){
 		//Start pointer animation
 		pointerAnimation();
 		
+	
+		
 		//Make buttons on console disable when playing the sound
         $('.button-on-edition-console').prop('disabled',true);
 		// Turn play button into stop button
@@ -170,6 +172,10 @@ function playToggle(){
 			// Stop pointer animation
 			stopAnimation();
 			clearAllTimeOut();
+			
+			// prevent stopping volume interval
+			volumeInterval();
+			
     		// Stop playing the song 
 			stopPlaying();
 			//recover the console
@@ -223,7 +229,8 @@ function startRecording(bufferArr,indexOfArr,setOffTime) {
 	for(var i=0;i<numOfSource;i++){
 		 this['source_'+i+'_'+indexOfArr]=context.createBufferSource();
 		 this['source_'+i+'_'+indexOfArr].buffer=bufferArr[i];
-		 this['source_'+i+'_'+indexOfArr].connect(dest);
+		 this['source_'+i+'_'+indexOfArr].connect(gainNode);
+		 gainNode.connect(dest);
 		 this['source_'+i+'_'+indexOfArr].start(context.currentTime+setOffTime);
 		 // Stores all sources in this array for making these sources can be accessible.
 		 removeArray.push(this['source_'+i+'_'+indexOfArr]);
@@ -239,12 +246,34 @@ function stopPlaying(){
 	removeArray=[];
 }
 
+/**
+ * Adjust volume
+ * @params volume. number from 0 to 100
+ *
+ */
+function volumeAdjustment(volume){
+	gainNode.gain.value=volume*0.01;
+	
+} 
 
+function volumeInterval(){
+	setInterval(function(){
+	   var volume=$('#volume').parent().text();
+	   volumeAdjustment(volume);
+	   console.log(volume);
+	},500)
+}
+
+
+	
 // start using Web Audio API to process notes and console
 checkUsable();
 soundBuffer(0);
 triggerSound();
 playToggle();
+volumeInterval();
+
+
 
 /**Make the sequencer available. Using setTimeout can make sure the sequencer is ready for user. */
 setTimeout(function(){loadingControl();},0);

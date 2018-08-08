@@ -93,15 +93,19 @@
 					</button>
 				</div> <!-- end col-lg-2-->
 				
-				<!-- toggle switch -->
+				<!-- toggle switch **change to volume knob -->
 				<div class="col-lg-2">
-						<div class="onoffswitch" style="margin:25px 0px;">
-						    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-						    <label class="onoffswitch-label" for="myonoffswitch">
-						        <span class="onoffswitch-inner"></span>
-						        <span class="onoffswitch-switch"></span>
-						    </label>
-						</div>
+						<input type="range" min="0" max="100" data-degree-range="270" 
+					    data-degree-offset="45" step="1" value="50" class="blue" id="volume">
+					    <p class="font-console-name">Volume</p>
+					    
+						<!--<div class="onoffswitch" style="margin:25px 0px;">-->
+						<!--    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>-->
+						<!--    <label class="onoffswitch-label" for="myonoffswitch">-->
+						<!--        <span class="onoffswitch-inner"></span>-->
+						<!--        <span class="onoffswitch-switch"></span>-->
+						<!--    </label>-->
+						<!--</div>-->
 				</div> <!-- end col-lg-2 -->
 				
 				<!-- other buttons: save, export -->
@@ -124,15 +128,7 @@
 				</div> <!-- end col-lg-5 -->
 			</div>
 		</div>	
-		<!--<audio controls="controls">-->
-		<!--Your browser does not support the audio element.-->
-		<!--</audio>-->
 	</div>
-	
-	<div id="dialog" title="MIDI"> </div>	
-	
-	
-	
 	
 	<!--variables used in audio.js-->
 	<script> 
@@ -140,7 +136,7 @@
 		var notesArray=<%- JSON.stringify(notesReverse)%>;
 		var tempo=<%=tempo%>
 	</script>
-	
+	<script src="/js/knob.js"></script>
 	<script src="/js/pointer.js"></script>
 	<script src="/js/layer.js" ></script>
 	<script src="/js/audio.js" ></script>

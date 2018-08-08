@@ -234,7 +234,7 @@ function getCSS(elm, prop){
 }
 
 
-rangeKnob(document.querySelectorAll('.blue'), 20, "#7eacac");
+rangeKnob(document.querySelectorAll('.blue'), 20, "#69abcd");
 
 
 
