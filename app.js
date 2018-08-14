@@ -25,8 +25,6 @@ var storage = multer.diskStorage({
 })
 
 var upload = multer({ storage: storage });
-
-
 var uploadType = upload.single('audioData');
 
 
@@ -216,11 +214,18 @@ app.get("/user_:user/projects_:project/tracks",function(req, res) {
   var userID= req.params.user,
       projectID=req.params.project,
       projectName=null,
-      trackArray=[];
+      projectBPM=null,
+      projectTonality=null,
+      trackArray=[],
+      tempo=null;
   
     pool.query('SELECT * FROM projects WHERE project_id=$1',[req.params.project], (err, result) => {
     if(err){console.log("Failed "+ err);}
     projectName= result.rows[0].project_name;
+    projectBPM=result.rows[0].tempo;
+    projectTonality=result.rows[0].tonality;
+    tempo=result.rows[0].tempo;
+    
     })
   
     pool.query('SELECT * FROM tracks WHERE project_id=$1',[req.params.project], (err, result) => {
@@ -228,18 +233,25 @@ app.get("/user_:user/projects_:project/tracks",function(req, res) {
     }
     
     result.rows.forEach(function(el){trackArray.push(el.audio)});
-    console.log(trackArray);
     
+    //Make sure data are all got from db
     setTimeout(function(){
          res.render("tracks",{tracksInfo:result.rows,
-                              userID:userID,projectID:projectID,
+                              userID:userID,
+                              projectID:projectID,
                               projectName:projectName,
-                              trackArray:trackArray
+                              projectBPM:projectBPM,
+                              projectTonality:projectTonality,
+                              trackArray:trackArray,
+                              tempo:tempo
          });
-    },0)
+    },1000)
    
     })
 });
+
+
+
 
 // insert tracks information ** only track name will be inserted into table
 app.post("/user_:user/projects_:project/tracks",function(req,res){
@@ -331,7 +343,7 @@ app.put("/user_:user/projects_:project/tracks_:track",uploadType,function(req,re
     var trimAudioUrl=req.file.path.replace('client',"");
     pool.query('UPDATE tracks SET audio=$1 WHERE track_id=$2',[trimAudioUrl,req.params.track],(err,result)=>{
         if(err){console.log(err);}
-        console.log(trimAudioUrl);
+        // console.log(trimAudioUrl);
         res.send(200);
     })
 });

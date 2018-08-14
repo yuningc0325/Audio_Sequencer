@@ -10,6 +10,7 @@
   margin:auto;
   position: absolute;
   top:0; bottom:0; left:0; right:0;
+  z-index: 2;
 }
 
 /* Safari */
@@ -23,15 +24,16 @@
   100% { transform: rotate(360deg); }
 }
 
-
-
+/*transparent layer in main page*/
 .board-layer{
     width:1140px; 
     height:525px; 
     background:white;
     opacity:0.6;
     position:absolute;
+    z-index: 1;
 }
+
 
 
 /*reference : https://www.w3schools.com/howto/howto_js_progressbar.asp*/
@@ -43,6 +45,7 @@
     line-height: 30px; 
     color: white; 
     position: relative;
+    z-index: 2;
 }
 
 #myProgress{
@@ -51,5 +54,6 @@
   position: absolute;
   top: 40%;
   left: 15%;
+  z-index: 2;
 }
 

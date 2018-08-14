@@ -9,6 +9,9 @@
 		padding-left: 5px;
 		font-size:20px;
 	}
+	h5{
+		font-size:15px;
+	}
 	p{
 		position: relative;
 	    bottom: 25px;
@@ -20,7 +23,12 @@
 </head>	
 	
 <body>
+	
+	
+	
 <% include partials/navbar %>
+
+
 	<!-- Project Name, export button, and create track button -->
 	<div class="container">
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -57,30 +65,38 @@
 			  </div>
 			</div><!--end create tracks modal form-->
 	
-			<button  type="button" class="button-export-tracks" data-toggle="modal" data-target="#exportModal" data-whatever="@mdo">Mix and Export</button>
-			
 		</div><!--end col-lg-6 -->
 	</div> 	<!--container-->
 
 	
 	
 	<!-- Track division -->
-	<div class="container">	
-		<% tracksInfo.forEach(function(el){ %> 
+	<div class="container">
+		<div id="loadingLayer">	
+			<div class="board-layer"></div>	
+			<h2 class="loading-text">Loading Instrument Library</h2>
+			<!--loading cycle-->
+			<div class="loader"></div>
+			
+			<div id="myProgress" class="disable">
+				<div id="myBar">10%</div>
+			</div>
+		 </div>
+		<% tracksInfo.forEach(function(el,i){ %> 
 		    <div class="layout-tracks">
 				<!-- title -->
-				<div class="col-lg-4">
+				<div class="col-lg-2">
 					<a href="/user_<%=userID%>/projects_<%=projectID%>/tracks_<%=el.track_id%>">
 						<h3><%=el.track_name %></h3>
 					</a>
 				</div>
-				<div class="col-lg-8" style="height:55px">
-					<!--specturm-->
+				<div class="col-lg-10" style="height:55px">
+					<!--sound wave-->
+					<canvas id="canvas_<%=i%>" width="900" height="100" >
+					</canvas>
 				</div>
 				<!-- play button-->
 				<div class="col-lg-2">
-					<button  class="button-play"
-							 data-url=<%=el.audio%>>Play</button>		
 					<button class="button-delete-tracks" 
 							data-id=<%= el.track_id %> 
 							data-user=<%= userID%>
@@ -89,18 +105,19 @@
 			</div><!--  end track outline -->
 			
 		<% })%>
+		
 	</div> <!-- end container -->
 	
 	
 	
 	<!-- console -->
 	<div class="container">	
-		    <div class="layout-track-console">
+		    <div class="layout-track-console disable" id="music-console">
 				<!-- console: adjust volume,reverb and compression -->
 				<div class="col-lg-6">	
 					<div class="col-lg-4">
 					    <input type="range" min="0" max="100" data-degree-range="270" 
-					    data-degree-offset="45" step="1" value="50" class="blue" id="volume">
+					    data-degree-offset="45" step="1" value="20" class="blue" id="volume">
 					    <p class="font-console-name">Volume</p>
 					</div>
 					<div class="col-lg-4">
@@ -109,9 +126,9 @@
 					    <p class="font-console-name">Reverb</p>
 				    </div>
 				    <div class="col-lg-4">
-					    <input type="range" min="0" max="100" data-degree-range="270" 
-					    data-degree-offset="45" step="1" value="50" class="blue" id="compression">
-					    <p class="font-console-name">Compression</p>
+					    <input type="range" min="-40" max="40" data-degree-range="270" 
+					    data-degree-offset="45" step="1" value="0" class="blue" id="Low-shelf">
+					    <p class="font-console-name">Low-shelf</p>
 				    </div>
 				</div>
 				<!-- play all tracks together -->
@@ -120,10 +137,19 @@
 					<i class="fas fa-play playback-font"></i>
 					</button>
 				</div>
-				<!--volume meter-->
-				<div class="col-lg-4">
-					<!--test tmp-->
-					<button id="testBtn">stop</button>
+				<div class="col-lg-2" style="margin-top:10px;">
+					<h5>tempo: <%= projectBPM%></h5>
+					<h5 >chord: <span style=" text-transform: uppercase;"><%= projectTonality%></span></h5>
+				</div>
+				<div class="col-lg-2" >
+				<button  type="button" 
+					class="button-export-tracks"
+					data-toggle="modal" 
+					data-target="#exportModal" 
+					data-user=<%=userID%>
+					data-project=<%=projectID%>
+					data-whatever="@mdo">Mix and Export</button>
+					
 				</div>
 				
 		</div><!--  end track outline -->
@@ -131,13 +157,18 @@
 	
 	<script>
 		var trackArray=<%-JSON.stringify(trackArray)%>;
+		var numOftrack=<%=tracksInfo.length%>;
+		var tempo=<%=tempo%>;
 		
 	</script>
 	
 	<script src="/js/knob.js"></script>
+	<script src="/js/canvas.js"></script>
 	<script src="/js/mixer.js"></script>
 	<script src="/js/deletion.js"></script>
 	<script src="/js/updateData.js"></script>
+	<script src="/js/layer.js"></script>
+
 	
 
 </body>
