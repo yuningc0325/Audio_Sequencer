@@ -103,8 +103,7 @@
 					</h3>
 					
 					
-					<h5>Track: <%= numOfTracks%> </h5>
-					<h5>Tonality: <%= el.tonality %></h5>
+					<h5>Tonality: <span style="text-transform: uppercase;"><%= el.tonality %></span></h5>
 					<h5>Tempo: <%= el.tempo %></h5>
 					
 					<button class="button-delete" data-id=<%= el.project_id %> data-user=<%=userID%> >delete</button>

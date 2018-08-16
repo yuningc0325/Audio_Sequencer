@@ -24,7 +24,7 @@
 	
 <body>
 	
-	
+
 	
 <% include partials/navbar %>
 
@@ -156,11 +156,20 @@
 	</div> <!-- end container -->
 	
 	<script>
-		var trackArray=<%-JSON.stringify(trackArray)%>;
-		var numOftrack=<%=tracksInfo.length%>;
-		var tempo=<%=tempo%>;
-		
-	</script>
+	var trackArray=<%-JSON.stringify(trackArray)%>;
+	var numOftrack=<%=tracksInfo.length%>;
+	var tempo=<%=tempo%>;
+	var timeLength=<%=timeLength%>;
+	var noContent=true;
+	if(numOftrack==0){
+		$('#loadingLayer').toggleClass('disable');
+		$('.container:first').append("<h5>Please click button right top of the page to create a new track</h5>");
+	}else{
+		noContent=false;
+	}
+	
+	</script>	
+
 	
 	<script src="/js/knob.js"></script>
 	<script src="/js/canvas.js"></script>

@@ -49,7 +49,7 @@ function pointerAnimation(){
     	$('.button-main-stop').unbind('click');
 		$('.button-main-stop').removeClass('button-main-stop');
 		playToggle();
-	},BeatOffset*16*1000);
+	},(BeatOffset*16+2)*1000);
 }
 
 // This function is used to make all pointer unvisible

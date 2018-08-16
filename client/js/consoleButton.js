@@ -43,7 +43,7 @@ function saveAudio(){
 	    mediaRecorder.stop();
 	    progressBarOff();
 	    console.log(mediaRecorder.state+' stop recording');
-	},BeatOffset*(lengthOfSelectedBuffer+1)*1000);
+	},BeatOffset*(lengthOfSelectedBuffer+2)*1000);
     
 }
 
@@ -76,6 +76,7 @@ mediaRecorder.onstop = function(evt) {
       
       success: function(){
           console.log('Ajax pass wav file');
+          window.location.href='/user_'+user+'/projects_'+project+'/tracks';
       },
       error: function(err){
           console.log(err);
@@ -86,3 +87,10 @@ mediaRecorder.onstop = function(evt) {
   chunks=[];
  };
 
+$('#leave-btn').on('click',function(){
+    var user=$(this).data('user');
+    var project=$(this).data('project');
+    var track=$(this).data('track');
+    var redirectUrl='/user_'+user+'/projects_'+project+'/tracks'
+    window.location.href=redirectUrl;
+})

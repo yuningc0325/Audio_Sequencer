@@ -1,0 +1,48 @@
+<% include partials/head %>
+
+	<title>Log In</title>
+	<style>
+	/*put inline css here*/
+	body{
+		background-color:#eee;
+	}
+	h2{
+		text-align: center;
+		padding-bottom: 10px;
+	}
+	h6{
+		text-align: center;
+		padding-bottom: 5px;
+		color:red;
+	}
+	</style>
+	
+</head>
+	
+<body>
+	<div class="login-form">
+		<h2>Music Production(Demo)</h2>
+		<h6 class="hidden">This account does not exist</h6>
+		<form action="/demo/log_in" method="POST">
+			<select name="account" id="dropdown_key" class="form-control form-input">
+			            	<option value="yuningc000@gmail.com">User1</option>
+			            	<option value="yuningc0325@gmail.com">User2</option>
+			            	<option value="e">User3</option>
+			            	<option value="f">User4</option>
+			            	<option value="g">User5</option>
+			            	<option value="a">User6</option>
+			            	<option value="b">User7</option>
+			 </select>
+			<button type="submit"class="button-submit">Log In</button>
+		</form>
+	</div>
+	<script>
+		    console.log('script work')
+		    if(<%=accountCheck%>==false){
+		        console.log('account does not exist');
+		        $('h6').toggleClass('hidden');
+		    }
+		    
+	</script>
+</body>
+</html>

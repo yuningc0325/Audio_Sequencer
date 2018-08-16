@@ -7,6 +7,7 @@ var context,
     stopPlayArray=[],
     chunks=[],
     gainNode,
+    gainNode1,
     convolver,
     convolverGain,
     filter1,
@@ -32,7 +33,7 @@ function checkUsable(){
 		mediaRecorder = new MediaRecorder(dest.stream);
 		// create gainNode
 		gainNode=context.createGain();
-		
+		gainNode1=context.createGain();
 		// create convolver
 		convolver=context.createConvolver();
 		// create convolver gain
@@ -67,6 +68,7 @@ checkUsable();
  
 function volumeAdjustment(volume){
 	gainNode.gain.value=volume*0.05;
+	gainNode1.gain.value=volume*0.05;
 } 
 
 function reverbAdjustment(reverb){
@@ -119,12 +121,11 @@ function playSound(buffer,canvasIndex,dest){
 	var source = context.createBufferSource(); 
 	source.buffer = buffer; 
 	
-	// choose one
-	source.connect(filter1);
-	// filter1.connect(filter2);
+	
+	// source.connect(filter1);
 	var	analyser= context.createAnalyser();
-	// source.connect(analyser);
-	filter1.connect(analyser);
+	source.connect(analyser);
+	// filter1.connect(analyser);
 	analyser.fftSize=512;
 	var bufferLength = analyser.frequencyBinCount; 
 	var dataArray = new Uint8Array(bufferLength);
@@ -146,14 +147,21 @@ function playSound(buffer,canvasIndex,dest){
 		        x += barWidth + 2;
 		}
 	}	
-	
 	draw();
 	
-	analyser.connect(gainNode);
-	source.connect(convolver);
+	analyser.connect(filter1);
+	filter1.connect(gainNode);
 	gainNode.connect(compression);
+	source.connect(gainNode1);
+	gainNode1.connect(convolver);
 	convolver.connect(convolverGain);
 	convolverGain.connect(compression);
+	
+	// analyser.connect(gainNode);
+	// source.connect(convolver);
+	// gainNode.connect(compression);
+	// convolver.connect(convolverGain);
+	// convolverGain.connect(compression);
 	compression.connect(dest);
 	source.start(0);
 	
@@ -186,7 +194,22 @@ function trackPlayToggle(){
 	$(this).children().addClass('fa-stop');
 	$(this).addClass('button-track-stop');
 	$(this).unbind('click');
+	
+	
+	var autoStop=setTimeout(function(){
+		stopSinglePlay();
+		$('.button-track-stop').children().removeClass('fa-stop');	
+		$('.button-track-stop').children().addClass('fa-play');
+		$('.button-track-stop').addClass('button-track-playback');
+    	$('.button-track-stop').unbind('click');
+		$('.button-track-stop').removeClass('button-track-stop');
+		trackPlayToggle();
+		// add buffer 1 sec
+	},(timeLength+1)*1000);
+	
 	$('.button-track-stop').on('click',function(){
+		// if click stop button, ignore autoStop function
+		window.clearTimeout(autoStop);
 		stopSinglePlay();
     	$(this).children().removeClass('fa-stop');
 		$(this).removeClass('button-track-stop');
@@ -200,7 +223,6 @@ function trackPlayToggle(){
 }
 
 
-
 function startInterval(){
 	setInterval(function(){
 	   var volume=$('#volume').parent().text();
@@ -209,10 +231,12 @@ function startInterval(){
 	   volumeAdjustment(volume);
 	   reverbAdjustment(reverb);
 	   bassAdjustment(bass);
-	   //console.log('Volume: '+volume);
+	   console.log('Volume: '+volume);
 	   //console.log('Reverb: '+reverb);
-	},300)
+	},300);
 }
+
+
 
 function mix(){
 	trackBuffer.forEach(function(el,i,){
@@ -228,7 +252,7 @@ function mix(){
 		progressBarOff();
 	    mediaRecorder.stop();
 	    console.log(mediaRecorder.state+' stop recording');
-	},BeatOffset*(16+1)*1000);
+	},BeatOffset*(16+2)*1000);
 }
 
 
@@ -267,5 +291,16 @@ $(document).ready(
 		trackPlayToggle();
 		
 	/**Make the sequencer available. Using setTimeout can make sure the sequencer is ready for user. */
-	setTimeout(function(){loadingControl();},1000);	
+	setTimeout(function(){
+		if(noContent){
+			console.log('No track')
+		}else{
+			loadingControl();
+		}
+	},2500);	
+	
+	
+	setTimeout(function(){
+		window.location.reload(true);
+	},300000);
 })

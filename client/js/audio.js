@@ -156,9 +156,7 @@ function playToggle(){
 		}
 		//Start pointer animation
 		pointerAnimation();
-		
 	
-		
 		//Make buttons on console disable when playing the sound
         $('.button-on-edition-console').prop('disabled',true);
 		// Turn play button into stop button
@@ -261,7 +259,7 @@ function volumeInterval(){
 	   var volume=$('#volume').parent().text();
 	   volumeAdjustment(volume);
 	   console.log(volume);
-	},500)
+	},300)
 }
 
 
