@@ -1,17 +1,9 @@
 var express     = require("express"),
     bodyPaser   =require("body-parser"),
-    mongoose    =require("mongoose"),
     multer      =require("multer");
-const { Pool } = require('pg');
 
 var app=express();
-// configure psql pool
-const pool = new Pool({
-  user: 'ubuntu',
-  host: 'localhost',
-  database: 'finalProject',
-  password: 'Yuyuyu123',
-});
+var pool= require('./models/databasePool.js')
 
 
 //https://www.npmjs.com/package/multer
@@ -36,26 +28,11 @@ app.set("view engine","ejs");
 app.use(bodyPaser.json());
 app.use(bodyPaser.urlencoded({extended:true}));
 
-// mongoDB connection
-mongoose.connect("mongodb://localhost/instrument");
-
-
-// mongoose schema and model
-var instrumentSchema =new mongoose.Schema({
-        name:String,
-        notes:[]
-    });
-var pianoSchema=instrumentSchema,
-    woodwindSchema=instrumentSchema,
-    stringsSchema=instrumentSchema,
-    synthSchema=instrumentSchema;
-
-var piano = mongoose.model("Piano",pianoSchema),
-    strings = mongoose.model("Strings",stringsSchema),
-    woodwind = mongoose.model("Woodwind",woodwindSchema),
-    synth = mongoose.model("Synth",synthSchema);
-
-
+var instrumentSchema=require("./models/instrument.js");
+var piano = instrumentSchema[0],
+    strings = instrumentSchema[1],
+    woodwind = instrumentSchema[2],
+    synth = instrumentSchema[3];
 
 
 //connect to server
@@ -63,26 +40,34 @@ app.listen(process.env.PORT,process.env.IP,function(){
    console.log("server connceted"); 
 });
 
+
+// Index Route
+// ==================
+
 app.get('/demo/log_in',function(req, res) {
     res.render('demoLogin',{accountCheck:true});
 });
 
 app.post('/demo/log_in',function(req,res){
     pool.query('SELECT COUNT (user_id) FROM member WHERE account=$1',[req.body.account],(err,result)=>{
-       if(err){console.log(err)}
-       // if the account does exist
-       if(result.rows[0].count!=0){
-           pool.query('SELECT * FROM member WHERE account=$1',[req.body.account],(err,result)=>{
-               if(err){console.log(err)}
-               res.redirect('/user_'+result.rows[0].user_id+'/projects');
-           })
-       }else{
-           console.log("account does not exist");
-           res.render('demoLogin',{accountCheck:false});
-       }
+      if(err){console.log(err)}
+      // if the account does exist
+      if(result.rows[0].count!=0){
+          pool.query('SELECT * FROM member WHERE account=$1',[req.body.account],(err,result)=>{
+              if(err){console.log(err)}
+              res.redirect('/user_'+result.rows[0].user_id+'/projects');
+          })
+      }else{
+          console.log("account does not exist");
+          res.render('demoLogin',{accountCheck:false});
+      }
     }
     );
 });
+
+
+// Project Route
+// ==================
 
 // query projects information from "porjects table" 
 app.get("/user_:user/projects",function(req, res) {
@@ -139,6 +124,9 @@ app.post("/user_:user/projects_:project",function(req,res){
 });
 
 
+// Track Route
+// ==================
+
 // query tracks information from "tracks table" 
 app.get("/user_:user/projects_:project/tracks",function(req, res) {
   var userID= req.params.user,
@@ -179,7 +167,7 @@ app.get("/user_:user/projects_:project/tracks",function(req, res) {
                               tempo:tempo,
                               timeLength:timeLength
          });
-         console.log(timeLength);
+        //  console.log(timeLength);
     },1000)
    
     })
@@ -217,7 +205,8 @@ app.delete("/user_:user/projects_:project/tracks_:track",function(req,res){
         })
 });
     
-
+// Sequencer Route
+// ==================
 
 app.get("/user_:user/projects_:project/tracks_:track",function(req, res) {
     var userID      =req.params.user,
@@ -296,18 +285,6 @@ app.get('*',function(req,res){
 })
 
 
-// test port
-app.get('/:id/test',function(req,res){
-    var trackID=req.params.id;
-    pool.query('SELECT * FROM tracks WHERE track_id=$1',[trackID], (err, result) => {
-    if(err){console.log(err);}
-    
-    
-    // audio=result.rows[0].audio;
-    res.render('dbtest',{audioUrl:result.rows[0].audio})
-    }); 
-    
-})
 
 
 // The route below is used for outside user
