@@ -1,5 +1,5 @@
 {
-  "name": "music production",
+  "name": "music_production",
   "version": "0.0.0",
   "description": "A online service of music production.",
   "main": "server.js",
