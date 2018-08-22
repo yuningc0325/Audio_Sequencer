@@ -4,6 +4,9 @@
   "description": "A online service of music production.",
   "main": "server.js",
   "repository": "",
+  "scripts":{
+    "start":"node app.js"
+  },
   "author": "Yu-Ning Chang <yxc784@student.bham.ac.uk>",
   "dependencies": {
     "async": "~0.2.8",
