@@ -1,8 +1,21 @@
+/**
+ * @author: Yu-Ning, Chang 
+ * This file is used to configure project routes.
+ * 
+ * API I use in my code: (license details can be found in "node_modules" package.)
+ * =====================
+ * "express": "^4.16.3"
+ * "multer": "^1.3.1", //https://www.npmjs.com/package/multer
+ */
+
 var express=require('express'),
     router=express.Router(),
+    // Use pool configured in databasePool.js to execute postgreSQL command.
     pool=require('../models/databasePool.js'),
+    // Use mongoose schema configured in databasePool.js to execute Mongo command.
     instrumentSchema=require("../models/instrument.js"),
     multer      =require("multer");
+
      
 var piano = instrumentSchema[0],
     strings = instrumentSchema[1],
@@ -10,67 +23,75 @@ var piano = instrumentSchema[0],
     synth = instrumentSchema[3];
     
     
-//https://www.npmjs.com/package/multer
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'client/upload/')
+  // It defines where the file should be stored
+  destination: function (req, file, callback) {
+    callback(null, 'client/upload/')
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '.wav')
+  // It defines the file name.
+  filename: function (req, file, callback) {
+    callback(null, Date.now() + '.wav')
   }
 })
 
 var upload = multer({ storage: storage });
 var uploadType = upload.single('audioData');
 
+
+/**
+ * "GET" request
+ * Render the sequencer page.
+ */ 
 router.get("/user_:user/projects_:project/tracks_:track",function(req, res) {
     var userID      =req.params.user,
         projectID   =req.params.project,
         trackID     =req.params.track,
         trackName   =null,
-        instrument  =null, // get from tracks table
-        tonality    =null, // get from projects table
-        tempo       =null,//  get from projects table
-        notesSoundArr  = new Array(4);// array with instruments notes array get sound from mongoDB
+        instrument  =null, 
+        tonality    =null, 
+        tempo       =null,
+        // Notes with corresponding tonality will be stored in this array
+        // notesSoundArr[0]: piano,  notesSoundArr[1]: strings,  notesSoundArr[2]: woodwind,  notesSoundArr[3]: synth
+        notesSoundArr  = new Array(4);
      
-    // query the tempo and tonality 
     pool.query('SELECT * FROM projects WHERE project_id=$1',[projectID], (err, result) => {
-    if(err){console.log(err);}
-    tonality=result.rows[0].tonality;
-    tempo=result.rows[0].tempo;
+        if(err){console.log(err);}
+        tonality=result.rows[0].tonality;
+        tempo=result.rows[0].tempo;
+        
+        // Remove whitespace
+        var tonalityString= String(tonality).trim();
 
-    var tonalityString= String(tonality).trim();
-    
         piano.find({name:tonalityString},function(err,result){
-        if(err){console.log(err)}
-        notesSoundArr[0]=result[0].notes;
+            if(err){console.log(err)}
+            notesSoundArr[0]=result[0].notes;
         });
         
         strings.find({name:tonalityString},function(err,result){
-        if(err){console.log(err)}
-        notesSoundArr[1]=result[0].notes;
+            if(err){console.log(err)}
+            notesSoundArr[1]=result[0].notes;
         });
         
         woodwind.find({name:tonalityString},function(err,result){
-        if(err){console.log(err)}
-        notesSoundArr[2]=result[0].notes;
+            if(err){console.log(err)}
+            notesSoundArr[2]=result[0].notes;
         });
         
         synth.find({name:tonalityString},function(err,result){
-        if(err){console.log(err)}
-        notesSoundArr[3]=result[0].notes;
+            if(err){console.log(err)}
+            notesSoundArr[3]=result[0].notes;
         });
     });
     
-    // query the instrument and track name 
     pool.query('SELECT * FROM tracks WHERE track_id=$1',[trackID], (err, result) => {
-    if(err){console.log(err);}
-    instrument=result.rows[0].instrument;
-    trackName=result.rows[0].track_name;
+        if(err){console.log(err);}
+        instrument=result.rows[0].instrument;
+        trackName=result.rows[0].track_name;
     }); 
     
+    // Render sequencer page and pass data to sequencer.ejs.
     setTimeout(function(){
-         res.render("main",{notesSoundArr:notesSoundArr,
+         res.render("sequencer",{notesSoundArr:notesSoundArr,
                             userID:userID,
                             projectID:projectID,
                             trackID:trackID,
@@ -78,17 +99,17 @@ router.get("/user_:user/projects_:project/tracks_:track",function(req, res) {
                             tonality:tonality,
                             tempo:tempo});
     },1500);
-   
 });
 
-//upload blob
+
+/**
+ * "PUT" request
+ *  Update track details and store the blob with 'WAV' format produced by users.
+ */ 
 router.put("/user_:user/projects_:project/tracks_:track",uploadType,function(req,res,next){
-    // var userID      =req.params.user,
-    //     projectID   =req.params.project,
     var trimAudioUrl=req.file.path.replace('client',"");
     pool.query('UPDATE tracks SET audio=$1 WHERE track_id=$2',[trimAudioUrl,req.params.track],(err,result)=>{
         if(err){console.log(err);}
-        // console.log(trimAudioUrl);
         res.send(200);
     })
 });    

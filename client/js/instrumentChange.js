@@ -1,26 +1,24 @@
 /**
- * @function (from audio.js)
- * checkUsable  -  Make sure the browser can run the API.
- * soundBuffer  -  Produce sound buffer with index number.
- * reassignSelectedBuffer - Reassign the selectedBufferList.
- * triggerSound -  playing sound with created buffer.
- * playToggle
- * stopPlaying
- * @funcyion (from pointer.js)
- * clearAllTimeOut()
- * stopAnimation()
- * @global loadingControl
- */
+* @author: Yu-Ning, Chang
+* Mouse click event about changing instrument.
+* 	  
+* @global variables
+* ==================
+*		  
+* @global functions
+* ==================		  
+* loadingControl, soundBuffer, clearAllTimeOut, stopAnimation, volumeInterval, playToggle,
+* stopPlaying, reassignSelectedBuffer
+* 
+*/
 
-/*external variables and functions*/
-/* global $ checkUsable soundBuffer triggerSound reassignSelectedBuffer clearAllTimeOut stopAnimation
-playToggle stopPlaying loadingControl*/
+/* global $ loadingControl, soundBuffer, clearAllTimeOut, stopAnimation, volumeInterval, playToggle,
+* stopPlaying, reassignSelectedBuffer*/
 
 var instruments=['piano','strings','wind','synth'],
-    // Initial index is one
+    // Initial index value is one
     index=1;
 
-    
 $(".instrument-button").on("click",function(){
     // Loading layer and disable buttons
     loadingControl();
@@ -41,17 +39,16 @@ $(".instrument-button").on("click",function(){
     $('#'+current+'-name').toggleClass('hidden');
     $('#'+previous+'-name').toggleClass('hidden');
     
-    // Create new sound buffer with given instrument
+    // Create new sound buffer with a given instrument
     soundBuffer(index);
     
 	// Stop pointer animation
 	clearAllTimeOut();
 	stopAnimation();
 	
-	// prevent stopping volume interval
+	// Recover volume interval
 	volumeInterval();
 	
-	// Reset play toggle and stop all sounds
 	$('.button-main-stop').children().removeClass('fa-stop');
 	$('.button-main-stop').children().addClass('fa-play');
 	$('.button-main-stop').addClass('button-main-playback');
@@ -61,10 +58,8 @@ $(".instrument-button").on("click",function(){
 	playToggle();
 	stopPlaying();
 	
-	
-    
     // It needs to wait for soundBuffer finished, after that, the sequencer will be available
-    // This function can reassign selected buffer with original notes so it changes sound not notes.
+    // This function can reassign selected buffer with clicked notes, so it changes sound only.
     setTimeout(function(){
         reassignSelectedBuffer();
         loadingControl();
@@ -73,11 +68,3 @@ $(".instrument-button").on("click",function(){
 	// Point to the next instrument
     index++;
 }); 
-
-   
-/**Add or remove loading layer*/
-// function loadingContol(){
-//      $('#loadingLayer').toggleClass('disable');
-//      $('#music-console').toggleClass('disable');
-// }
-

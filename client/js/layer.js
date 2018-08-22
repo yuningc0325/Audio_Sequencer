@@ -1,26 +1,39 @@
+/**
+* @author: Yu-Ning, Chang
+* Produce loading animations
+* 	  
+* @global variables
+* ==================
+* BeatOffset(number)
+*		  
+* Code reference: https://www.w3schools.com/howto/howto_js_progressbar.asp
+*/
+/*global $  BeatOffset */
 
-/* global $
-    parameters- BeatOffset*/
 
-/**Add or remove loading layer*/
+/**
+ * @description Add or remove a loading layer
+ */
 function loadingControl(){
      $('#loadingLayer').toggleClass('disable');
-     // all button should be disable
      $('#music-console').toggleClass('disable');
 }
 
-/**Show progress bar when user save their music*/
+/**
+ * @description Show a progress bar when users save their music.
+ */
 function progressBarOn(){
      $('#loadingLayer').toggleClass('disable');
      $('.loader').addClass('disable');
      $('.loading-text').text('Data processing');
      $('#myProgress').toggleClass('disable');
      showProgress();
-     // all button should be disable
      $('#music-console').toggleClass('disable');
 }
 
-/**Hide progress bar when user save their music*/
+/**
+ * @description Hide the progress bar when users finish data saving.
+ */
 function progressBarOff(){
     $('.loading-text').text('Loading Instrument Library');
     $('.loader').removeClass('disable');
@@ -32,9 +45,10 @@ function progressBarOff(){
     $('#myBar').text('10%');
 }
 
-
+/**
+ * @description Show the progress when processing data.
+ */
 function showProgress() {
-    // Time that every 1% progress costs 
     var timeInterval= BeatOffset*16*1000/100;
     var width = 10;
     

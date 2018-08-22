@@ -1,4 +1,7 @@
-/*button about login,signup,passwordforget */
+/* @author: Yu-Ning, Chang
+ * stylesheet of button
+ */
+
 .button-submit{
 	background-color: #7eacac;
     color: #ffffff;
@@ -19,8 +22,9 @@
 	box-shadow: rgba(0, 0, 0, 0.4) 0 3px 3px;
 }
 
-/*button about project creation*/
-.button-create-project,.button-create-tracks,.button-export-tracks{
+.button-create-project,
+    .button-create-tracks,
+        .button-export-tracks{
 	border: 1px solid #7eacac;
 	color: #7eacac;
     border-radius: 5px;
@@ -30,27 +34,18 @@
 	float: right;
 }
 
-.button-create-tracks,.button-export-tracks{
+.button-create-tracks,
+    .button-export-tracks{
 	margin:15px 8px;
 }
 
-
 .button-create-project:hover,
-.button-create-tracks:hover,.button-export-tracks:hover{
+    .button-create-tracks:hover,
+        .button-export-tracks:hover{
 	background-color: #7eacac;
 	color: #ffffff;
 }
 
-.button-play,.button-stop{
-	background-color: #69abcd;
-    color: #ffffff;
-    border-radius: 5px;
-    outline:none;
-    padding: 5px 15px;
-}
-.button-play:hover,.button-stop{
-	background-color: #5098bd;
-}
 
 .button-delete,.button-delete-tracks{
 	background-color: #f0ad4e;
@@ -65,12 +60,13 @@
     margin:0px;
     padding:5px 15px;
 }
-.button-delete:hover,.button-delete-tracks:hover{
+.button-delete:hover,
+    .button-delete-tracks:hover{
 	background-color: #e8a545;
 }
 
-/*playback button*/
-.button-track-playback,.button-track-stop{
+.button-track-playback,
+    .button-track-stop{
 	background-color: rgb(243,243,243);
     color: #ffffff;
     height: 60px;
@@ -83,7 +79,8 @@
 
 }
 
-.button-main-playback,.button-main-stop{
+.button-main-playback,
+    .button-main-stop{
     background-color: rgb(243,243,243);
     color: #ffffff;
     height: 60px;
@@ -111,7 +108,6 @@
 	font-size: 1.2em;
 }
 
-/*button for changing instrument*/
 .instrument-button{
 	background-color:#b0d8d8;
     color: white;

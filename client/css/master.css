@@ -1,10 +1,12 @@
-/*all body*/
+/* @author: Yu-Ning, Chang
+ * stylesheet of master control
+ */
+
 body{
 	/*default font colour*/
 	color: #525252;
 }
 
-/*all link*/
 a{
 	text-decoration:none!important;
 }

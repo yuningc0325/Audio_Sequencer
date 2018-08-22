@@ -1,3 +1,10 @@
+<!--
+	@author: Yu-Ning, Chang
+	This file produces the project page.
+	Variables: projectList (Array), userID (String)
+	Code reference: https://getbootstrap.com/docs/3.3/javascript/#modals
+-->
+
 <% include partials/head %>
 	<title>My Projects</title>
 	<style>
@@ -26,126 +33,122 @@
 </head>	
 	
 <body>
-<% include partials/navbar %>
-	
-	<div class="container">
-		<div class="col-lg-6">
-			<h2>My project List</h2>
-		</div>
-		<div class="col-lg-6">
-			<button  type="button" class="button-create-project" data-toggle="modal" data-target="#projectModal" data-whatever="@mdo">Create a new project</button>
-			
-			<!--modal: create project-->
-			<div class="modal fade" id="projectModal" tabindex="-1" role="dialog" aria-labelledby="projectModalLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <!-- modal title -->
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="projectModalLabel">Create New Project</h4>
-			      </div>
-				  <!-- modal form -->
-			      <div class="modal-body">
-			        <form method="post" action="/user_<%=userID%>/projects">
-			          <div class="form-group">
-			            <label for="recipient-name" class="control-label">Project Name:</label>
-			            <input type="text" name="projectName" class="form-control" id="project-name" value="">
-			          </div>
-			          <div class="form-group">
-			            <label for="message-text" class="control-label" >Tonality:</label>
-			            <select name="tonality" id="dropdown_key" class="form-control">
-			            	<option value="c">C</option>
-			            	<option value="d">D</option>
-			            	<option value="e">E</option>
-			            	<option value="f">F</option>
-			            	<option value="g">G</option>
-			            	<option value="a">A</option>
-			            	<option value="b">B</option>
-			            </select>
-			          </div>
-			            <div class="form-group">
-				            <label for="message-text" class="control-label" style="display: block;">Tempo:</label>
-				            <div class="tempo-slider">
-							  <input class="rangeBar" name="tempo" type="range" value="120" min="30" max="200">
-							</div> 
-							<span class="bpm-value">0</span>
-							<span class="bpm-font">bpm</span>
-							<button type="button" class="button-audition">sound on</button>
-			          	</div>
-			          	<div class="modal-footer">
-			    			 <button type="submit" class="btn btn-primary" value="save">Create</button>
-			    		</div>
-			        </form>
-			      </div> <!--modal-body-->
-			    </div> <!--modal-container -->
-			  </div>
-			</div> 	<!--projectModal-->
-		</div><!--end col-lg-6 -->
+	<% include partials/navbar %>
 		
-		<div class="col-lg-12">
-			<p>You can create your project first then starting to produce your own music track. You can also mix all the tracks into one piece of music.</p>
-		</div><!--end col-lg-12 -->
-
-		<!-- project list -->
-		<% projectList.forEach(function(el){ %>
-			<div class="col-lg-3">
-				<div class="layout-project">
-					<a href="/user_<%=userID%>/projects_<%=el.project_id%>/tracks">
-					<h3> <%= el.project_name %> </a> 
-					<button  type="button" class="button-edit-project"  
-							 id="editName"
-							 data-id=<%=el.project_id%>
-							 data-user=<%=userID%>
-							 data-toggle="modal"
-							 data-target="#nameEditModal" 
-							 data-whatever="@mdo">
-					<i class="fas fa-pen"></i></button>
-					</h3>
-					
-					
-					<h5>Tonality: <span style="text-transform: uppercase;"><%= el.tonality %></span></h5>
-					<h5>Tempo: <%= el.tempo %></h5>
-					
-					<button class="button-delete" data-id=<%= el.project_id %> data-user=<%=userID%> >delete</button>
-					<!--<button class="button-export">export</button>-->
-
-					
-				</div>
+		<div class="container">
+			<div class="col-lg-6">
+				<h2>My project List</h2>
 			</div>
-		<% }) %>
-	</div> <!--end container-->
+			<div class="col-lg-6">
+				<button  type="button" class="button-create-project" data-toggle="modal" data-target="#projectModal" data-whatever="@mdo">Create a new project</button>
+				
+				<!--modal: create project-->
+				<div class="modal fade" id="projectModal" tabindex="-1" role="dialog" aria-labelledby="projectModalLabel">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <!-- modal title -->
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="projectModalLabel">Create New Project</h4>
+				      </div>
+					  <!-- modal form -->
+				      <div class="modal-body">
+				        <form method="post" action="/user_<%=userID%>/projects">
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">Project Name:</label>
+				            <input type="text" name="projectName" class="form-control" id="project-name" value="" required>
+				          </div>
+				          <div class="form-group">
+				            <label for="message-text" class="control-label" >Tonality:</label>
+				            <select name="tonality" id="dropdown_key" class="form-control">
+				            	<option value="c">C</option>
+				            	<option value="d">D</option>
+				            	<option value="e">E</option>
+				            	<option value="f">F</option>
+				            	<option value="g">G</option>
+				            	<option value="a">A</option>
+				            	<option value="b">B</option>
+				            </select>
+				          </div>
+				            <div class="form-group">
+					            <label for="message-text" class="control-label" style="display: block;">Tempo:</label>
+					            <div class="tempo-slider">
+								  <input class="rangeBar" name="tempo" type="range" value="120" min="30" max="200">
+								</div> 
+								<span class="bpm-value">0</span>
+								<span class="bpm-font">bpm</span>
+				          	</div>
+				          	<div class="modal-footer">
+				    			 <button type="submit" class="btn btn-primary" value="save">Create</button>
+				    		</div>
+				        </form>
+				      </div> <!--modal-body-->
+				    </div> <!--modal-container -->
+				  </div>
+				</div> 	<!--projectModal-->
+			</div><!--end col-lg-6 -->
+			
+			<div class="col-lg-12">
+				<p>You can create your project first then starting to produce your music track.</p>
+			</div><!--end col-lg-12 -->
 	
-	<!--modal: edit name-->
-	<div class="modal fade" id="nameEditModal" tabindex="-1" role="dialog" aria-labelledby="nameEditModalLabel">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <!-- modal title -->
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="nameEditModalLabel">Edit</h4>
-	      </div>
-		  <!-- modal form -->
-	      <div class="modal-body">
-	      	
-	        <form method="post" id="editForm" action="/user_<%=userID%>/projects_:project">
-	          <div class="form-group">
-	            <label for="recipient-name" class="control-label">New Project Name:</label>
-	            <!--<input type="hidden" id="editNameId" name="id" value="">-->
-	            <input type="text" name="newProjectName" class="form-control" id="new-project-name" value="">
-	          </div>
-	          	<div class="modal-footer">
-	    			 <button type="submit" class="btn btn-primary" value="save">Submit</button>
-	    		</div>
-	        </form>
-	      </div> <!--modal-body-->
-	    </div> <!--modal-container -->
-	  </div>
-	</div> 	<!--Edit Name Modal-->
+			<!-- project list -->
+			<% projectList.forEach(function(el){ %>
+				<div class="col-lg-3">
+					<div class="layout-project">
+						<a href="/user_<%=userID%>/projects_<%=el.project_id%>/tracks">
+						<h3> <%= el.project_name %> </a> 
+						<button  type="button" class="button-edit-project"  
+								 id="editName"
+								 data-id=<%=el.project_id%>
+								 data-user=<%=userID%>
+								 data-toggle="modal"
+								 data-target="#nameEditModal" 
+								 data-whatever="@mdo">
+						<i class="fas fa-pen"></i></button>
+						</h3>
+						
+						
+						<h5>Tonality: <span style="text-transform: uppercase;"><%= el.tonality %></span></h5>
+						<h5>Tempo: <%= el.tempo %></h5>
+						
+						<button class="button-delete" data-id=<%= el.project_id %> data-user=<%=userID%> >delete</button>
+						<!--<button class="button-export">export</button>-->
 	
-	<!-- import local js  -->
-	<script src="/js/audition.js"></script>
-	<script src="/js/slider.js"></script>
-	<script src="/js/deletion.js"></script>
-	<script src="/js/updateData.js"></script>
+					</div>
+				</div>
+			<% }) %>
+		</div> <!--end container-->
+		
+		<!--modal: edit name-->
+		<div class="modal fade" id="nameEditModal" tabindex="-1" role="dialog" aria-labelledby="nameEditModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <!-- modal title -->
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="nameEditModalLabel">Edit</h4>
+		      </div>
+			  <!-- modal form -->
+		      <div class="modal-body">
+		        <form method="post" id="editForm" action="/user_<%=userID%>/projects_:project">
+		          <div class="form-group">
+		            <label for="recipient-name" class="control-label">New Project Name:</label>
+		            <!--<input type="hidden" id="editNameId" name="id" value="">-->
+		            <input type="text" name="newProjectName" class="form-control" id="new-project-name" value="" required>
+		          </div>
+		          	<div class="modal-footer">
+		    			 <button type="submit" class="btn btn-primary" value="save">Submit</button>
+		    		</div>
+		        </form>
+		      </div> <!--modal-body-->
+		    </div> <!--modal-container -->
+		  </div>
+		</div> 	<!--Edit Name Modal-->
+		
+		<!--import local js-->
+		<script src="/js/slider.js"></script>
+		<script src="/js/deletion.js"></script>
+		<script src="/js/updateData.js"></script>
 </body>
 </html>

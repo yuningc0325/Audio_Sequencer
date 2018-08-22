@@ -1,5 +1,9 @@
-/*form class about login signup forgetpassword*/
-.login-form,.signup-form,.forgetPassword-form{
+/* @author: Yu-Ning, Chang
+ * stylesheet of form
+ */
+
+.login-form,.signup-form,
+	.forgetPassword-form{
 	border: 1px solid white;
 	background: white;
 	box-shadow: rgba(0, 0, 0, 0.4) 0 3px 3px;
@@ -18,7 +22,6 @@
 }
 
 	
-/*this class can be applied to login, signup, forgetpassword input*/
 .form-input{
 	border: 1px solid #ccc;
 	padding: 10px;

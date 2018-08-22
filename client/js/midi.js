@@ -1,3 +1,12 @@
+/**
+* @author: Yu-Ning, Chang
+* Bind Midi event 
+* Code refernce:
+* Alexey Bondarenko(2017).Tutorial. How to create a MIDI synthesizer with MIDI API and Node JS.
+* Retrieved from https://medium.com/nebo-15/tutorial-how-to-create-midi-synthesizer-with-midi-api-and-node-js-48d41c162009
+* 
+*/
+
 /* global $ navigator */
 
 /* midiArr is used to store the association between midi input and buffer context (index of BufferList) */
@@ -68,7 +77,6 @@ function useMIDIMessage(midiMessage) {
 }
 
 function onMIDIFailure(error) {
-    // when we get a failed response, run this code
     console.log("No access to MIDI devices or your browser doesn't support WebMIDI API. Please use WebMIDIAPIShim " + error);
 }
 

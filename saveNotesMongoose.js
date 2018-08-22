@@ -1,5 +1,14 @@
-// this file is used for saving notes of different instruments in different tonalities.
-
+/**
+ * @author: Yu-Ning, Chang 
+ * This file is used to save notes of different instruments in different tonalities to MongoDB.
+ * 
+ * API I use in my code, license details can be found in "node_modules" package.
+ * =====================
+ * "mongoose": "^5.1.7"
+ * # License Copyright (c) 2010 LearnBoost &lt;dev@learnboost.com&gt;
+ *
+ */
+ 
 var mongoose=require("mongoose");
 // mongoDB connection
 mongoose.connect("mongodb://localhost/instrument");
@@ -260,9 +269,6 @@ var strings_b= new Strings({
                 "/sound/strings/b3.mp3","/sound/strings/sharp_c4.mp3","/sound/strings/sharp_d4.mp3","/sound/strings/e4.mp3","/sound/strings/sharp_f4.mp3","/sound/strings/sharp_g4.mp3","/sound/strings/sharp_a4.mp3",
                 "/sound/strings/b4.mp3","/sound/strings/sharp_c5.mp3","/sound/strings/sharp_d5.mp3","/sound/strings/e5.mp3","/sound/strings/sharp_f5.mp3","/sound/strings/sharp_g5.mp3","/sound/strings/sharp_a5.mp3"]
     }) 
-
-
-
 
 
 

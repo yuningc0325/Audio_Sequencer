@@ -1,4 +1,8 @@
-/*build the css code through Protoio, Inc. website */
+/* @author: Code produced through Protoio, Inc. service
+ * https://proto.io/freebies/onoff/
+ * stylesheet of layout
+ */
+
 .onoffswitch {
     position: relative; width: 120px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;

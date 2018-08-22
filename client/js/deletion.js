@@ -1,10 +1,15 @@
+/**
+* @author: Yu-Ning, Chang
+* Delete data through AJAX.
+*/
+
+/* global $*/
 $(document).ready(function(){
-    
-    // Project delete 
+    // Delete the project through AJAX
     $('.button-delete').on('click',function(){
-        var id=$(this).data('id');
-        var userID=$(this).data('user');
-        var url='/user_'+userID+'/projects_'+id;
+        var id=$(this).data('id'),
+            userID=$(this).data('user'),
+            url='/user_'+userID+'/projects_'+id;
         if(confirm("are you sure?")){
             $.ajax({
                 url: url,
@@ -20,13 +25,12 @@ $(document).ready(function(){
         }
     });
     
-    // track delete
+    // Delete the track through AJAX
     $('.button-delete-tracks').on('click',function(){
-        var id=$(this).data('id');
-        var userID=$(this).data('user');
-        var projectID=$(this).data('project')
-        
-        var url='/user_'+userID+'/projects_'+projectID+'/tracks_'+id;
+        var id=$(this).data('id'),
+            userID=$(this).data('user'),
+            projectID=$(this).data('project'),
+            url='/user_'+userID+'/projects_'+projectID+'/tracks_'+id;
         if(confirm("are you sure?")){
             $.ajax({
                 url: url,
@@ -41,6 +45,4 @@ $(document).ready(function(){
             });
         }
     });
-    
-    
 });

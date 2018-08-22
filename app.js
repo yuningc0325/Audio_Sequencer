@@ -1,15 +1,26 @@
+/**
+ * @author: Yu-Ning, Chang 
+ * This file is used to configure routes.
+ * 
+ * API I use in my code: (license details can be found in "node_modules" package.)
+ * =====================
+ * "express": "^4.16.3"
+ * "body-parser": "^1.18.3"
+ * "ejs": "^2.6.1"
+ */
+
 var express     = require("express"),
-    bodyPaser   =require("body-parser");
+    bodyParser   =require("body-parser");
 var app=express();
 
-// read the files through route setting 
+// Define the root for static files like EJS, CSS, and JavaScript.
 app.use(express.static("client"));
-// read the ejs without doctype
+// Define view engines to Ejs.
 app.set("view engine","ejs");
-// use body parser to get elements from ejs
-app.use(bodyPaser.json());
-app.use(bodyPaser.urlencoded({extended:true}));
-//connect to server
+// Use body parser to get parameters from Ejs files.
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+//Connect to server
 app.listen(process.env.PORT,process.env.IP,function(){
    console.log("server connceted"); 
 });
@@ -34,6 +45,8 @@ app.use(tracks);
 var sequencer=require('./routes/sequencer.js');
 app.use(sequencer);
 
+
+// "Other routes" will lead users to error page.
 app.get('/*',function(req,res){
     res.render('errorPage')
 })

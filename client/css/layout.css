@@ -1,4 +1,7 @@
-/*border style for project page*/
+/* @author: Yu-Ning, Chang 
+ * stylesheet of layout
+ */
+
 .layout-project,.layout-track-console{
 	border: 2px solid #7eacac;
 	box-shadow: rgba(0, 0, 0, 0.4) 0 1.5px 1.5px;
@@ -24,7 +27,6 @@
 }
 
 		
-/*console under the music production board*/
 .layout-music-console{
 border: 1px solid #E3E1E1;
 	box-shadow: rgba(0, 0, 0, 0.4) 0 2px 2px;

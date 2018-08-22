@@ -1,4 +1,7 @@
-
+/* @author: Andrew Karasek & Yu-Ning, Chang 
+ * stylesheet of knob
+ * Code reference: Andrew Karasek. Dope Knobs #2 - Two Way Knob. Retrieved from https://codepen.io/prythm/
+ */
 
 knob-input{
   width: auto;
@@ -24,16 +27,6 @@ knob-hand{
 
 /*knob*/
 knob-face{
-/* display: inline-block;
-  width: 10em;
-  height: 10em;
-  border: 1em solid #E3E1E1;
-  box-sizing: border-box;
-  border-radius: 10em;
-  cursor: pointer;
-  position: absolute;
-  background-color: #ffffff;
-  z-index: 2;*/
 
     display: inline-block;
     width: 8em;
@@ -43,7 +36,6 @@ knob-face{
     border-radius: 10em;
     cursor: pointer;
     position: absolute;
-    position: ;
     background-color: #ffffff;
     z-index: 2;
 }
@@ -52,7 +44,7 @@ knob-face{
   font-size: .6em;
 }
 
-/*text for telling the value*/
+/*It shows the value*/
 .knobInput-label{
   position: relative;
   bottom: 45px;

@@ -1,12 +1,19 @@
-var rangeBar = $('.rangeBar');
-var bpm = $('.bpm-value');
+/**
+* @author: Yu-Ning, Chang
+* Change value immediately according to the value on range bar.
+*/
 
-// get the initialised value
+/* global rangeBar bpm $*/
+
+var rangeBar = $('.rangeBar'),
+    bpm = $('.bpm-value');
+
+// Get the initialised value
 var v = rangeBar.attr('value');
-// initialise the bpm text
+// Initialise the bpm text
 bpm.text(v);
 
-// slide event
+// Slide event
 rangeBar.on('input', function(){
   bpm.text(this.value);
 });

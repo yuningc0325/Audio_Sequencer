@@ -1,16 +1,10 @@
-/*this code is from codepen 
-author:Andrew Karasek*/
-
-/* replace input range slider with a knob,
-looks for all standard range attributes
-min, max, step, value,
-also uses:
-'data-degree-range', max 360, degrees around which to plot scale
-'data-degree-offset', amount to initially rotate control
-when value is updated it triggers the 'input' event on original element
+/**
+* @author: Andrew Karasekv
+* Dynamically change values and the user interface when spinning the knob on the console.
+* Code reference: Andrew Karasek. Dope Knobs #2 - Two Way Knob. Retrieved from https://codepen.io/prythm/
 */
 
-
+/* global HTMLElement newPos Event $*/
 
 var tagBase = "knob";
 var newElms = ["input","face", "hand"];
@@ -23,20 +17,15 @@ newElms.forEach(function(newElm){
 
 function rangeKnob(elm, progWidth, progColor, className) {
 
-			
   			var focused = null;
   			var mouse = {};
   			var speed =  1;
 				var minVal, maxVal, min, max, degRange, valRange, rosetta, label, step, startingValue;
   
-  
   			if(!className){
           className= "";
         }
   
-
-			
-
   			for(var i = 0; i<elm.length; i++){
           
             var node = elm[i];
@@ -51,7 +40,6 @@ function rangeKnob(elm, progWidth, progColor, className) {
             valRange = maxVal- minVal;
             rosetta = degRange / valRange;
 						startingValue = node.getAttribute("value");	
-          
   
             var parent = node.parentNode;
             var sibling = node.nextSibling;   	
@@ -63,7 +51,6 @@ function rangeKnob(elm, progWidth, progColor, className) {
           	face.className = "knobInput-face";
            	
             rotate(face, min);
-
             
           	var label = document.createElement("label");
          		label.className = "knobInput-label";
@@ -81,7 +68,6 @@ function rangeKnob(elm, progWidth, progColor, className) {
 					knob.appendChild(label);
           face.appendChild(hand);
 					knob.appendChild(node);
-         
                 
           if(sibling){
             parent.insertBefore(knob, sibling)
@@ -89,23 +75,13 @@ function rangeKnob(elm, progWidth, progColor, className) {
             parent.appendChild(knob);
           }
           
-          
           if(startingValue){
-            
-            	
             	var degrees = (startingValue - minVal) * rosetta;
 							degrees = parseInt(degrees) + parseInt(min);
             	rotate(face, degrees);
              
               var rad = parseInt(getCSS(face, "width"))/ 2;
-          
-      
-							
             }
-            
-
-
-          
 
           knob.addEventListener("mousedown", function(e){
               focused = this;
@@ -130,19 +106,13 @@ function rangeKnob(elm, progWidth, progColor, className) {
          		if(rot !== 0){
               rot=parseInt(rot.replace("rotate(", "").replace("deg)", ""));
             }
-						      
 						var newRot = rot + diff * speed;  
-  
-            
             if(newRot < min){
               newRot = min;
             }
-            
             if(newRot > max){
               newRot = max;
             }
-    			
-
             var newVal = (newRot-min) / focused.getAttribute("data-rosetta") + parseInt(focused.getAttribute("min"));
            	var step = originalNode.getAttribute("step");
            	var stepped = (~~(newVal/step) * step);
@@ -156,10 +126,7 @@ function rangeKnob(elm, progWidth, progColor, className) {
             } else{
                 drawArc(focused.firstChild.nextSibling, rad * 2, newRot, min, progWidth, progColor);
             }
-
                     
-		 				//focused.firstChild.style.transform = "rotate("+ newRot +"deg)";
-            
             rotate(focused.firstChild, newRot);
             
             focused.childNodes[2].innerHTML = stepped;
@@ -171,14 +138,11 @@ function rangeKnob(elm, progWidth, progColor, className) {
           }	
         });
   
-  
   			document.addEventListener("mouseup", function(e){
 						focused = null;
           	document.body.className = document.body.className.replace("noSelection", "");
         });
   
-   
-            
   		  var w = parseInt(getCSS(face, "width"));
         
 				w = w + progWidth;
@@ -233,10 +197,4 @@ function getCSS(elm, prop){
   return window.getComputedStyle(elm, prop).getPropertyValue(prop);
 }
 
-
 rangeKnob(document.querySelectorAll('.blue'), 20, "#69abcd");
-
-
-
-
-

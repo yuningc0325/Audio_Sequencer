@@ -1,23 +1,38 @@
+/**
+ * @author: Yu-Ning, Chang 
+ * This file is used to configure project routes.
+ * 
+ * API I use in my code: (license details can be found in "node_modules" package.)
+ * =====================
+ * "express": "^4.16.3"
+ */
+ 
 var express=require('express'),
     router=express.Router(),
+    // Use pool configured in databasePool.js to execute postgreSQL command.
     pool=require('../models/databasePool.js');
 
 
-// query projects information from "porjects table" 
+/**
+ * "GET" request
+ * Render the project page 
+ */ 
 router.get("/user_:user/projects",function(req, res) {
-    var userID=req.params.user;
-    var projectID=req.params.project;
+    var userID=req.params.user,
+        projectID=req.params.project;
   // query user's all projects     
-  pool.query('SELECT * FROM projects WHERE user_id=$1', [userID],(err, result) => {
+  pool.query('SELECT * FROM projects WHERE user_id=$1 ORDER BY project_id DESC', [userID],(err, result) => {
         if(err){console.log("Failed "+ err);}
         var projectList=result.rows;
         res.render("projects",{projectList:projectList,userID:userID});
-        // pool.end();
     })
 });
 
 
-// insert projects information( tempo,tonality,name) into "projects table"
+/**
+ * "POST" request
+ *  Create a project with name, tempo, and tonality.
+ */ 
 router.post("/user_:user/projects",function(req,res){
         var userID=req.params.user;
         var projectName=req.body.projectName;
@@ -31,9 +46,12 @@ router.post("/user_:user/projects",function(req,res){
             }
             res.redirect('/user_'+userID+'/projects');
         })
-    });
+});
 
-// delete projects **wait for refactoring
+/**
+ * "Delete" request
+ *  Delete the project and remove it from the project db.
+ */ 
 router.delete("/user_:user/projects_:project",function(req,res){
     pool.query('DELETE FROM projects WHERE project_id=$1',
         [req.params.project],(err,result)=>{
@@ -44,7 +62,11 @@ router.delete("/user_:user/projects_:project",function(req,res){
         })
 });
     
-// edit project name
+
+/**
+ * "POST" request
+ *  Update the project name.
+ */ 
 router.post("/user_:user/projects_:project",function(req,res){
     var userID=req.params.user;
     var projectID=req.params.project;

@@ -1,17 +1,46 @@
-
+/**
+ * @author: Yu-Ning, Chang 
+ * This file configures user identity routes.
+ * 
+ * API I use in my code, license details can be found in "node_modules" package.
+ * =====================
+ * "express": "^4.16.3"
+ */
 var express=require('express'),
     router=express.Router(),
+    // Use pool configured in databasePool.js to execute postgreSQL command.
     pool=require('../models/databasePool.js');
 
+// It tells a user's account is valid or not. Default value is true.
+var accountCheck=true;
 
-router.get('/demo/log_in',function(req, res) {
-    res.render('demoLogin',{accountCheck:true});
+
+/**
+ * "GET" request
+ * Render the log_in page
+ */ 
+router.get('/',function(req, res) {
+    res.render('demoLogin',{accountCheck:accountCheck});
 });
 
+/**
+ * "GET" request
+ * Render the log_in page
+ */ 
+router.get('/demo/log_in',function(req, res) {
+    res.render('demoLogin',{accountCheck:accountCheck});
+});
+
+/**
+ * "POST" request
+ *  Verify the user's account and redirect to the project page.
+ */ 
 router.post('/demo/log_in',function(req,res){
+    
+    // SQL query
     pool.query('SELECT COUNT (user_id) FROM member WHERE account=$1',[req.body.account],(err,result)=>{
        if(err){console.log(err)}
-       // if the account does exist
+       // If the user's account does exist, it redirects to the project page. Otherwise, it returns 'false' value to the front-end.
        if(result.rows[0].count!=0){
            pool.query('SELECT * FROM member WHERE account=$1',[req.body.account],(err,result)=>{
                if(err){console.log(err)}
@@ -19,13 +48,11 @@ router.post('/demo/log_in',function(req,res){
            })
        }else{
            console.log("account does not exist");
-           res.render('demoLogin',{accountCheck:false});
+           accountCheck=false;
+           res.render('demoLogin',{accountCheck:accountCheck});
        }
-    }
-    );
+    });
 });
-
-
 
 module.exports=router;
 

@@ -1,44 +1,53 @@
 /**
- * Reference: MDN Web Doc
- * https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/ondataavailable
- */ 
+* @author: Yu-Ning, Chang
+* Mouse click event about buttons on console (clear, save, leave).
+* 	  
+* @global variables
+* ==================
+* selectedBufferList(Array), notesArray(Array), BeatOffset(number)
+*		  
+* @global functions
+* ==================		  
+* removeAllNotes, progressBarOn, startRecording, progressBarOff
+* 
+* Code reference:
+* 1.Boris Smus(2013) Web Audio API .O'Reilly Media 
+* 2.https://developer.mozilla.org/en/docs/Web/API/Web_Audio_API
+*/ 
  
  /* global $
-    parameters- mediaRecorder selectedBufferList BeatOffset Blob
-    functions-  removeAllNotes progressBarOn startRecording progressBarOff*/
+    mediaRecorder selectedBufferList BeatOffset Blob
+    removeAllNotes progressBarOn startRecording progressBarOff*/
 
-// Chunks array can store blob data
+// Store blob data
 var chunks=[];
 
-// Icon hover effect 
+// Hover effect
 $('.button-on-edition-console').on('mouseenter mouseleave',
 						function(){
 							$(this).children().toggleClass('icon-mainPage-hover');
-						})
+						});
 					
-// Clear all clicked notes and remove them from bufferList
 $('#clean-btn').on('click',function(){
-    removeAllNotes();
-})
+                            removeAllNotes();
+                    })
 
-// Audio Process including recording sound from sequencer and audio data conversion  
 $('#save-btn').on('click',function(){
-   saveAudio();
-})
+                        saveAudio();
+                    })
 
 
 function saveAudio(){
-     // loading progress bar
+     // Loading the progress bar
     progressBarOn();
-    let lengthOfSelectedBuffer=selectedBufferList.length;
-    // start recording
+    var lengthOfSelectedBuffer=selectedBufferList.length;
+    // Start recording
     mediaRecorder.start();
     console.log(mediaRecorder.state+' start recording......');
-    // produce sound and use startRecording function to make sound connect to mediaStream destination
 	for(let i=0;i<lengthOfSelectedBuffer;i++){
 		startRecording(selectedBufferList[i],i,BeatOffset*i);
 	}
-	// **Time spent on recording should be dynamic.
+	
 	setTimeout(function(){
 	    mediaRecorder.stop();
 	    progressBarOff();
@@ -47,19 +56,19 @@ function saveAudio(){
     
 }
 
-// When media recorder start, it pushs blob data into chuncks array
+// When the media recorder start, it pushes blob data into chuncks array.
 mediaRecorder.ondataavailable = function(event) {
        // push each chunk (blobs) in an array
        chunks.push(event.data);
 };	
 
 
-// When media recorder stop, it reads data from chuncks array and provide user a downlaod address.
+// When media recorder stop, it reads data from chuncks array and pass it to backend.
 mediaRecorder.onstop = function(evt) {
    // Create blob data in audio(wav) type.
    var audioBlob = new Blob(chunks, { 'type' : 'audio/wav; codecs=opus' });
    
-   // Using AJAX to pass data to a given route
+   // Use AJAX to pass data to the given route
    var user=$('#save-btn').data('user');
    var project=$('#save-btn').data('project');
    var track=$('#save-btn').data('track');
@@ -82,10 +91,10 @@ mediaRecorder.onstop = function(evt) {
           console.log(err);
       }
    })
-   
-//reassign chunnks array
-  chunks=[];
- };
+    //reassign chunnks array
+    chunks=[];
+};
+
 
 $('#leave-btn').on('click',function(){
     var user=$(this).data('user');

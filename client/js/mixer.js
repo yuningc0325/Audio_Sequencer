@@ -1,88 +1,105 @@
-/*global $ MediaRecorder*/
-
-var context,    
+/**
+* @author: Yu-Ning, Chang
+* Process audio such as playing, mixing, recording and sound adjustment through HTML5 Web Audio API
+* (For tracks)	  
+* @global variables
+* ==================
+* tempo(number), timeLength(number), trackArray(Array), noContent(Boolean), width(number)
+*		  
+* @global functions
+* ==================		  
+* progressBarOn progressBarOff loadingControl
+* 
+* Code reference:
+* 1.Boris Smus(2013) Web Audio API .O'Reilly Media 
+* 2.https://developer.mozilla.org/en/docs/Web/API/Web_Audio_API
+* 
+*/
+/*global $ tempo timeLength trackArray noContent progressBarOn progressBarOff loadingControl width
+	Blob URL MediaRecorder*/
+	
+var context,
     dest,
     mediaRecorder,
     trackBuffer=[],
     stopPlayArray=[],
     chunks=[],
     gainNode,
-    gainNode1,
+    gainNodeTmp,
     convolver,
     convolverGain,
-    filter1,
+    lowShelfEQ,
     compression,
     speaker,
     BeatOffset=60/tempo;
 
-window.requestAnimationFrame = (function(){ return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-function(callback){
-      window.setTimeout(callback, 1000 / 60);
-      console.log('requestAnimationFrame work');
-    };
-})();
-
-
-/**Make sure Web Audio API can be used in different browsers*/
+/**
+ * @description This function can check if HTML5 web audio API is compatible with users' browser or not.
+ */
 function checkUsable(){
- 	var contextClass = (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext);
+ 	var contextClass = (window.AudioContext || window.webkitAudioContext ||
+ 			window.mozAudioContext || window.oAudioContext || window.msAudioContext);
 	if(contextClass){
 		context=new contextClass();
-		// create media stream destination
+		// Create a media stream destination node
 		dest=context.createMediaStreamDestination();
 		mediaRecorder = new MediaRecorder(dest.stream);
-		// create gainNode
+		// Create a master gain node
 		gainNode=context.createGain();
-		gainNode1=context.createGain();
-		// create convolver
+		// Create a temporary gain node
+		gainNodeTmp=context.createGain();
+		// Create a convolver(reverb) node
 		convolver=context.createConvolver();
-		// create convolver gain
+		// Create a convolver(reverb) gain node
 		convolverGain= context.createGain();
+		// Create a dynamical compression node
 		compression = context.createDynamicsCompressor();
 		
-		//create EQ
+		// Create a lowshelf filter node
+		lowShelfEQ=context.createBiquadFilter();
+		lowShelfEQ.type="lowshelf";
+		lowShelfEQ.frequency.value=1000;
+		// Assign lowShelfEQ a default value
+		lowShelfEQ.gain.value=0;
 		
-		filter1=context.createBiquadFilter();
-		filter1.type="lowshelf";
-		filter1.frequency.value=1000;
-		// defalut gain value 
-		filter1.gain.value=0;
-		
-		//User's destination 
+		// Create a destination node (user's speaker)
 		speaker=context.destination;
-		
-		// filter1=context.createBiquadFilter();
-		// filter1.type=filter1.lowshelf;
-		// filter1.frequency.value=1000;
-		// filter2=context.createBiquadFilter();
-		// filter2.type=filter2.highshelf;
-		// filter2.frequency.value=100;
-		
 		console.log("Web Audio API can work in this browser")
 	}else{
 		console.log("something went wrong");
 	}
  }
- 
+
 checkUsable();
- 
+
+/**
+ * @description This function can adjust the sound volume.
+ * @param volume. Number from 0-100
+ */
 function volumeAdjustment(volume){
 	gainNode.gain.value=volume*0.05;
-	gainNode1.gain.value=volume*0.05;
+	gainNodeTmp.gain.value=volume*0.05;
 } 
-
+/**
+ * @description This function can adjust the level of reverb. 
+ * @param reverb. Number from 0-100
+ */
 function reverbAdjustment(reverb){
 	convolverGain.gain.value=reverb*0.05;
 }
-
+/**
+ * @description This function can adjust the level of lowShelf. 
+ * @param lowShelf. Number from -40 to 40
+ */
 function bassAdjustment(lowShelf){
-	filter1.gain.value=lowShelf*1;
+	lowShelfEQ.gain.value=lowShelf*1;
 }
  
  
  /**
- *	Get the audio from external audio file(url stored in tracks table) and store buffers in trackBuffer array
- *	@params address. url
+ *	@description Get an audio buffer through URL and store buffers in the trackBuffer array which
+ *  can be used in other functions. 
+ *	@params url. String
  */
 function soundBuffer(url){
 	    var request= new XMLHttpRequest();
@@ -96,6 +113,9 @@ function soundBuffer(url){
 		request.send();
 }
 
+/**
+ *	@description Get an audio buffer through URL and assign the buffer to convolver node.
+ */
 function impluseBuffer(){
 	    var request= new XMLHttpRequest();
 		request.open('GET', '/sound/EchoThiefImpulseResponseLibrary/Underpasses/5UnderpassValencia.wav', true);
@@ -110,70 +130,74 @@ function impluseBuffer(){
 
 
 /**
- * This function can play a note with a given audio buffer
- * @params buffer. audiobuffer  
- * @params canvasIndex, number
- * @params dest. It can be user speaker or media record destination
+ * @description This function can play sound with a given audio buffer
+ * @params buffer. Audiobuffer  
+ * @params canvasIndex, Number
+ * @params dest. It can be a user's speaker or a media record destination.
  */
 
 function playSound(buffer,canvasIndex,dest){
-	// create a source 
+	// Create a source 
 	var source = context.createBufferSource(); 
 	source.buffer = buffer; 
 	
-	
-	// source.connect(filter1);
+	// Create an analyser node
 	var	analyser= context.createAnalyser();
+	// Connect source to analyser node.
 	source.connect(analyser);
-	// filter1.connect(analyser);
 	analyser.fftSize=512;
 	var bufferLength = analyser.frequencyBinCount; 
 	var dataArray = new Uint8Array(bufferLength);
+	// When canvas starts drawing, it will clear all rectangle first.
 	this['content'+canvasIndex].clearRect(0,0,900,100);
-
+	
+	/**
+	 * @description Draw a spectrum on the canvas dynamically.
+	 */
 	var draw=function(){
-		// get data dynamically
+		// Draw a spectrum dynamically
 		var drawVisual = requestAnimationFrame(draw);
-		analyser.getByteFrequencyData(dataArray);
-		var barWidth=900/bufferLength*1.5;
-		var height;
-		var x=0;
-		
-			for(let j = 0; j < bufferLength; j++) {
-				// make the highest bar within max height(100)	
-		        height = dataArray[j]*100/256;
-		        this['content'+canvasIndex].fillStyle='#7eacac';
-		        this['content'+canvasIndex].fillRect(x,100-height/2,barWidth,height/2);
-		        x += barWidth + 2;
+			analyser.getByteFrequencyData(dataArray);
+		var barWidth=width/bufferLength*1.5,
+		    height,
+			x=0;
+		for(let j = 0; j < bufferLength; j++) {
+	        height = dataArray[j]*100/256;
+	        this['content'+canvasIndex].fillStyle='#7eacac';
+	        this['content'+canvasIndex].fillRect(x,100-height/2,barWidth,height/2);
+	        x += barWidth + 2;
 		}
 	}	
+	
 	draw();
 	
-	analyser.connect(filter1);
-	filter1.connect(gainNode);
+	// Connect the analyser node to the lowShelfEQ node.
+	analyser.connect(lowShelfEQ);
+	// Connect the lowShelfEQ node to the gain node.
+	lowShelfEQ.connect(gainNode);
+	// Connect the gain node to the compression node.
 	gainNode.connect(compression);
-	source.connect(gainNode1);
-	gainNode1.connect(convolver);
+	// Connect the source to the temporary gain node.
+	source.connect(gainNodeTmp);
+	// Connect the temporary gain node to the convolver node.
+	gainNodeTmp.connect(convolver);
+	// Connect the convolver node to the convolver gain node.
 	convolver.connect(convolverGain);
+	// Connect the convolver gain node to the compression node.
 	convolverGain.connect(compression);
-	
-	// analyser.connect(gainNode);
-	// source.connect(convolver);
-	// gainNode.connect(compression);
-	// convolver.connect(convolverGain);
-	// convolverGain.connect(compression);
+	// Connect the compression node to the destination node.
 	compression.connect(dest);
+	// Start playing 
 	source.start(0);
 	
+	// Push all source object which is ready to be deleted to stopPlayArray.
 	stopPlayArray.push(source);
 }
 
 
 /**
- * This function can record sound 
- * @params buffer. audiobuffer  
+ * @description Stop playing all track
  */
-
 
 function stopSinglePlay(){
 	stopPlayArray.forEach(function(el){
@@ -182,47 +206,52 @@ function stopSinglePlay(){
 	stopPlayArray=[];
 }
 
+/**
+ * @description Control click event of play button.
+ */
 function trackPlayToggle(){
+	// 'Play' button event
 	$('.button-track-playback').on('click',function(){
-	
-	trackBuffer.forEach(function(el,i,){
-			playSound(el,i,speaker);
-	});
-	
-	$(this).children().removeClass('fa-play');
-	$(this).removeClass('button-track-playback');
-	$(this).children().addClass('fa-stop');
-	$(this).addClass('button-track-stop');
-	$(this).unbind('click');
-	
-	
-	var autoStop=setTimeout(function(){
-		stopSinglePlay();
-		$('.button-track-stop').children().removeClass('fa-stop');	
-		$('.button-track-stop').children().addClass('fa-play');
-		$('.button-track-stop').addClass('button-track-playback');
-    	$('.button-track-stop').unbind('click');
-		$('.button-track-stop').removeClass('button-track-stop');
-		trackPlayToggle();
-		// add buffer 1 sec
-	},(timeLength+1)*1000);
-	
-	$('.button-track-stop').on('click',function(){
-		// if click stop button, ignore autoStop function
-		window.clearTimeout(autoStop);
-		stopSinglePlay();
-    	$(this).children().removeClass('fa-stop');
-		$(this).removeClass('button-track-stop');
-		$(this).children().addClass('fa-play');
-		$(this).addClass('button-track-playback');
+		trackBuffer.forEach(function(el,i,){
+				playSound(el,i,speaker);
+		});
+		
+		$(this).children().removeClass('fa-play');
+		$(this).removeClass('button-track-playback');
+		$(this).children().addClass('fa-stop');
+		$(this).addClass('button-track-stop');
 		$(this).unbind('click');
-		trackPlayToggle();
+		
+		// If a track finishs playing, it will automatically stop.
+		var autoStop=setTimeout(function(){
+			stopSinglePlay();
+			$('.button-track-stop').children().removeClass('fa-stop');	
+			$('.button-track-stop').children().addClass('fa-play');
+			$('.button-track-stop').addClass('button-track-playback');
+	    	$('.button-track-stop').unbind('click');
+			$('.button-track-stop').removeClass('button-track-stop');
+			trackPlayToggle();
+		// Plus one second for preventing the record from being cut off abruptly.
+		},(timeLength+1)*1000);
+	
+		// 'Stop' button event
+		$('.button-track-stop').on('click',function(){
+			// If stop button is clicked, 'autoStop' function should be interrupted.
+			window.clearTimeout(autoStop);
+			stopSinglePlay();
+	    	$(this).children().removeClass('fa-stop');
+			$(this).removeClass('button-track-stop');
+			$(this).children().addClass('fa-play');
+			$(this).addClass('button-track-playback');
+			$(this).unbind('click');
+			trackPlayToggle();
+		})
 	})
-})
-
 }
 
-
+/**
+ * @description Capture value from the corresponding knob every 0.3sec.
+ */
 function startInterval(){
 	setInterval(function(){
 	   var volume=$('#volume').parent().text();
@@ -232,13 +261,17 @@ function startInterval(){
 	   reverbAdjustment(reverb);
 	   bassAdjustment(bass);
 	   console.log('Volume: '+volume);
-	   //console.log('Reverb: '+reverb);
 	},300);
 }
 
 
-
+/**
+ * @description Mix all track
+ */
 function mix(){
+	
+	stopSinglePlay();
+	
 	trackBuffer.forEach(function(el,i,){
 			playSound(el,i,dest);
 	});
@@ -247,7 +280,6 @@ function mix(){
 	console.log('start recording')
 	mediaRecorder.start();
 	
-	// **mix stop problem 
 	setTimeout(function(){
 		progressBarOff();
 	    mediaRecorder.stop();
@@ -262,23 +294,22 @@ $('.button-export-tracks').on('click',function(){
 })
 
 
-// When media recorder start, it pushs blob data into chuncks array
+// When the media recorder start, it pushes blob data into chuncks array.
 mediaRecorder.ondataavailable = function(event) {
-       // push each chunk (blobs) in an array
        chunks.push(event.data);
 };	
 
 
-// When media recorder stop, it reads data from chuncks array and provide user a downlaod address.
+// When the media recorder stop, it reads data from chuncks array and provides users a downlaod address.
 mediaRecorder.onstop = function(evt) {
    // Create blob data in audio(wav) type.
-   var audioBlob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-   var downloadUrl = URL.createObjectURL(audioBlob);
-   // open a new tab with audio player 
+   var audioBlob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' }),
+	   downloadUrl = URL.createObjectURL(audioBlob);
+   // Open a new tab with an audio player 
    window.open(downloadUrl);
-   // reassign the chunks
+   // Reassign the chunks
   chunks=[];
- };
+};
 
 
 $(document).ready(
@@ -290,15 +321,17 @@ $(document).ready(
 		})
 		trackPlayToggle();
 		
-	/**Make the sequencer available. Using setTimeout can make sure the sequencer is ready for user. */
+	/**
+	 * @description Make the sequencer available.
+	 * Using setTimeout can make sure the sequencer is ready for user.
+	 */
 	setTimeout(function(){
 		if(noContent){
 			console.log('No track')
 		}else{
 			loadingControl();
 		}
-	},2500);	
-	
+	},2000);	
 	
 	setTimeout(function(){
 		window.location.reload(true);

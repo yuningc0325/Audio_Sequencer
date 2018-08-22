@@ -1,4 +1,10 @@
-/*reference : https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_loader*/
+/* @author: W3Schools 
+ * stylesheet of layout
+ * Code reference: 
+ * https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_loader
+ * https://www.w3schools.com/howto/howto_js_progressbar.asp
+ */
+
 .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
@@ -24,7 +30,6 @@
   100% { transform: rotate(360deg); }
 }
 
-/*transparent layer in main page*/
 .board-layer{
     width:100%; 
     height:100%; 
@@ -35,8 +40,6 @@
 }
 
 
-
-/*reference : https://www.w3schools.com/howto/howto_js_progressbar.asp*/
 #myBar{
     width: 10%;
     height: 30px;

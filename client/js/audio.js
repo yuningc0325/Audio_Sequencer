@@ -1,60 +1,61 @@
 /**
- * @global notesSoundArr contains 4 instrument arrays
- * notesSoundArr[0]: piano, notesSoundArr[1]: strings, notesSoundArr[2]: windwood, notesSoundArr[3]: synth
- * @global notesArray contains 21 notes from c2 to b4
- * @global Number: currentInstrument is the instrument user has chosen 
- * 0: piano,1: strings, 2 windwood, 3 synth
- * @global tempo: b.p.m (beats per minute) of the song
- * When using Web Audio API, there are three steps
- * 1. Make sure the browser can run the API, if it works then the context will be created.
- * 2. Produce sound buffer from outside audio source(mp3, wav,...) then convert it into sound buffer
- * 3. Make a function for playing sound with created buffer. 
- *      3.1 create source buffer
- *      3.2 create filters, gains,... (optional)
- *      3.3 create destination object
- *      3.4 connect all together in order.
- * Code Reference: https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
- * 
- */
- 
- /*external variables and functions*/
- /* global $ tempo notesArray source1 notesSoundArr MediaRecorder pointerAnimation stopAnimation
+* @author: Yu-Ning, Chang
+* Process audio such as playing, recording and sound adjustment through HTML5 Web Audio API
+* (For sequencer)
+* 	  
+* @global variables
+* ==================
+* notesSoundArr(Array), notesArray(Array), tempo(number)
+*		  
+* @global functions
+* ==================		  
+* pointerAnimation stopAnimation clearAllTimeOut loadingControl
+* 
+* Code reference:
+* 1.Boris Smus(2013) Web Audio API .O'Reilly Media 
+* 2.https://developer.mozilla.org/en/docs/Web/API/Web_Audio_API
+* 
+*/
+
+ /* global $ tempo notesArray  notesSoundArr MediaRecorder pointerAnimation stopAnimation
 	clearAllTimeOut loadingControl
  */
 	 
- 	// notes from mongoDB
+ 	// Notes from mongoDB
  var bufferList= new Array(21),
- 	// interval (second) of each beats. bpm table :https://goo.gl/xqwV6z
+ 	// Time interval (second) of each beat. 
+ 	// bpm table :https://goo.gl/xqwV6z
  	BeatOffset =60/tempo,
  	// Audio context
  	context,
- 	// Array with audio sources which are about to be stopped.
+ 	// Array with audio sources which is used to be stopped.
  	removeArray=[],
- 	// store selected notes in an array
+ 	// Store notes that user selects.
  	selectedBufferList =new Array(16),
- 	// store the index of selectedBufferList array
+ 	// Store the index number of selectedBufferList array
  	indexOfSbf =new Array(16),
- 	//record buffer
- 	//https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/MediaRecorder
  	mediaRecorder,
- 	// new desitination that can store recorded sound 
  	dest,
  	gainNode;
 
+ // Assign selectedBufferList and indexOfSbf
  for(var i=0;i<16;i++){
  	selectedBufferList[i]=[];
  	indexOfSbf[i]=[];
  }
  
  
-/**Make sure Web Audio API can be used in different browsers*/
+/**
+ * @description This function can check if HTML5 web audio API is compatible with users' browser or not.
+ */
 function checkUsable(){
  	var contextClass = (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext);
 	if(contextClass){
 		context=new contextClass();
-		// create media stream destination
+		// Create a media stream destination node
 		dest=context.createMediaStreamDestination();
 		mediaRecorder = new MediaRecorder(dest.stream);
+		// Create a master gain node
 		gainNode=context.createGain();
 		gainNode.gain.value=0.5;
 		console.log("Web Audio API can work in this browser")
@@ -63,9 +64,11 @@ function checkUsable(){
 	}
  }
 
+
 /**
- *	Get the audio from external audio file (through url stored in MongoDB)
+ *  @description Get the audio from external audio file (through url stored in MongoDB)
  *	@params instrument. number from 0-3
+ *  0: Piano, 1:Strings, 2:Woodwind, 3:Synth
  */
 function soundBuffer(instrument){
 	notesSoundArr[instrument].forEach(function(el,i){ 
@@ -74,7 +77,7 @@ function soundBuffer(instrument){
 		request.responseType = 'arraybuffer';
 		request.onload = function() { 
 			context.decodeAudioData(request.response, function(theBuffer) { 
-		       // reverse the order of buffer data so that the highest note can be put on the top of edtion board
+		       // Reverse the order of buffer data so that the highest note can be put on the top of sequencer
 		       bufferList[20-i]=theBuffer;
 			   }, function(err){console.log(err)}); 
 		}
@@ -83,22 +86,24 @@ function soundBuffer(instrument){
 }
 
 /**
- * This function can play a note with a given audio buffer
+ * @description This function can play a note with a given audio buffer
  * @params buffer. audiobuffer  
  */
 function playSound(buffer) {
-	// create a source 
+	// Create a source 
 	var source = context.createBufferSource(); 
 	source.buffer = buffer; 
-	// connect source to the gainNode
+	// Connect source to the gain node.
 	source.connect(gainNode);
-	// connect gainNode to destination
+	// Connect gainNode to the destination
 	gainNode.connect(context.destination);
-	// play the source 
+	// Start playing
 	source.start(0);
 }
-	
-/**Reassign the selectedBufferList when user change their instrument*/
+
+/**
+ * @description Reassign the selectedBufferList when users change their instrument
+ */	
 function reassignSelectedBuffer(){
 	for(let i=0;i<16;i++){
 		for(let j=0;j<selectedBufferList[i].length;j++){
@@ -107,7 +112,10 @@ function reassignSelectedBuffer(){
 	}
 }
 							
-/**Remove all notes from selectedBufferList when click 'clear' button*/
+							
+/**
+ * @description Remove all notes from selectedBufferList when clicking clear button.
+ */
 function removeAllNotes(){
 	for(var i=0;i<16;i++){
 		selectedBufferList[i]=[];
@@ -115,28 +123,30 @@ function removeAllNotes(){
 	$('.columes').contents().removeClass('notesContextClick');
 }
 
-/**When note division on sequencer is clicked, stores the clicked note in selectedBufferList, vice versa.*/
+
+/**
+ * @description When the note on sequencer is clicked, push the clicked note to selectedBufferList, vice versa.
+ */
 function triggerSound(){
 	for(var i=1;i<=16;i++){
 	    for(var j=3;j>0;j--){
 	        notesArray.forEach(function(el,k){
 	            var indexOfJ=j;
 	            var indexOfI=i-1;
+	            
+	            // Create click event of buttons on the sequencer
 	            $('#'+i+'_'+j+'_'+el.notes).on('click',function(){
 	            	  var sound= bufferList[k+21-7*indexOfJ];
 	            	  var indexOfSound =k+21-7*indexOfJ;
-	                  // Store notes in an array
-	                  // If division is not selected then adding the note to array, otherwise remove it.
+	                  // If the note is not selected then adding this note to the array, 
+	                  // otherwise, it will be removed.
 	                  if($(this).attr('class')=="notesContext notesContextClick"){
 	                  	 selectedBufferList[indexOfI].pop(sound);
 	                  	 indexOfSbf[indexOfI].pop(indexOfSound);
-	                  	 //console.log(sound+" on to off");
 	                  }else{
 	                  	selectedBufferList[indexOfI].push(sound);
 	                  	indexOfSbf[indexOfI].push(indexOfSound);
 	                    playSound(sound);
-	                    // console.log(sound);
-	                    // console.log(sound+" off to on");
 	                  }
 	                  $(this).toggleClass('notesContextClick');
 	            })
@@ -145,12 +155,14 @@ function triggerSound(){
 	}
 }
 
-/**Switch and control the status of sequencer*/
+/**
+ * @description Control click event of play button.
+ */
 function playToggle(){
 	
 	$('.button-main-playback').on('click',function(){
 		let lengthOfSelectedBuffer=selectedBufferList.length;
-		// Play notes in sequence 
+		// Play notes on sequence 
 		for(let i=0;i<lengthOfSelectedBuffer;i++){
 			startPlaying(selectedBufferList[i],i,BeatOffset*i);
 		}
@@ -171,12 +183,13 @@ function playToggle(){
 			stopAnimation();
 			clearAllTimeOut();
 			
-			// prevent stopping volume interval
+			// Recover volumeInterval
 			volumeInterval();
 			
     		// Stop playing the song 
 			stopPlaying();
-			//recover the console
+			
+			// Recover the console
             $('.button-on-edition-console').prop('disabled',false);
 			
 			//Turn 'stop' button into 'play' button
@@ -193,21 +206,19 @@ function playToggle(){
 }
 
 /**
- * Play notes (chord) with a given array
+ * @description Play notes (chord) with a given array
  * @params bufferArr, selectedBufferList
  * @params indexOfArr, index number
  * @params setOffTime, number (second) 
  */
 
 function startPlaying(bufferArr,indexOfArr,setOffTime) {
-	// If the program is in 'stop' status, play the sound. Otherwise, stop the sound immediately.
 	let numOfSource=bufferArr.length;
 	for(var i=0;i<numOfSource;i++){
 		 this['source_'+i+'_'+indexOfArr]=context.createBufferSource();
 		 this['source_'+i+'_'+indexOfArr].buffer=bufferArr[i];
 		 this['source_'+i+'_'+indexOfArr].connect(gainNode);
 		 gainNode.connect(context.destination);
-		 //this['source_'+i+'_'+indexOfArr].connect(context.destination);
 		 this['source_'+i+'_'+indexOfArr].start(context.currentTime+setOffTime);
 
 		 // Stores all sources in this array for making these sources can be accessible.
@@ -216,13 +227,12 @@ function startPlaying(bufferArr,indexOfArr,setOffTime) {
 }
 
 /**
- * Record notes with a given array
+ * @description Record notes with a given array
  * @params bufferArr, selectedBufferList
  * @params indexOfArr, index number
  * @params setOffTime, number (second) 
  */
 function startRecording(bufferArr,indexOfArr,setOffTime) {
-	// If the program is in 'stop' status, play the sound. Otherwise, stop the sound immediately.
 	let numOfSource=bufferArr.length;
 	for(var i=0;i<numOfSource;i++){
 		 this['source_'+i+'_'+indexOfArr]=context.createBufferSource();
@@ -230,12 +240,13 @@ function startRecording(bufferArr,indexOfArr,setOffTime) {
 		 this['source_'+i+'_'+indexOfArr].connect(gainNode);
 		 gainNode.connect(dest);
 		 this['source_'+i+'_'+indexOfArr].start(context.currentTime+setOffTime);
-		 // Stores all sources in this array for making these sources can be accessible.
 		 removeArray.push(this['source_'+i+'_'+indexOfArr]);
 	}
 }
 
-/** Stop playing all notes */
+/**
+ * @description Stop playing all notes
+ */
 function stopPlaying(){
 	removeArray.forEach(function(el){
 		el.stop(0);
@@ -245,15 +256,17 @@ function stopPlaying(){
 }
 
 /**
- * Adjust volume
- * @params volume. number from 0 to 100
- *
+ * @description This function can adjust the sound volume.
+ * @param volume. Number from 0-100
  */
 function volumeAdjustment(volume){
 	gainNode.gain.value=volume*0.01;
 	
 } 
 
+/**
+ * @description Capture value from the volume knob every 0.3sec.
+ */
 function volumeInterval(){
 	setInterval(function(){
 	   var volume=$('#volume').parent().text();
@@ -262,9 +275,7 @@ function volumeInterval(){
 	},300)
 }
 
-
 	
-// start using Web Audio API to process notes and console
 checkUsable();
 soundBuffer(0);
 triggerSound();
@@ -272,10 +283,8 @@ playToggle();
 volumeInterval();
 
 
-
 /**Make the sequencer available. Using setTimeout can make sure the sequencer is ready for user. */
 setTimeout(function(){loadingControl();},0);
-
 
 
 

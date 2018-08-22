@@ -1,3 +1,17 @@
+<!--
+	@author: Yu-Ning, Chang
+	This file produces the sequencer page.
+	==============
+	Variables
+	==============
+	notesSoundArr (Array), userID (String), projectID(String), trackID(String), trackName(String), 
+	projectBPM(number), tonality(String), tempo(number)
+	==============
+	Code reference
+	==============
+	Andrew Karasek. Dope Knobs #2 - Two Way Knob. Retrieved from https://codepen.io/prythm/
+-->
+
 <% include partials/head %>
 
 	<title>Produce your music</title>
@@ -22,8 +36,8 @@
 </head>	
 	
 <body>
-<% include partials/navbar %>
-	<!-- Track name and information -->
+	<% include partials/navbar %>
+	<!-- Track name and informations -->
 	
 	<div class="container" style="margin-bottom: 10px;">
 		<div class="col-lg-8"><h3><%=trackName%></h3></div>
@@ -31,7 +45,7 @@
 		<div class="col-lg-2"><h3>Tonality <span style=" text-transform: uppercase;"><%=tonality%></span></h3></div>
 	</div>
 	
-	 <!-- edition board  -->
+	 <!-- Sequencer -->
 	<div class="container" >
 	 <div id="loadingLayer">	
 		<div class="board-layer"></div>	
@@ -51,7 +65,8 @@
               {number:"6", notes:"a"},
               {number:"7", notes:"b"}];
     	var notesReverse= note.reverse();%>
-    <!--notes division-->
+    	
+    <!--notes on the sequencer-->
 	 <% for(var i=1;i<=16;i++){ %>
 		<div class="columes">
 			 <% for(var j=3;j>0;j--){ %>
@@ -59,18 +74,18 @@
 					<div class="notesContext" id="<%=i%>_<%=j%>_<%=el.notes%>"><%= el.number %></div>
 				<% }); %>
 	 		 <% } %>
+	 	<!--Triangle pointer-->
 	 	<canvas id="canvas_<%=i%>" width="71.25px" height="20" class="pointer-canvas disable" >
 		</canvas>	 
 	 	</div>
 	 <% } %>
-	 
 	</div>
 	 
-	<!-- button below -->
+	<!--Elements on the console -->
 	<div class="container ">
 		<div class="layout-music-console disable" id="music-console">
 			<div class="row">
-				<!-- playback button and instrument change-->
+				<!--Button used for changing instrumnet-->
 				<div class="col-lg-3">
 					<button class="instrument-button ">
 						<object type="image/svg+xml" id="piano-icon" data="/img/piano.svg" >piano</object>
@@ -82,38 +97,28 @@
 					<span class="instrumentName hidden" id="strings-name">Strings</span>
 					<span class="instrumentName hidden" id="wind-name">Wind</span>
 					<span class="instrumentName hidden" id="synth-name">Synth</span>
-					
-					
 				</div> <!-- end col-lg-3 -->
-				<!--playback button-->
+				
+				<!--Play button-->
 				<div class="col-lg-2">
 					<button class="button-main-playback">
 						<i class="fas fa-play playback-font"></i>
 					</button>
 				</div> <!-- end col-lg-2-->
 				
-				<!-- toggle switch **change to volume knob -->
+				<!--Volume knob -->
 				<div class="col-lg-2">
-						<input type="range" min="0" max="100" data-degree-range="270" 
-					    data-degree-offset="45" step="1" value="50" class="blue" id="volume">
-					    <p class="font-console-name">Volume</p>
-					    
-						<!--<div class="onoffswitch" style="margin:25px 0px;">-->
-						<!--    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>-->
-						<!--    <label class="onoffswitch-label" for="myonoffswitch">-->
-						<!--        <span class="onoffswitch-inner"></span>-->
-						<!--        <span class="onoffswitch-switch"></span>-->
-						<!--    </label>-->
-						<!--</div>-->
+					<input type="range" min="0" max="100" data-degree-range="270" 
+				    data-degree-offset="45" step="1" value="50" class="blue" id="volume">
+				    <p class="font-console-name">Volume</p>
 				</div> <!-- end col-lg-2 -->
 				
-				<!-- other buttons: save, export -->
+				<!-- Other buttons: save, export, and clear -->
 				<div class="col-lg-5" >
 					<button class="button-on-edition-console" id="clean-btn">
 					<i class="fas fa-redo icon-on-mainPage"></i>
 					Clear</button>
 					
-					<!--this button store route information-->
 					<button class="button-on-edition-console" id="save-btn"
 					data-project=<%= projectID%> 
 					data-user=<%= userID%>
@@ -132,16 +137,17 @@
 		</div>	
 	</div>
 	
-	<!--variables used in audio.js-->
+	<!--Declare variables that can be used in other javascript files.-->
 	<script> 
 		var notesSoundArr=<%- JSON.stringify(notesSoundArr) %>;
 		var notesArray=<%- JSON.stringify(notesReverse)%>;
 		var tempo=<%=tempo%>
 	</script>
+	
 	<script src="/js/knob.js"></script>
 	<script src="/js/pointer.js"></script>
-	<script src="/js/layer.js" ></script>
-	<script src="/js/audio.js" ></script>
+	<script src="/js/layer.js"></script>
+	<script src="/js/audio.js"></script>
 	<script src="/js/instrumentChange.js"></script>
 	<script src="/js/consoleButton.js"></script>
 	<script src="/js/midi.js"></script>
