@@ -35,14 +35,23 @@ router.get("/user_:user/projects_:project/tracks",function(req, res) {
         timeLength=result.rows[0].timelength;
     })
     
+    // Delete empty audio
+    pool.query('DELETE FROM tracks WHERE audio IS NULL', (err, result) => {
+        if(err){ console.log("Failed "+ err); }
+        console.log(result);
+    });
+    
      // Query track data
     pool.query('SELECT * FROM tracks WHERE project_id=$1 ORDER BY track_id DESC',[req.params.project], (err, result) => {
         if(err){console.log("Failed "+ err);}
-        result.rows.forEach(function(el){trackArray.push(el.audio)});
-        
+        var tracksInfo=result.rows;
+        tracksInfo.forEach(function(el){
+            trackArray.push(el.audio);
+        });
+        console.log(trackArray);
         // Render track page and pass data to tracks.ejs.
         setTimeout(function(){
-             res.render("tracks",{tracksInfo:result.rows,
+             res.render("tracks",{tracksInfo:tracksInfo,
                                   userID:userID,
                                   projectID:projectID,
                                   projectName:projectName,

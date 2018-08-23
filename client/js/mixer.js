@@ -143,13 +143,15 @@ function playSound(buffer,canvasIndex,dest){
 	
 	// Create an analyser node
 	var	analyser= context.createAnalyser();
-	// Connect source to analyser node.
-	source.connect(analyser);
 	analyser.fftSize=512;
 	var bufferLength = analyser.frequencyBinCount; 
 	var dataArray = new Uint8Array(bufferLength);
 	// When canvas starts drawing, it will clear all rectangle first.
-	this['content'+canvasIndex].clearRect(0,0,900,100);
+	var cnv=document.getElementById('canvas_'+canvasIndex);
+    var ct=cnv.getContext('2d');
+	
+	// this['content'+canvasIndex].clearRect(0,0,900,100);
+	ct.clearRect(0,0,900,100);
 	
 	/**
 	 * @description Draw a spectrum on the canvas dynamically.
@@ -163,13 +165,18 @@ function playSound(buffer,canvasIndex,dest){
 			x=0;
 		for(let j = 0; j < bufferLength; j++) {
 	        height = dataArray[j]*100/256;
-	        this['content'+canvasIndex].fillStyle='#7eacac';
-	        this['content'+canvasIndex].fillRect(x,100-height/2,barWidth,height/2);
+	        // this['content'+canvasIndex].fillStyle='#7eacac';
+	        // this['content'+canvasIndex].fillRect(x,100-height/2,barWidth,height/2);
+	        ct.fillStyle='#7eacac';
+	        ct.fillRect(x,100-height/2,barWidth,height/2);
 	        x += barWidth + 2;
 		}
 	}	
 	
 	draw();
+	
+	// Connect source to analyser node.
+	source.connect(analyser);
 	
 	// Connect the analyser node to the lowShelfEQ node.
 	analyser.connect(lowShelfEQ);
@@ -212,7 +219,7 @@ function stopSinglePlay(){
 function trackPlayToggle(){
 	// 'Play' button event
 	$('.button-track-playback').on('click',function(){
-		trackBuffer.forEach(function(el,i,){
+		trackBuffer.forEach(function(el,i){
 				playSound(el,i,speaker);
 		});
 		

@@ -130,11 +130,12 @@ function removeAllNotes(){
 function triggerSound(){
 	for(var i=1;i<=16;i++){
 	    for(var j=3;j>0;j--){
+	    	
 	        notesArray.forEach(function(el,k){
 	            var indexOfJ=j;
 	            var indexOfI=i-1;
 	            
-	            // Create click event of buttons on the sequencer
+	            // Create the click event of buttons on the sequencer
 	            $('#'+i+'_'+j+'_'+el.notes).on('click',function(){
 	            	  var sound= bufferList[k+21-7*indexOfJ];
 	            	  var indexOfSound =k+21-7*indexOfJ;
@@ -161,16 +162,18 @@ function triggerSound(){
 function playToggle(){
 	
 	$('.button-main-playback').on('click',function(){
-		let lengthOfSelectedBuffer=selectedBufferList.length;
 		// Play notes on sequence 
-		for(let i=0;i<lengthOfSelectedBuffer;i++){
+		for(let i=0;i<16;i++){
 			startPlaying(selectedBufferList[i],i,BeatOffset*i);
 		}
+		
+		// Make sequencer unclickable when playing
+		$('#sequencer').toggleClass('clickNotAllowed');
 		//Start pointer animation
 		pointerAnimation();
 	
 		//Make buttons on console disable when playing the sound
-        $('.button-on-edition-console').prop('disabled',true);
+        $('.button-on-edition-console').toggleClass('clickNotAllowed');
 		// Turn play button into stop button
 		$(this).children().removeClass('fa-play');
 		$(this).removeClass('button-main-playback');
@@ -189,8 +192,11 @@ function playToggle(){
     		// Stop playing the song 
 			stopPlaying();
 			
+			// Recover the sequencer 
+			$('#sequencer').toggleClass('clickNotAllowed');
+			
 			// Recover the console
-            $('.button-on-edition-console').prop('disabled',false);
+            $('.button-on-edition-console').toggleClass('clickNotAllowed');
 			
 			//Turn 'stop' button into 'play' button
 			$(this).children().removeClass('fa-stop');
@@ -213,8 +219,7 @@ function playToggle(){
  */
 
 function startPlaying(bufferArr,indexOfArr,setOffTime) {
-	let numOfSource=bufferArr.length;
-	for(var i=0;i<numOfSource;i++){
+	for(var i=0;i<16;i++){
 		 this['source_'+i+'_'+indexOfArr]=context.createBufferSource();
 		 this['source_'+i+'_'+indexOfArr].buffer=bufferArr[i];
 		 this['source_'+i+'_'+indexOfArr].connect(gainNode);

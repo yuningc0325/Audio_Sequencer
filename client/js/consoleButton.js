@@ -38,22 +38,35 @@ $('#save-btn').on('click',function(){
 
 
 function saveAudio(){
-     // Loading the progress bar
-    progressBarOn();
-    var lengthOfSelectedBuffer=selectedBufferList.length;
-    // Start recording
-    mediaRecorder.start();
-    console.log(mediaRecorder.state+' start recording......');
-	for(let i=0;i<lengthOfSelectedBuffer;i++){
-		startRecording(selectedBufferList[i],i,BeatOffset*i);
-	}
-	
-	setTimeout(function(){
-	    mediaRecorder.stop();
-	    progressBarOff();
-	    console.log(mediaRecorder.state+' stop recording');
-	},BeatOffset*(lengthOfSelectedBuffer+2)*1000);
     
+    var emptyBuffer=true;
+    selectedBufferList.forEach(function(el){
+        if(el.length>0){
+            emptyBuffer=false;
+        }else{
+            null;
+        }
+    })
+    
+    if(emptyBuffer){
+        alert('Please click at least one note for saving the sound');
+    }else{
+         // Loading the progress bar
+        progressBarOn();
+        var lengthOfSelectedBuffer=selectedBufferList.length;
+        // Start recording
+        mediaRecorder.start();
+        console.log(mediaRecorder.state+' start recording......');
+    	for(let i=0;i<lengthOfSelectedBuffer;i++){
+    		startRecording(selectedBufferList[i],i,BeatOffset*i);
+    	}
+    	
+    	setTimeout(function(){
+    	    mediaRecorder.stop();
+    	    progressBarOff();
+    	    console.log(mediaRecorder.state+' stop recording');
+    	},BeatOffset*(lengthOfSelectedBuffer+2)*1000);
+    }
 }
 
 // When the media recorder start, it pushes blob data into chuncks array.
@@ -69,10 +82,10 @@ mediaRecorder.onstop = function(evt) {
    var audioBlob = new Blob(chunks, { 'type' : 'audio/wav; codecs=opus' });
    
    // Use AJAX to pass data to the given route
-   var user=$('#save-btn').data('user');
-   var project=$('#save-btn').data('project');
-   var track=$('#save-btn').data('track');
-   var url= '/user_'+user+'/projects_'+project+'/tracks_'+track;
+   var user=$('#save-btn').data('user'),
+       project=$('#save-btn').data('project'),
+       track=$('#save-btn').data('track'),
+       url= '/user_'+user+'/projects_'+project+'/tracks_'+track;
    
    var audioData = new FormData();
    audioData.append('audioData',audioBlob);
@@ -97,9 +110,9 @@ mediaRecorder.onstop = function(evt) {
 
 
 $('#leave-btn').on('click',function(){
-    var user=$(this).data('user');
-    var project=$(this).data('project');
-    var track=$(this).data('track');
-    var redirectUrl='/user_'+user+'/projects_'+project+'/tracks'
+    var user=$(this).data('user'),
+        project=$(this).data('project'),
+        track=$(this).data('track'),
+        redirectUrl='/user_'+user+'/projects_'+project+'/tracks';
     window.location.href=redirectUrl;
 })

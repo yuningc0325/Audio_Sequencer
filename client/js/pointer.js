@@ -56,8 +56,10 @@ function pointerAnimation(){
 	
 	//Change status from 'play' to 'stop' when finishing playing.
 	setTimeout(function(){
+		// Recover the sequencer 
+		$('#sequencer').toggleClass('clickNotAllowed');
 		//recover the console
-        $('.button-on-edition-console').prop('disabled',false);
+        $('.button-on-edition-console').toggleClass('clickNotAllowed');
     	$('.button-main-stop').children().removeClass('fa-stop');
     	$('.button-main-stop').children().addClass('fa-play');
     	$('.button-main-stop').addClass('button-main-playback');
