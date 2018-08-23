@@ -9,8 +9,8 @@
 
 var mongoose=require('mongoose');
 // mongoDB connection
-mongoose.connect("mongodb://localhost/instrument");
-// mongoose.connect("mongodb://yuningc0325:Yuyuyu123@ds125322.mlab.com:25322/soundlibrary");
+// mongoose.connect("mongodb://localhost/instrument");
+mongoose.connect("mongodb://yuningc0325:Yuyuyu123@ds125322.mlab.com:25322/soundlibrary");
 
 // Check connection.
 var connectionCheck = mongoose.connection;
