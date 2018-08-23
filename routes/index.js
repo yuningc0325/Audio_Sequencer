@@ -30,10 +30,10 @@ router.get('/',function(req, res) {
  */ 
 router.get('/demo/log_in',function(req, res) {
     
-           pool.query('SELECT * FROM test_table' ,(err,result)=>{
-               if(err){console.log(err)}
-               console.log(result);
-           })
+   pool.query('SELECT * FROM test_table' ,(err,result)=>{
+       if(err){console.log(err)}
+       console.log(result);
+   })
     res.render('demoLogin',{accountCheck:accountCheck});
 });
 
