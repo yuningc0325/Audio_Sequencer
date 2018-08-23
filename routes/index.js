@@ -29,11 +29,6 @@ router.get('/',function(req, res) {
  * Render the log_in page
  */ 
 router.get('/demo/log_in',function(req, res) {
-    
-   pool.query('SELECT * FROM test_table' ,(err,result)=>{
-       if(err){console.log(err)}
-       console.log(result);
-   })
     res.render('demoLogin',{accountCheck:accountCheck});
 });
 
@@ -44,29 +39,23 @@ router.get('/demo/log_in',function(req, res) {
 router.post('/demo/log_in',function(req,res){
     
     // SQL query
-    // pool.query('SELECT COUNT (user_id) FROM member WHERE account=$1',[req.body.account],(err,result)=>{
-    //   if(err){console.log(err)}
-    //   // If the user's account does exist, it redirects to the project page. Otherwise, it returns 'false' value to the front-end.
-    //   if(result.rows[0].count!=0){
-    //       pool.query('SELECT * FROM member WHERE account=$1',[req.body.account],(err,result)=>{
-    //           if(err){console.log(err)}
-    //           res.redirect('/user_'+result.rows[0].user_id+'/projects');
-    //       })
-    //   }else{
-    //       console.log("account does not exist");
-    //       accountCheck=false;
-    //       res.render('demoLogin',{accountCheck:accountCheck});
-    //   }
-    // });
-    pool.query('SELECT * FROM test_table' ,(err,result)=>{
-       if(err){console.log(err)}
-       console.log(result);
-   })
+    pool.query('SELECT COUNT (user_id) FROM member WHERE account=$1',[req.body.account],(err,result)=>{
+      if(err){console.log(err)}
+      // If the user's account does exist, it redirects to the project page. Otherwise, it returns 'false' value to the front-end.
+      if(result.rows[0].count!=0){
+          pool.query('SELECT * FROM member WHERE account=$1',[req.body.account],(err,result)=>{
+              if(err){console.log(err)}
+              res.redirect('/user_'+result.rows[0].user_id+'/projects');
+          })
+      }else{
+          console.log("account does not exist");
+          accountCheck=false;
+          res.render('demoLogin',{accountCheck:accountCheck});
+      }
+    });
 });
 
 module.exports=router;
-
-
 
 // The route below is used for commercial level (pending)
 // function outsideUser(){
