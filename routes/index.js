@@ -20,6 +20,7 @@ var accountCheck=true;
  * Render the log_in page
  */ 
 router.get('/',function(req, res) {
+    
     res.render('demoLogin',{accountCheck:accountCheck});
 });
 
@@ -28,6 +29,11 @@ router.get('/',function(req, res) {
  * Render the log_in page
  */ 
 router.get('/demo/log_in',function(req, res) {
+    
+           pool.query('SELECT * FROM test_table' ,(err,result)=>{
+               if(err){console.log(err)}
+               console.log(result);
+           })
     res.render('demoLogin',{accountCheck:accountCheck});
 });
 
