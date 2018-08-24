@@ -31,21 +31,21 @@ var woodwindSchema =new mongoose.Schema({
     
 var Woodwind = mongoose.model("Woodwind",woodwindSchema);
 
-// strings schema
-var stringsSchema =new mongoose.Schema({
+// guitar schema
+var guitarSchema =new mongoose.Schema({
         name:String,
         notes:[]
     });
     
-var Strings = mongoose.model("Strings",stringsSchema);
+var Guitar = mongoose.model("Guitar",guitarSchema);
 
-// synth schema
-var synthSchema =new mongoose.Schema({
+// bass schema
+var bassSchema =new mongoose.Schema({
         name:String,
         notes:[]
     });
     
-var Synth = mongoose.model("Synth",synthSchema);
+var Bass = mongoose.model("Bass",bassSchema);
 
 
 // save piano sound
@@ -221,176 +221,174 @@ woodwind_b.save(function(err,res){
 })
 
 
-// save strings sound 
-var strings_c= new Strings({
+// save guitar sound 
+var guitar_c= new Guitar({
         name:"c",
-        notes:[ "/sound/strings/c2.mp3","/sound/strings/d2.mp3","/sound/strings/e2.mp3","/sound/strings/f2.mp3","/sound/strings/g2.mp3","/sound/strings/a2.mp3","/sound/strings/b2.mp3",
-                "/sound/strings/c3.mp3","/sound/strings/d3.mp3","/sound/strings/e3.mp3","/sound/strings/f3.mp3","/sound/strings/g3.mp3","/sound/strings/a3.mp3","/sound/strings/b3.mp3",
-                "/sound/strings/c4.mp3","/sound/strings/d4.mp3","/sound/strings/e4.mp3","/sound/strings/f4.mp3","/sound/strings/g4.mp3","/sound/strings/a4.mp3","/sound/strings/b4.mp3"]
+        notes:[ "/sound/guitar/c2.mp3","/sound/guitar/d2.mp3","/sound/guitar/e2.mp3","/sound/guitar/f2.mp3","/sound/guitar/g2.mp3","/sound/guitar/a2.mp3","/sound/guitar/b2.mp3",
+                "/sound/guitar/c3.mp3","/sound/guitar/d3.mp3","/sound/guitar/e3.mp3","/sound/guitar/f3.mp3","/sound/guitar/g3.mp3","/sound/guitar/a3.mp3","/sound/guitar/b3.mp3",
+                "/sound/guitar/c4.mp3","/sound/guitar/d4.mp3","/sound/guitar/e4.mp3","/sound/guitar/f4.mp3","/sound/guitar/g4.mp3","/sound/guitar/a4.mp3","/sound/guitar/b4.mp3"]
     })
 
-var strings_d= new Strings({
+var guitar_d= new Guitar({
         name:"d",
-        notes:[ "/sound/strings/d2.mp3","/sound/strings/e2.mp3","/sound/strings/sharp_f2.mp3","/sound/strings/g2.mp3","/sound/strings/a2.mp3","/sound/strings/b2.mp3","/sound/strings/sharp_c3.mp3",
-                "/sound/strings/d3.mp3","/sound/strings/e3.mp3","/sound/strings/sharp_f3.mp3","/sound/strings/g3.mp3","/sound/strings/a3.mp3","/sound/strings/b3.mp3","/sound/strings/sharp_c4.mp3",
-                "/sound/strings/d4.mp3","/sound/strings/e4.mp3","/sound/strings/sharp_f4.mp3","/sound/strings/g4.mp3","/sound/strings/a4.mp3","/sound/strings/b4.mp3","/sound/strings/sharp_c5.mp3"]
+        notes:[ "/sound/guitar/d2.mp3","/sound/guitar/e2.mp3","/sound/guitar/sharp_f2.mp3","/sound/guitar/g2.mp3","/sound/guitar/a2.mp3","/sound/guitar/b2.mp3","/sound/guitar/sharp_c3.mp3",
+                "/sound/guitar/d3.mp3","/sound/guitar/e3.mp3","/sound/guitar/sharp_f3.mp3","/sound/guitar/g3.mp3","/sound/guitar/a3.mp3","/sound/guitar/b3.mp3","/sound/guitar/sharp_c4.mp3",
+                "/sound/guitar/d4.mp3","/sound/guitar/e4.mp3","/sound/guitar/sharp_f4.mp3","/sound/guitar/g4.mp3","/sound/guitar/a4.mp3","/sound/guitar/b4.mp3","/sound/guitar/sharp_c5.mp3"]
     })   
     
-var strings_e= new Strings({
+var guitar_e= new Guitar({
         name:"e",
-        notes:[ "/sound/strings/e2.mp3","/sound/strings/sharp_f2.mp3","/sound/strings/sharp_g2.mp3","/sound/strings/a2.mp3","/sound/strings/b2.mp3","/sound/strings/sharp_c3.mp3","/sound/strings/sharp_d3.mp3",
-                "/sound/strings/e3.mp3","/sound/strings/sharp_f3.mp3","/sound/strings/sharp_g3.mp3","/sound/strings/a3.mp3","/sound/strings/b3.mp3","/sound/strings/sharp_c4.mp3","/sound/strings/sharp_d4.mp3",
-                "/sound/strings/e4.mp3","/sound/strings/sharp_f4.mp3","/sound/strings/sharp_g4.mp3","/sound/strings/a4.mp3","/sound/strings/b4.mp3","/sound/strings/sharp_c5.mp3","/sound/strings/sharp_d5.mp3"]
+        notes:[ "/sound/guitar/e2.mp3","/sound/guitar/sharp_f2.mp3","/sound/guitar/sharp_g2.mp3","/sound/guitar/a2.mp3","/sound/guitar/b2.mp3","/sound/guitar/sharp_c3.mp3","/sound/guitar/sharp_d3.mp3",
+                "/sound/guitar/e3.mp3","/sound/guitar/sharp_f3.mp3","/sound/guitar/sharp_g3.mp3","/sound/guitar/a3.mp3","/sound/guitar/b3.mp3","/sound/guitar/sharp_c4.mp3","/sound/guitar/sharp_d4.mp3",
+                "/sound/guitar/e4.mp3","/sound/guitar/sharp_f4.mp3","/sound/guitar/sharp_g4.mp3","/sound/guitar/a4.mp3","/sound/guitar/b4.mp3","/sound/guitar/sharp_c5.mp3","/sound/guitar/sharp_d5.mp3"]
     }) 
     
-var strings_f= new Strings({
+var guitar_f= new Guitar({
         name:"f",
-        notes:[ "/sound/strings/f2.mp3","/sound/strings/g2.mp3","/sound/strings/a2.mp3","/sound/strings/sharp_a2.mp3","/sound/strings/c3.mp3","/sound/strings/d3.mp3","/sound/strings/e3.mp3",
-                "/sound/strings/f3.mp3","/sound/strings/g3.mp3","/sound/strings/a3.mp3","/sound/strings/sharp_a3.mp3","/sound/strings/c4.mp3","/sound/strings/d4.mp3","/sound/strings/e4.mp3",
-                "/sound/strings/f4.mp3","/sound/strings/g4.mp3","/sound/strings/a4.mp3","/sound/strings/sharp_a4.mp3","/sound/strings/c5.mp3","/sound/strings/d5.mp3","/sound/strings/e5.mp3"]
+        notes:[ "/sound/guitar/f2.mp3","/sound/guitar/g2.mp3","/sound/guitar/a2.mp3","/sound/guitar/sharp_a2.mp3","/sound/guitar/c3.mp3","/sound/guitar/d3.mp3","/sound/guitar/e3.mp3",
+                "/sound/guitar/f3.mp3","/sound/guitar/g3.mp3","/sound/guitar/a3.mp3","/sound/guitar/sharp_a3.mp3","/sound/guitar/c4.mp3","/sound/guitar/d4.mp3","/sound/guitar/e4.mp3",
+                "/sound/guitar/f4.mp3","/sound/guitar/g4.mp3","/sound/guitar/a4.mp3","/sound/guitar/sharp_a4.mp3","/sound/guitar/c5.mp3","/sound/guitar/d5.mp3","/sound/guitar/e5.mp3"]
     }) 
     
-var strings_g= new Strings({
+var guitar_g= new Guitar({
         name:"g",
-        notes:[ "/sound/strings/g2.mp3","/sound/strings/a2.mp3","/sound/strings/b2.mp3","/sound/strings/c3.mp3","/sound/strings/d3.mp3","/sound/strings/e3.mp3","/sound/strings/sharp_f3.mp3",
-                "/sound/strings/g3.mp3","/sound/strings/a3.mp3","/sound/strings/b3.mp3","/sound/strings/c4.mp3","/sound/strings/d4.mp3","/sound/strings/e4.mp3","/sound/strings/sharp_f4.mp3",
-                "/sound/strings/g4.mp3","/sound/strings/a4.mp3","/sound/strings/b4.mp3","/sound/strings/c5.mp3","/sound/strings/d5.mp3","/sound/strings/e5.mp3","/sound/strings/sharp_f5.mp3",]
+        notes:[ "/sound/guitar/g1.mp3","/sound/guitar/a1.mp3","/sound/guitar/b1.mp3","/sound/guitar/c2.mp3","/sound/guitar/d2.mp3","/sound/guitar/e2.mp3","/sound/guitar/sharp_f2.mp3",
+                "/sound/guitar/g2.mp3","/sound/guitar/a2.mp3","/sound/guitar/b2.mp3","/sound/guitar/c3.mp3","/sound/guitar/d3.mp3","/sound/guitar/e3.mp3","/sound/guitar/sharp_f3.mp3",
+                "/sound/guitar/g3.mp3","/sound/guitar/a3.mp3","/sound/guitar/b3.mp3","/sound/guitar/c4.mp3","/sound/guitar/d4.mp3","/sound/guitar/e4.mp3","/sound/guitar/sharp_f4.mp3",]
     }) 
     
-var strings_a= new Strings({
+var guitar_a= new Guitar({
         name:"a",
-        notes:[ "/sound/strings/a2.mp3","/sound/strings/b2.mp3","/sound/strings/sharp_c3.mp3","/sound/strings/d3.mp3","/sound/strings/e3.mp3","/sound/strings/sharp_f3.mp3","/sound/strings/sharp_g3.mp3",
-                "/sound/strings/a3.mp3","/sound/strings/b3.mp3","/sound/strings/sharp_c4.mp3","/sound/strings/d4.mp3","/sound/strings/e4.mp3","/sound/strings/sharp_f4.mp3","/sound/strings/sharp_g4.mp3",
-                "/sound/strings/a4.mp3","/sound/strings/b4.mp3","/sound/strings/sharp_c5.mp3","/sound/strings/d5.mp3","/sound/strings/e5.mp3","/sound/strings/sharp_f5.mp3","/sound/strings/sharp_g5.mp3"]
+        notes:[ "/sound/guitar/a1.mp3","/sound/guitar/b1.mp3","/sound/guitar/sharp_c2.mp3","/sound/guitar/d2.mp3","/sound/guitar/e2.mp3","/sound/guitar/sharp_f2.mp3","/sound/guitar/sharp_g2.mp3",
+                "/sound/guitar/a2.mp3","/sound/guitar/b2.mp3","/sound/guitar/sharp_c3.mp3","/sound/guitar/d3.mp3","/sound/guitar/e3.mp3","/sound/guitar/sharp_f3.mp3","/sound/guitar/sharp_g3.mp3",
+                "/sound/guitar/a3.mp3","/sound/guitar/b3.mp3","/sound/guitar/sharp_c4.mp3","/sound/guitar/d4.mp3","/sound/guitar/e4.mp3","/sound/guitar/sharp_f4.mp3","/sound/guitar/sharp_g4.mp3"]
     }) 
     
-var strings_b= new Strings({
+var guitar_b= new Guitar({
         name:"b",
-        notes:[ "/sound/strings/b2.mp3","/sound/strings/sharp_c3.mp3","/sound/strings/sharp_d3.mp3","/sound/strings/e3.mp3","/sound/strings/sharp_f3.mp3","/sound/strings/sharp_g3.mp3","/sound/strings/sharp_a3.mp3",
-                "/sound/strings/b3.mp3","/sound/strings/sharp_c4.mp3","/sound/strings/sharp_d4.mp3","/sound/strings/e4.mp3","/sound/strings/sharp_f4.mp3","/sound/strings/sharp_g4.mp3","/sound/strings/sharp_a4.mp3",
-                "/sound/strings/b4.mp3","/sound/strings/sharp_c5.mp3","/sound/strings/sharp_d5.mp3","/sound/strings/e5.mp3","/sound/strings/sharp_f5.mp3","/sound/strings/sharp_g5.mp3","/sound/strings/sharp_a5.mp3"]
+        notes:[ "/sound/guitar/b1.mp3","/sound/guitar/sharp_c2.mp3","/sound/guitar/sharp_d2.mp3","/sound/guitar/e2.mp3","/sound/guitar/sharp_f2.mp3","/sound/guitar/sharp_g2.mp3","/sound/guitar/sharp_a2.mp3",
+                "/sound/guitar/b2.mp3","/sound/guitar/sharp_c3.mp3","/sound/guitar/sharp_d3.mp3","/sound/guitar/e3.mp3","/sound/guitar/sharp_f3.mp3","/sound/guitar/sharp_g3.mp3","/sound/guitar/sharp_a3.mp3",
+                "/sound/guitar/b3.mp3","/sound/guitar/sharp_c4.mp3","/sound/guitar/sharp_d4.mp3","/sound/guitar/e4.mp3","/sound/guitar/sharp_f4.mp3","/sound/guitar/sharp_g4.mp3","/sound/guitar/sharp_a4.mp3"]
     }) 
 
-
-
     
-strings_c.save(function(err,res){
+guitar_c.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-strings_d.save(function(err,res){
+guitar_d.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-strings_e.save(function(err,res){
+guitar_e.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-strings_f.save(function(err,res){
+guitar_f.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-strings_g.save(function(err,res){
+guitar_g.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-strings_a.save(function(err,res){
+guitar_a.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-strings_b.save(function(err,res){
+guitar_b.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-// save synth sound 
-var synth_c= new Synth({
+// save bass sound 
+var bass_c= new Bass({
         name:"c",
-        notes:[ "/sound/synth/c2.mp3","/sound/synth/d2.mp3","/sound/synth/e2.mp3","/sound/synth/f2.mp3","/sound/synth/g2.mp3","/sound/synth/a2.mp3","/sound/synth/b2.mp3",
-                "/sound/synth/c3.mp3","/sound/synth/d3.mp3","/sound/synth/e3.mp3","/sound/synth/f3.mp3","/sound/synth/g3.mp3","/sound/synth/a3.mp3","/sound/synth/b3.mp3",
-                "/sound/synth/c4.mp3","/sound/synth/d4.mp3","/sound/synth/e4.mp3","/sound/synth/f4.mp3","/sound/synth/g4.mp3","/sound/synth/a4.mp3","/sound/synth/b4.mp3"]
+        notes:[ "/sound/bass/c2.mp3","/sound/bass/d2.mp3","/sound/bass/e2.mp3","/sound/bass/f2.mp3","/sound/bass/g2.mp3","/sound/bass/a2.mp3","/sound/bass/b2.mp3",
+                "/sound/bass/c3.mp3","/sound/bass/d3.mp3","/sound/bass/e3.mp3","/sound/bass/f3.mp3","/sound/bass/g3.mp3","/sound/bass/a3.mp3","/sound/bass/b3.mp3",
+                "/sound/bass/c4.mp3","/sound/bass/d4.mp3","/sound/bass/e4.mp3","/sound/bass/f4.mp3","/sound/bass/g4.mp3","/sound/bass/a4.mp3","/sound/bass/b4.mp3"]
     })
 
-var synth_d= new Synth({
+var bass_d= new Bass({
         name:"d",
-        notes:[ "/sound/synth/d2.mp3","/sound/synth/e2.mp3","/sound/synth/sharp_f2.mp3","/sound/synth/g2.mp3","/sound/synth/a2.mp3","/sound/synth/b2.mp3","/sound/synth/sharp_c3.mp3",
-                "/sound/synth/d3.mp3","/sound/synth/e3.mp3","/sound/synth/sharp_f3.mp3","/sound/synth/g3.mp3","/sound/synth/a3.mp3","/sound/synth/b3.mp3","/sound/synth/sharp_c4.mp3",
-                "/sound/synth/d4.mp3","/sound/synth/e4.mp3","/sound/synth/sharp_f4.mp3","/sound/synth/g4.mp3","/sound/synth/a4.mp3","/sound/synth/b4.mp3","/sound/synth/sharp_c5.mp3"]
+        notes:[ "/sound/bass/d2.mp3","/sound/bass/e2.mp3","/sound/bass/sharp_f2.mp3","/sound/bass/g2.mp3","/sound/bass/a2.mp3","/sound/bass/b2.mp3","/sound/bass/sharp_c3.mp3",
+                "/sound/bass/d3.mp3","/sound/bass/e3.mp3","/sound/bass/sharp_f3.mp3","/sound/bass/g3.mp3","/sound/bass/a3.mp3","/sound/bass/b3.mp3","/sound/bass/sharp_c4.mp3",
+                "/sound/bass/d4.mp3","/sound/bass/e4.mp3","/sound/bass/sharp_f4.mp3","/sound/bass/g4.mp3","/sound/bass/a4.mp3","/sound/bass/b4.mp3","/sound/bass/sharp_c5.mp3"]
     })   
     
-var synth_e= new Synth({
+var bass_e= new Bass({
         name:"e",
-        notes:[ "/sound/synth/e2.mp3","/sound/synth/sharp_f2.mp3","/sound/synth/sharp_g2.mp3","/sound/synth/a2.mp3","/sound/synth/b2.mp3","/sound/synth/sharp_c3.mp3","/sound/synth/sharp_d3.mp3",
-                "/sound/synth/e3.mp3","/sound/synth/sharp_f3.mp3","/sound/synth/sharp_g3.mp3","/sound/synth/a3.mp3","/sound/synth/b3.mp3","/sound/synth/sharp_c4.mp3","/sound/synth/sharp_d4.mp3",
-                "/sound/synth/e4.mp3","/sound/synth/sharp_f4.mp3","/sound/synth/sharp_g4.mp3","/sound/synth/a4.mp3","/sound/synth/b4.mp3","/sound/synth/sharp_c5.mp3","/sound/synth/sharp_d5.mp3"]
+        notes:[ "/sound/bass/e2.mp3","/sound/bass/sharp_f2.mp3","/sound/bass/sharp_g2.mp3","/sound/bass/a2.mp3","/sound/bass/b2.mp3","/sound/bass/sharp_c3.mp3","/sound/bass/sharp_d3.mp3",
+                "/sound/bass/e3.mp3","/sound/bass/sharp_f3.mp3","/sound/bass/sharp_g3.mp3","/sound/bass/a3.mp3","/sound/bass/b3.mp3","/sound/bass/sharp_c4.mp3","/sound/bass/sharp_d4.mp3",
+                "/sound/bass/e4.mp3","/sound/bass/sharp_f4.mp3","/sound/bass/sharp_g4.mp3","/sound/bass/a4.mp3","/sound/bass/b4.mp3","/sound/bass/sharp_c5.mp3","/sound/bass/sharp_d5.mp3"]
     }) 
     
-var synth_f= new Synth({
+var bass_f= new Bass({
         name:"f",
-        notes:[ "/sound/synth/f2.mp3","/sound/synth/g2.mp3","/sound/synth/a2.mp3","/sound/synth/sharp_a2.mp3","/sound/synth/c3.mp3","/sound/synth/d3.mp3","/sound/synth/e3.mp3",
-                "/sound/synth/f3.mp3","/sound/synth/g3.mp3","/sound/synth/a3.mp3","/sound/synth/sharp_a3.mp3","/sound/synth/c4.mp3","/sound/synth/d4.mp3","/sound/synth/e4.mp3",
-                "/sound/synth/f4.mp3","/sound/synth/g4.mp3","/sound/synth/a4.mp3","/sound/synth/sharp_a4.mp3","/sound/synth/c5.mp3","/sound/synth/d5.mp3","/sound/synth/e5.mp3"]
+        notes:[ "/sound/bass/f2.mp3","/sound/bass/g2.mp3","/sound/bass/a2.mp3","/sound/bass/sharp_a2.mp3","/sound/bass/c3.mp3","/sound/bass/d3.mp3","/sound/bass/e3.mp3",
+                "/sound/bass/f3.mp3","/sound/bass/g3.mp3","/sound/bass/a3.mp3","/sound/bass/sharp_a3.mp3","/sound/bass/c4.mp3","/sound/bass/d4.mp3","/sound/bass/e4.mp3",
+                "/sound/bass/f4.mp3","/sound/bass/g4.mp3","/sound/bass/a4.mp3","/sound/bass/sharp_a4.mp3","/sound/bass/c5.mp3","/sound/bass/d5.mp3","/sound/bass/e5.mp3"]
     }) 
     
-var synth_g= new Synth({
+var bass_g= new Bass({
         name:"g",
-        notes:[ "/sound/synth/g2.mp3","/sound/synth/a2.mp3","/sound/synth/b2.mp3","/sound/synth/c3.mp3","/sound/synth/d3.mp3","/sound/synth/e3.mp3","/sound/synth/sharp_f3.mp3",
-                "/sound/synth/g3.mp3","/sound/synth/a3.mp3","/sound/synth/b3.mp3","/sound/synth/c4.mp3","/sound/synth/d4.mp3","/sound/synth/e4.mp3","/sound/synth/sharp_f4.mp3",
-                "/sound/synth/g4.mp3","/sound/synth/a4.mp3","/sound/synth/b4.mp3","/sound/synth/c5.mp3","/sound/synth/d5.mp3","/sound/synth/e5.mp3","/sound/synth/sharp_f5.mp3",]
+        notes:[ "/sound/bass/g1.mp3","/sound/bass/a1.mp3","/sound/bass/b1.mp3","/sound/bass/c2.mp3","/sound/bass/d2.mp3","/sound/bass/e2.mp3","/sound/bass/sharp_f2.mp3",
+                "/sound/bass/g2.mp3","/sound/bass/a2.mp3","/sound/bass/b2.mp3","/sound/bass/c3.mp3","/sound/bass/d3.mp3","/sound/bass/e3.mp3","/sound/bass/sharp_f3.mp3",
+                "/sound/bass/g3.mp3","/sound/bass/a3.mp3","/sound/bass/b3.mp3","/sound/bass/c4.mp3","/sound/bass/d4.mp3","/sound/bass/e4.mp3","/sound/bass/sharp_f4.mp3",]
     }) 
     
-var synth_a= new Synth({
+var bass_a= new Bass({
         name:"a",
-        notes:[ "/sound/synth/a2.mp3","/sound/synth/b2.mp3","/sound/synth/sharp_c3.mp3","/sound/synth/d3.mp3","/sound/synth/e3.mp3","/sound/synth/sharp_f3.mp3","/sound/synth/sharp_g3.mp3",
-                "/sound/synth/a3.mp3","/sound/synth/b3.mp3","/sound/synth/sharp_c4.mp3","/sound/synth/d4.mp3","/sound/synth/e4.mp3","/sound/synth/sharp_f4.mp3","/sound/synth/sharp_g4.mp3",
-                "/sound/synth/a4.mp3","/sound/synth/b4.mp3","/sound/synth/sharp_c5.mp3","/sound/synth/d5.mp3","/sound/synth/e5.mp3","/sound/synth/sharp_f5.mp3","/sound/synth/sharp_g5.mp3"]
+        notes:[ "/sound/bass/a1.mp3","/sound/bass/b1.mp3","/sound/bass/sharp_c2.mp3","/sound/bass/d2.mp3","/sound/bass/e2.mp3","/sound/bass/sharp_f2.mp3","/sound/bass/sharp_g2.mp3",
+                "/sound/bass/a2.mp3","/sound/bass/b2.mp3","/sound/bass/sharp_c3.mp3","/sound/bass/d3.mp3","/sound/bass/e3.mp3","/sound/bass/sharp_f3.mp3","/sound/bass/sharp_g3.mp3",
+                "/sound/bass/a3.mp3","/sound/bass/b3.mp3","/sound/bass/sharp_c4.mp3","/sound/bass/d4.mp3","/sound/bass/e4.mp3","/sound/bass/sharp_f4.mp3","/sound/bass/sharp_g4.mp3"]
     }) 
     
-var synth_b= new Synth({
+var bass_b= new Bass({
         name:"b",
-        notes:[ "/sound/synth/b2.mp3","/sound/synth/sharp_c3.mp3","/sound/synth/sharp_d3.mp3","/sound/synth/e3.mp3","/sound/synth/sharp_f3.mp3","/sound/synth/sharp_g3.mp3","/sound/synth/sharp_a3.mp3",
-                "/sound/synth/b3.mp3","/sound/synth/sharp_c4.mp3","/sound/synth/sharp_d4.mp3","/sound/synth/e4.mp3","/sound/synth/sharp_f4.mp3","/sound/synth/sharp_g4.mp3","/sound/synth/sharp_a4.mp3",
-                "/sound/synth/b4.mp3","/sound/synth/sharp_c5.mp3","/sound/synth/sharp_d5.mp3","/sound/synth/e5.mp3","/sound/synth/sharp_f5.mp3","/sound/synth/sharp_g5.mp3","/sound/synth/sharp_a5.mp3"]
+        notes:[ "/sound/bass/b1.mp3","/sound/bass/sharp_c2.mp3","/sound/bass/sharp_d2.mp3","/sound/bass/e2.mp3","/sound/bass/sharp_f2.mp3","/sound/bass/sharp_g2.mp3","/sound/bass/sharp_a2.mp3",
+                "/sound/bass/b2.mp3","/sound/bass/sharp_c3.mp3","/sound/bass/sharp_d3.mp3","/sound/bass/e3.mp3","/sound/bass/sharp_f3.mp3","/sound/bass/sharp_g3.mp3","/sound/bass/sharp_a3.mp3",
+                "/sound/bass/b3.mp3","/sound/bass/sharp_c4.mp3","/sound/bass/sharp_d4.mp3","/sound/bass/e4.mp3","/sound/bass/sharp_f4.mp3","/sound/bass/sharp_g4.mp3","/sound/bass/sharp_a4.mp3"]
     }) 
 
     
-synth_c.save(function(err,res){
+bass_c.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-synth_d.save(function(err,res){
+bass_d.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-synth_e.save(function(err,res){
+bass_e.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-synth_f.save(function(err,res){
+bass_f.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-synth_g.save(function(err,res){
+bass_g.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-synth_a.save(function(err,res){
+bass_a.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })
 
-synth_b.save(function(err,res){
+bass_b.save(function(err,res){
     if(err){console.log(err)}
     console.log(res);
 })

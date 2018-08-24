@@ -15,7 +15,7 @@
 /* global $ loadingControl, soundBuffer, clearAllTimeOut, stopAnimation, volumeInterval, playToggle,
 * stopPlaying, reassignSelectedBuffer*/
 
-var instruments=['piano','strings','wind','synth'],
+var instruments=['piano','guitar','wind','bass'],
     // Initial index value is one
     index=1;
 

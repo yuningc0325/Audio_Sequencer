@@ -18,9 +18,9 @@ var express=require('express'),
 
      
 var piano = instrumentSchema[0],
-    strings = instrumentSchema[1],
+    guitar = instrumentSchema[1],
     woodwind = instrumentSchema[2],
-    synth = instrumentSchema[3];
+    bass = instrumentSchema[3];
     
     
 var storage = multer.diskStorage({
@@ -67,7 +67,7 @@ router.get("/user_:user/projects_:project/tracks_:track",function(req, res) {
             notesSoundArr[0]=result[0].notes;
         });
         
-        strings.find({name:tonalityString},function(err,result){
+        guitar.find({name:tonalityString},function(err,result){
             if(err){console.log(err)}
             notesSoundArr[1]=result[0].notes;
         });
@@ -77,7 +77,7 @@ router.get("/user_:user/projects_:project/tracks_:track",function(req, res) {
             notesSoundArr[2]=result[0].notes;
         });
         
-        synth.find({name:tonalityString},function(err,result){
+        bass.find({name:tonalityString},function(err,result){
             if(err){console.log(err)}
             notesSoundArr[3]=result[0].notes;
         });

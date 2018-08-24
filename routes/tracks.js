@@ -38,7 +38,6 @@ router.get("/user_:user/projects_:project/tracks",function(req, res) {
     // Delete empty audio
     pool.query('DELETE FROM tracks WHERE audio IS NULL', (err, result) => {
         if(err){ console.log("Failed "+ err); }
-        console.log(result);
     });
     
      // Query track data

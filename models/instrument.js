@@ -28,12 +28,12 @@ var instrumentSchema =new mongoose.Schema({
 
 var pianoSchema=instrumentSchema,
     woodwindSchema=instrumentSchema,
-    stringsSchema=instrumentSchema,
-    synthSchema=instrumentSchema;
+    guitarSchema=instrumentSchema,
+    bassSchema=instrumentSchema;
 
 var piano = mongoose.model("Piano",pianoSchema),
-    strings = mongoose.model("Strings",stringsSchema),
+    guitar = mongoose.model("Guitar",guitarSchema),
     woodwind = mongoose.model("Woodwind",woodwindSchema),
-    synth = mongoose.model("Synth",synthSchema);
+    bass = mongoose.model("Bass",bassSchema);
 
-module.exports=[piano,strings,woodwind,synth];
+module.exports=[piano,guitar,woodwind,bass];

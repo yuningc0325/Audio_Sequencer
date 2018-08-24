@@ -57,7 +57,7 @@ function checkUsable(){
 		mediaRecorder = new MediaRecorder(dest.stream);
 		// Create a master gain node
 		gainNode=context.createGain();
-		gainNode.gain.value=0.5;
+		// gainNode.gain.value=0;
 		console.log("Web Audio API can work in this browser")
 	}else{
 		console.log("something went wrong");
@@ -265,7 +265,7 @@ function stopPlaying(){
  * @param volume. Number from 0-100
  */
 function volumeAdjustment(volume){
-	gainNode.gain.value=volume*0.01;
+	gainNode.gain.value=volume*0.005;
 	
 } 
 
@@ -290,7 +290,3 @@ volumeInterval();
 
 /**Make the sequencer available. Using setTimeout can make sure the sequencer is ready for user. */
 setTimeout(function(){loadingControl();},0);
-
-
-
-	
