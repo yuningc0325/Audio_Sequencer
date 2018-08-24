@@ -316,7 +316,7 @@ mediaRecorder.onstop = function(evt) {
    window.open(downloadUrl);
    // Reassign the chunks
   chunks=[];
-};
+}
 
 
 $(document).ready(
@@ -324,7 +324,7 @@ $(document).ready(
 		startInterval();
 		impluseBuffer();
 		trackArray.forEach(function(el){
-		soundBuffer(el);
+			soundBuffer(el);
 		})
 		trackPlayToggle();
 		
@@ -340,7 +340,4 @@ $(document).ready(
 		}
 	},2000);	
 	
-	setTimeout(function(){
-		window.location.reload(true);
-	},300000);
 })
