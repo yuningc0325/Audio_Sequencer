@@ -325,6 +325,7 @@ $(document).ready(
 	function(){
 		startInterval();
 		impluseBuffer();
+		console.log(trackArray);
 		trackArray.forEach(function(el){
 		soundBuffer(el);
 		})
