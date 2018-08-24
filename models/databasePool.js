@@ -9,16 +9,16 @@
 
 const { Pool } = require('pg');
 // Configure db pool with my hostName, database name, and postgresql password.
-const pool = new Pool({
-  user: 'ubuntu',
-  host: 'localhost',
-  database: 'finalProject',
-  password: 'Yuyuyu123',
-});
-
 // const pool = new Pool({
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: true,
+//   user: 'ubuntu',
+//   host: 'localhost',
+//   database: 'finalProject',
+//   password: 'Yuyuyu123',
 // });
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+});
 
 module.exports=pool;
