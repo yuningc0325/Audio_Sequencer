@@ -147,11 +147,14 @@ function playSound(buffer,canvasIndex,dest){
 	var bufferLength = analyser.frequencyBinCount; 
 	var dataArray = new Uint8Array(bufferLength);
 	// When canvas starts drawing, it will clear all rectangle first.
-	var cnv=document.getElementById('canvas_'+canvasIndex);
-    var ct=cnv.getContext('2d');
+	// var cnv=document.getElementById('canvas_'+canvasIndex);
+ //   var ct=cnv.getContext('2d');
+ 
+	// Connect source to analyser node.
+	source.connect(analyser);
+	this['content'+canvasIndex].clearRect(0,0,900,100);
+	// ct.clearRect(0,0,900,100);
 	
-	// this['content'+canvasIndex].clearRect(0,0,900,100);
-	ct.clearRect(0,0,900,100);
 	
 	/**
 	 * @description Draw a spectrum on the canvas dynamically.
@@ -165,18 +168,17 @@ function playSound(buffer,canvasIndex,dest){
 			x=0;
 		for(let j = 0; j < bufferLength; j++) {
 	        height = dataArray[j]*100/256;
-	        // this['content'+canvasIndex].fillStyle='#7eacac';
-	        // this['content'+canvasIndex].fillRect(x,100-height/2,barWidth,height/2);
-	        ct.fillStyle='#7eacac';
-	        ct.fillRect(x,100-height/2,barWidth,height/2);
+	        this['content'+canvasIndex].fillStyle='#7eacac';
+	        this['content'+canvasIndex].fillRect(x,100-height/2,barWidth,height/2);
+	        // ct.fillStyle='#7eacac';
+	        // ct.fillRect(x,100-height/2,barWidth,height/2);
 	        x += barWidth + 2;
 		}
 	}	
 	
 	draw();
 	
-	// Connect source to analyser node.
-	source.connect(analyser);
+	
 	
 	// Connect the analyser node to the lowShelfEQ node.
 	analyser.connect(lowShelfEQ);
