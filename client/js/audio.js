@@ -111,7 +111,7 @@ function reassignSelectedBuffer(){
 		}
 	}
 }
-							
+
 							
 /**
  * @description Remove all notes from selectedBufferList when clicking clear button.
@@ -119,6 +119,7 @@ function reassignSelectedBuffer(){
 function removeAllNotes(){
 	for(var i=0;i<16;i++){
 		selectedBufferList[i]=[];
+		indexOfSbf[i]=[];
 	}
 	$('.columes').contents().removeClass('notesContextClick');
 }

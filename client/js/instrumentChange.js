@@ -21,6 +21,7 @@ var instruments=['piano','guitar','wind','bass'],
 
 $(".instrument-button").on("click",function(){
     // Loading layer and disable buttons
+    console.log(new Date()+new Date().getMilliseconds());
     loadingControl();
     
     if(index==4){index=0;}
@@ -49,6 +50,12 @@ $(".instrument-button").on("click",function(){
 	// Recover volume interval
 	volumeInterval();
 	
+	// Recover the sequencer 
+	$('#sequencer').removeClass('clickNotAllowed');
+		
+	// Recover the console
+    $('.button-on-edition-console').removeClass('clickNotAllowed');
+	
 	$('.button-main-stop').children().removeClass('fa-stop');
 	$('.button-main-stop').children().addClass('fa-play');
 	$('.button-main-stop').addClass('button-main-playback');
@@ -63,8 +70,10 @@ $(".instrument-button").on("click",function(){
     setTimeout(function(){
         reassignSelectedBuffer();
         loadingControl();
-    },1500);
+        
+    },3500);
     
 	// Point to the next instrument
     index++;
+    console.log(new Date()+new Date().getMilliseconds());
 }); 
