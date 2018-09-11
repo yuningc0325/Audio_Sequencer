@@ -27,9 +27,9 @@ var storage = multer.diskStorage({
   // It defines where the file should be stored
   destination: function (req, file, callback) {
     // For server
-    callback(null, 'client/upload/')
+    // callback(null, 'client/upload/')
     // For local
-    // callback(null,'client/upload_local/')
+    callback(null,'client/upload_local/')
   },
   // It defines the file name.
   filename: function (req, file, callback) {
